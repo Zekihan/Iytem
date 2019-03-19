@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "776374275259",
+    "firebase_url": "https://iytem-e266d.firebaseio.com",
+    "project_id": "iytem-e266d",
+    "storage_bucket": "iytem-e266d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776374275259:android:b56e8dadc251aa27",
+        "android_client_info": {
+          "package_name": "com.wambly.iytem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "776374275259-da5a8idr2usn2m3ravsdotrgq0gai988.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wambly.iytem",
+            "certificate_hash": "450c257cc6877b13bfde6bd9ee6b8de077a0d609"
+          }
+        },
+        {
+          "client_id": "776374275259-bb5venikceftdgboio2h3c2nstapbtlf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMn4-ZC-uJYRYg3vZJbcorygK7w6xOPnw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "776374275259-bb5venikceftdgboio2h3c2nstapbtlf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
