@@ -13,8 +13,8 @@
         <activity android:name=".TransportationActivity" />
         <activity android:name=".TipsActivity" />
         <activity android:name=".FoodActivity" />
-        <activity android:name=".ComunicationActivity" />
-        <activity android:name=".ShortCutActivity" />
+        <activity android:name=".ContactsActivity" />
+        <activity android:name=".ShortcutActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

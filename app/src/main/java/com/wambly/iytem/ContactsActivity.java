@@ -3,7 +3,7 @@ package com.wambly.iytem;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class ComunicationActivity extends AppCompatActivity {
+public class ContactsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

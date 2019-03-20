@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Iytem</string>
+    <string name="announcements">Duyurular</string>
+    <string name="transportation">Ulaşım</string>
+    <string name="tips">İpuçları</string>
+    <string name="food">Yemek</string>
+    <string name="shortcuts">Kısayollar</string>
+    <string name="contacts">Rehber</string>
+    <string name="obs">ÖBS</string>
+    <string name="cms">CMS</string>
+    <string name="library">Kütüphane</string>
+    <string name="iztech">İYTE Ana Sayfa</string>
+    <string name="ydyo">Yabancı Diller Yüksek Okulu</string>
+    <string name="webmail">İYTE Mail</string>
+
+
 </resources>
