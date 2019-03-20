@@ -2,6 +2,7 @@ package com.wambly.iytem;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -22,7 +23,7 @@ public class ShortcutActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
             }
         });
 
@@ -30,12 +31,7 @@ public class ShortcutActivity extends AppCompatActivity {
         obs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String theurl = "https://obs.iyte.edu.tr/oibs/ogrenci/login.aspx";
-                Uri urlstr = Uri.parse(theurl);
-                Intent urlintent = new Intent();
-                urlintent.setData(urlstr);
-                urlintent.setAction(Intent.ACTION_VIEW);
-                startActivity(urlintent);
+                chromeTab("https://obs.iyte.edu.tr/oibs/ogrenci/login.aspx");
             }
         });
 
@@ -43,68 +39,42 @@ public class ShortcutActivity extends AppCompatActivity {
         iyte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String theurl = "http://iyte.edu.tr/";
-                Uri urlstr = Uri.parse(theurl);
-                Intent urlintent = new Intent();
-                urlintent.setData(urlstr);
-                urlintent.setAction(Intent.ACTION_VIEW);
-                startActivity(urlintent);
+                chromeTab("http://iyte.edu.tr/");
             }
         });
         View library = findViewById(R.id.library);
         library.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String theurl = "http://library.iyte.edu.tr/";
-                Uri urlstr = Uri.parse(theurl);
-                Intent urlintent = new Intent();
-                urlintent.setData(urlstr);
-                urlintent.setAction(Intent.ACTION_VIEW);
-                startActivity(urlintent);
+                chromeTab("http://library.iyte.edu.tr/");
             }
         });
         View cms = findViewById(R.id.cms);
         cms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String theurl = "https://cms.iyte.edu.tr/";
-                Uri urlstr = Uri.parse(theurl);
-                Intent urlintent = new Intent();
-                urlintent.setData(urlstr);
-                urlintent.setAction(Intent.ACTION_VIEW);
-                startActivity(urlintent);
+                chromeTab("https://cms.iyte.edu.tr/");
             }
         });
         View ydyo = findViewById(R.id.ydyo);
         ydyo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String theurl = "http://ydyo.iyte.edu.tr/";
-                Uri urlstr = Uri.parse(theurl);
-                Intent urlintent = new Intent();
-                urlintent.setData(urlstr);
-                urlintent.setAction(Intent.ACTION_VIEW);
-                startActivity(urlintent);
+                chromeTab("http://ydyo.iyte.edu.tr/");
             }
         });
         View mail = findViewById(R.id.webmail);
         mail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String theurl = "https://webmail.iyte.edu.tr/";
-                Uri urlstr = Uri.parse(theurl);
-                Intent urlintent = new Intent();
-                urlintent.setData(urlstr);
-                urlintent.setAction(Intent.ACTION_VIEW);
-                startActivity(urlintent);
+                chromeTab("https://std.iyte.edu.tr/");
             }
         });
 
-
-
-
-
-
-
+    }
+    private void chromeTab(String url){
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(this, Uri.parse(url));
     }
 }
