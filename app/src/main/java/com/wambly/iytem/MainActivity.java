@@ -98,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final String menu = dataSnapshot.getValue(String.class);
-
+                String menu = dataSnapshot.getValue(String.class);
                 FileOutputStream outputStream;
+                menu = "kaka";
                 try {
                     outputStream = openFileOutput("menu.txt", Context.MODE_PRIVATE);
                     outputStream.write(menu.getBytes());
