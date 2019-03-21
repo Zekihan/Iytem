@@ -42,7 +42,7 @@ public class FoodActivity extends AppCompatActivity {
             }
         });
 
-        TextView tv2 = findViewById(R.id.textView2);
+        TextView tv = findViewById(R.id.menu);
 
         Calendar c = Calendar.getInstance();
         long m = (c.get(Calendar.HOUR)*60*60*1000)
@@ -56,7 +56,7 @@ public class FoodActivity extends AppCompatActivity {
         FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = mDatabase.getReference().child("food").child("refectory").child(d.substring(0,10));
 
-        getMenu(databaseReference,tv2);
+        getMenu(databaseReference,tv);
 
     }
     public void getMenu(DatabaseReference databaseReference, final TextView tv){
