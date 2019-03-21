@@ -22,19 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.params.HttpClientParams;
-import org.apache.commons.httpclient.params.HttpMethodParams;
-import org.apache.commons.io.IOUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.safety.Whitelist;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.ConnectException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AnnouncementsActivity extends AppCompatActivity {
@@ -69,8 +56,21 @@ public class AnnouncementsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 GenericTypeIndicator<List<Announcement>> t = new GenericTypeIndicator<List<Announcement>>() {};
-                List<Announcement> announcements = dataSnapshot.getValue(t);
+                final List<Announcement> announcements = dataSnapshot.getValue(t);
                 recyclerView.setAdapter(new AnnouncementsCustomAdapter(announcements));
+                recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
+                    @Override
+                    public void onClick(View view, int position) {
+                        Intent reader = new Intent(getApplicationContext(), AnnouncementsDetailsActivity.class);
+                        reader.putExtra("announcement", announcements.get(announcements.size()-1-position));
+                        startActivity(reader);
+                    }
+
+                    @Override
+                    public void onLongClick(View view, int position) {
+
+                    }
+                }));
             }
 
             @Override
