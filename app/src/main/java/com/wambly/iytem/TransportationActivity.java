@@ -48,7 +48,7 @@ public class TransportationActivity extends AppCompatActivity {
             }
         });
         FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-        final List<String> timeTable = getWeekEndIyte2Izmir(mDatabase,Week.weekday,Direction.iyte_izmir);
+        final List<String> timeTable = getTimeTable(mDatabase,Week.weekday,Direction.iyte_izmir);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -57,7 +57,7 @@ public class TransportationActivity extends AppCompatActivity {
         },5000);
 
     }
-    private List<String> getWeekEndIyte2Izmir(FirebaseDatabase database,Week week, Direction direction){
+    private List<String> getTimeTable(FirebaseDatabase database,Week week, Direction direction){
         final ArrayList<String> timeTable = new ArrayList<>();
         DatabaseReference databaseReference = database.getReference().child("transportation").child("eshot").child(week.toString()).child(direction.toString());
         readData(databaseReference, new OnGetDataListener() {
