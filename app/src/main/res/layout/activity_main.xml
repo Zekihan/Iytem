@@ -59,6 +59,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_bold"
                     android:text="@string/announcements"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
@@ -97,6 +98,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_bold"
                     android:text="@string/transportation"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
@@ -138,6 +140,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_bold"
                     android:text="@string/tips"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
@@ -176,6 +179,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_bold"
                     android:text="@string/food"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
@@ -217,6 +221,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_bold"
                     android:text="@string/shortcuts"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
@@ -255,6 +260,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_bold"
                     android:text="@string/contacts"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
