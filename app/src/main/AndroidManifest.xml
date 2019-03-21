@@ -10,7 +10,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TipsDetailsActivity"></activity>
+        <activity android:name=".ContactsDetailsActivity"></activity>
+        <activity android:name=".TipsDetailsActivity" />
         <activity android:name=".AnnouncementsDetailsActivity" />
         <activity android:name=".AnnouncementsActivity" />
         <activity android:name=".TransportationActivity" />
