@@ -9,15 +9,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 public class ShortcutActivity extends AppCompatActivity {
-
     private CustomTabsIntent.Builder intentBuilder;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shortcut);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.shortcuts);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -31,7 +32,6 @@ public class ShortcutActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 

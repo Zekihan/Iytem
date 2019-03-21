@@ -8,19 +8,7 @@
     android:background="@drawable/bg"
     tools:context=".MainActivity">
 
-    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/Theme.AppCompat.NoActionBar"
-        app:title="@string/mainToolbar" />
+    <include layout="@layout/toolbar_layout"/>
 
     <GridLayout
         android:layout_width="match_parent"

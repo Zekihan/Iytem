@@ -12,13 +12,9 @@
     <string name="iztech">İYTE Ana Sayfa</string>
     <string name="ydyo">Yabancı Diller Yüksek Okulu</string>
     <string name="webmail">İYTE Mail</string>
-    <string name="announcementToolbar">Duyurular</string>
-    <string name="shortcutsToolbar">Kısayollar</string>
-    <string name="mainToolbar">İYTEM</string>
-    <string name="contactsToolbar">Rehber</string>
-    <string name="tipsToolbar">İpuçları</string>
-    <string name="foodToolbar">Yemek</string>
-    <string name="transportationToolbar">Ulaşım</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
