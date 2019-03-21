@@ -9,7 +9,11 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,11 +22,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContactsActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
+    private EditText etSearch;
+    private List<Contact> contacts = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +49,8 @@ public class ContactsActivity extends AppCompatActivity {
             }
         });
 
+        etSearch = findViewById(R.id.editText);
+
         final RecyclerView recyclerView = findViewById(R.id.RC);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -52,7 +62,25 @@ public class ContactsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 GenericTypeIndicator<List<Contact>> t = new GenericTypeIndicator<List<Contact>>() {};
                 final List<Contact> contacts = dataSnapshot.getValue(t);
-                recyclerView.setAdapter(new ContactsCustomAdapter(contacts));
+                final ContactsCustomAdapter contactsCustomAdapter = new ContactsCustomAdapter(contacts);
+                contactsCustomAdapter.setContacts(contacts);
+                recyclerView.setAdapter(contactsCustomAdapter);
+                etSearch.addTextChangedListener(new TextWatcher() {
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        // Call back the Adapter with current character to Filter
+                        contactsCustomAdapter.getFilter().filter(s.toString());
+                    }
+
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count,int after) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                    }
+                });
                 recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
                     @Override
                     public void onClick(View view, int position) {
@@ -73,5 +101,7 @@ public class ContactsActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 }
