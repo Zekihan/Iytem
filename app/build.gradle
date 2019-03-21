@@ -20,7 +20,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.google.firebase:firebase-database:16.1.0'
@@ -31,4 +31,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.8'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support:customtabs:28.0.0'
+    implementation 'org.kie.modules:org-apache-commons-httpclient:6.2.0.CR2'
+    implementation 'org.kie.modules:org-apache-commons-io-main:6.5.0.Final'
+    implementation 'org.jsoup:jsoup:1.11.3'
 }
