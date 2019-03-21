@@ -84,23 +84,16 @@ public class MainActivity extends AppCompatActivity {
     private void saveMenu(){
 
         Calendar c = Calendar.getInstance();
-        long m = (c.get(Calendar.HOUR)*60*60*1000)
-                +(c.get(Calendar.MINUTE)*60*1000)
-                +(c.get(Calendar.SECOND)*1000)
-                +(c.get(Calendar.MILLISECOND));
-        long time = c.getTimeInMillis();
-        final long day = time-m+30681000-43200000;
-        final String d = String.valueOf(day);
-        Log.e("Food",""+(1553189481-1553146281));
+        int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
         FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = mDatabase.getReference().child("food").child("refectory").child(d.substring(0,10));
+        DatabaseReference databaseReference = mDatabase.getReference().child("food").child("refectory").child(""+dayOfMonth);
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String menu = dataSnapshot.getValue(String.class);
+                final String menu = dataSnapshot.getValue(String.class);
+
                 FileOutputStream outputStream;
-                menu = "kaka";
                 try {
                     outputStream = openFileOutput("menu.txt", Context.MODE_PRIVATE);
                     outputStream.write(menu.getBytes());
@@ -115,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+    }
     }
 
 
