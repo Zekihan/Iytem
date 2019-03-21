@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/Theme.AppCompat.NoActionBar"
-        app:title="@string/announcementToolbar" />
+        app:title="@string/announcements" />
 
     <include
         layout="@layout/toolbar_layout"/>

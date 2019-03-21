@@ -5,6 +5,9 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -49,14 +52,35 @@ public class AnnouncementsActivity extends AppCompatActivity {
             }
         });
 
-        final RecyclerView rv = findViewById(R.id.RC);
-
+        final RecyclerView recyclerView = findViewById(R.id.RC);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List<Announcement> announcements = getAnnouncements("http://iyte.edu.tr/haber/");
-                rv.setAdapter(new AnnouncementsCustomAdapter(announcements));
+                final List<Announcement> announcements = getAnnouncements("http://iyte.edu.tr/haber/");
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        recyclerView.setAdapter(new AnnouncementsCustomAdapter(announcements));
+                        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
+                            @Override
+                            public void onClick(View view, int position) {
+                                //TODO
+                            }
+
+                            @Override
+                            public void onLongClick(View view, int position) {
+
+                            }
+                        }));
+                    }
+                });
+
             }
         }).start();
 
