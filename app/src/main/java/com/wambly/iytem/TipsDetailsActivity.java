@@ -4,19 +4,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class AnnouncementsDetailsActivity extends AppCompatActivity {
+public class TipsDetailsActivity extends AppCompatActivity {
 
-    Announcement announcement;
+    Tip tip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_announcements_details);
+        setContentView(R.layout.activity_tips_details);
 
-        announcement = getIntent().getParcelableExtra("announcement");
+        tip = getIntent().getParcelableExtra("tip");
 
         TextView tv = findViewById(R.id.textView);
         TextView tv2 = findViewById(R.id.textView2);
-        tv.setText(announcement.getTitle());
-        tv2.setText(announcement.getBody());
+        tv.setText(tip.getTitle());
+        tv2.setText(tip.getBody());
     }
 }
