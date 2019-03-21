@@ -10,6 +10,8 @@ import android.view.View;
 
 public class ShortcutActivity extends AppCompatActivity {
 
+    private CustomTabsIntent.Builder intentBuilder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,10 +22,16 @@ public class ShortcutActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        intentBuilder = new CustomTabsIntent.Builder();
+        intentBuilder.setStartAnimations(this,R.anim.slide_in_right , R.anim.slide_out_left);
+        intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left,
+                android.R.anim.slide_out_right);
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
@@ -31,7 +39,7 @@ public class ShortcutActivity extends AppCompatActivity {
         obs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chromeTab("https://obs.iyte.edu.tr/oibs/ogrenci/login.aspx");
+                chromeTab("https://obs.iyte.edu.tr");
             }
         });
 
@@ -53,7 +61,7 @@ public class ShortcutActivity extends AppCompatActivity {
         cms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chromeTab("https://cms.iyte.edu.tr/");
+                chromeTab("https://cms.iyte.edu.tr/login/index.php");
             }
         });
         View ydyo = findViewById(R.id.ydyo);
@@ -73,8 +81,7 @@ public class ShortcutActivity extends AppCompatActivity {
 
     }
     private void chromeTab(String url){
-        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-        CustomTabsIntent customTabsIntent = builder.build();
+        CustomTabsIntent customTabsIntent = intentBuilder.build();
         customTabsIntent.launchUrl(this, Uri.parse(url));
     }
 }
