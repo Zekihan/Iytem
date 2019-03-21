@@ -30,7 +30,7 @@ public class AnnouncementsCustomAdapter extends RecyclerView.Adapter<Announcemen
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-        Announcement announcement = announcements.get(i);
+        Announcement announcement = announcements.get(getItemCount()-1-i);
         myViewHolder.title.setText(announcement.getTitle());
         myViewHolder.date.setText(announcement.getDate());
         myViewHolder.description.setText(announcement.getDescription());
