@@ -22,6 +22,8 @@ import java.util.List;
 
 public class TransportationActivity extends AppCompatActivity {
 
+    private Toolbar toolbar;
+
     public enum Week{
         weekday,saturday,sunday
     }
@@ -33,7 +35,8 @@ public class TransportationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transportation);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.transportation);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
