@@ -24,12 +24,6 @@ public class TransportationActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
 
-    public enum Week{
-        weekday,saturday,sunday
-    }
-    public enum Direction{
-        iyte_izmir,izmir_iyte
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,9 +42,5 @@ public class TransportationActivity extends AppCompatActivity {
             }
         });
 
-
     }
-
-
-
 }

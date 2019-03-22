@@ -20,6 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -69,7 +71,7 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         });
 
         FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-        final List<String> timeTable = getTimeTable(mDatabase, TransportationActivity.Week.weekday, TransportationActivity.Direction.iyte_izmir);
+        final List<String> timeTable = getTimeTable(mDatabase, BusActivity.Week.weekday, BusActivity.Direction.iyte_izmir);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -118,16 +120,16 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             Fragment fragment = null;
             switch (position){
                 case 0:
-                    fragment = BlankFragment.newInstance();
+                    fragment = BlankFragment.newInstance(getTimeTable(FirebaseDatabase.getInstance(), Week.weekday,Direction.iyte_izmir ));
                     break;
                 case 1:
-                    fragment = BlankFragment.newInstance();
+                    fragment = BlankFragment.newInstance(getTimeTable(FirebaseDatabase.getInstance(), Week.weekday,Direction.iyte_izmir));
                     break;
                 case 2:
-                    fragment = BlankFragment.newInstance();
+                    fragment = BlankFragment.newInstance(getTimeTable(FirebaseDatabase.getInstance(), Week.saturday,Direction.iyte_izmir));
                     break;
                 case 3:
-                    fragment = BlankFragment.newInstance();
+                    fragment = BlankFragment.newInstance(getTimeTable(FirebaseDatabase.getInstance(), Week.sunday,Direction.iyte_izmir));
                     break;
             }
             return fragment;
@@ -139,10 +141,10 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             return 4;
         }
     }
-    private List<String> getTimeTable(FirebaseDatabase database, TransportationActivity.Week week, TransportationActivity.Direction direction){
+    private ArrayList<String> getTimeTable(FirebaseDatabase database, BusActivity.Week week, BusActivity.Direction direction){
         final ArrayList<String> timeTable = new ArrayList<>();
         DatabaseReference databaseReference = database.getReference().child("transportation").child("eshot").child(week.toString()).child(direction.toString());
-        readData(databaseReference, new TransportationActivity.OnGetDataListener() {
+        readData(databaseReference, new BusActivity.OnGetDataListener() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
                 for (final DataSnapshot ds : dataSnapshot.getChildren()) {
@@ -162,7 +164,7 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         });
         return timeTable;
     }
-    public void readData(DatabaseReference ref, final TransportationActivity.OnGetDataListener listener) {
+    public void readData(DatabaseReference ref, final BusActivity.OnGetDataListener listener) {
         listener.onStart();
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -178,7 +180,6 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         });
 
     }
-
     public enum Week{
         weekday,saturday,sunday
     }
