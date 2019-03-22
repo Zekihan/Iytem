@@ -56,12 +56,7 @@ public class BlankFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            content = getArguments().getStringArrayList(ARG_CONTENT);
-        }
-        ListView listView = getView().findViewById(R.id.timeList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,content);
-        listView.setAdapter(adapter);
+
 
     }
 
@@ -69,7 +64,14 @@ public class BlankFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_blank, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
+        if (getArguments() != null) {
+            content = getArguments().getStringArrayList(ARG_CONTENT);
+        }
+        ListView listView = rootView.findViewById(R.id.timeList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1,content);
+        listView.setAdapter(adapter);
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
