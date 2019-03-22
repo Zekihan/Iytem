@@ -7,6 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -20,12 +25,10 @@ import android.view.ViewGroup;
 public class BlankFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_TITLE = "title";
     private static final String ARG_CONTENT = "content";
 
     // TODO: Rename and change types of parameters
-    private String title;
-    private String content;
+    private ArrayList<String> content;
 
     private OnFragmentInteractionListener mListener;
 
@@ -42,11 +45,10 @@ public class BlankFragment extends Fragment {
      * @return A new instance of fragment BlankFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BlankFragment newInstance(String param1, String param2) {
+    public static BlankFragment newInstance(ArrayList<String> param2) {
         BlankFragment fragment = new BlankFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_TITLE, param1);
-        args.putString(ARG_CONTENT, param2);
+        args.putStringArrayList(ARG_CONTENT, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,9 +57,12 @@ public class BlankFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            title = getArguments().getString(ARG_TITLE);
-            content = getArguments().getString(ARG_CONTENT);
+            content = getArguments().getStringArrayList(ARG_CONTENT);
         }
+        ListView listView = getView().findViewById(R.id.timeList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,content);
+        listView.setAdapter(adapter);
+
     }
 
     @Override

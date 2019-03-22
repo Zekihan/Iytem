@@ -5,10 +5,20 @@
     android:layout_height="match_parent"
     tools:context=".BlankFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <Switch
+        android:id="@+id/switch2"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:text="YÖN" />
+
+    <ListView
+        android:id="@+id/timeList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginRight="8dp" />
 
 </FrameLayout>

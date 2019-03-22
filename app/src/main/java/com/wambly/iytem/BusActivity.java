@@ -1,6 +1,7 @@
 package com.wambly.iytem;
 
 import android.net.Uri;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,22 +22,22 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class BusActivity extends AppCompatActivity implements BlankFragment.OnFragmentInteractionListener {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
+
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     private ViewPager mViewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,15 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
                         .setAction("Action", null).show();
             }
         });
+
+        FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+        final List<String> timeTable = getTimeTable(mDatabase, TransportationActivity.Week.weekday, TransportationActivity.Direction.iyte_izmir);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.e("Trans",timeTable.toString());
+            }
+        },5000);
 
     }
 
@@ -107,16 +118,16 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             Fragment fragment = null;
             switch (position){
                 case 0:
-                    fragment = BlankFragment.newInstance("Bugün", "içerik");
+                    fragment = BlankFragment.newInstance();
                     break;
                 case 1:
-                    fragment = BlankFragment.newInstance("Haftaiçi","içerik");
+                    fragment = BlankFragment.newInstance();
                     break;
                 case 2:
-                    fragment = BlankFragment.newInstance("Cumartesi", "içerik");
+                    fragment = BlankFragment.newInstance();
                     break;
                 case 3:
-                    fragment = BlankFragment.newInstance("Pazar", "içerik");
+                    fragment = BlankFragment.newInstance();
                     break;
             }
             return fragment;
@@ -128,4 +139,58 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             return 4;
         }
     }
+    private List<String> getTimeTable(FirebaseDatabase database, TransportationActivity.Week week, TransportationActivity.Direction direction){
+        final ArrayList<String> timeTable = new ArrayList<>();
+        DatabaseReference databaseReference = database.getReference().child("transportation").child("eshot").child(week.toString()).child(direction.toString());
+        readData(databaseReference, new TransportationActivity.OnGetDataListener() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                for (final DataSnapshot ds : dataSnapshot.getChildren()) {
+                    timeTable.add(ds.getValue(String.class));
+                }
+            }
+            @Override
+            public void onStart() {
+                //when starting
+                Log.d("ONSTART", "Started");
+            }
+
+            @Override
+            public void onFailure() {
+                Log.d("onFailure", "Failed");
+            }
+        });
+        return timeTable;
+    }
+    public void readData(DatabaseReference ref, final TransportationActivity.OnGetDataListener listener) {
+        listener.onStart();
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listener.onSuccess(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onFailure();
+            }
+
+        });
+
+    }
+
+    public enum Week{
+        weekday,saturday,sunday
+    }
+    public enum Direction{
+        iyte_izmir,izmir_iyte
+    }
+    public interface OnGetDataListener {
+        //this is for callbacks
+        void onSuccess(DataSnapshot dataSnapshot);
+        void onStart();
+        void onFailure();
+    }
+
+
 }
