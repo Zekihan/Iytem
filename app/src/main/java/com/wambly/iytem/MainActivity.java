@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         transportation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), TransportationActivity.class));
+                startActivity(new Intent(getApplicationContext(), BusActivity.class));
             }
         });
         View tips = findViewById(R.id.tips);
