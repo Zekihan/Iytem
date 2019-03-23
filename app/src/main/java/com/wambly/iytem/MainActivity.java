@@ -2,6 +2,8 @@ package com.wambly.iytem;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -93,31 +95,38 @@ public class MainActivity extends AppCompatActivity {
 
     private void saveMenu(){
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Calendar c = Calendar.getInstance();
         int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
-        FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = mDatabase.getReference().child("food").child("refectory").child(""+dayOfMonth);
+        if (prefs.getInt("lastMenuSave",-1)<dayOfMonth){
+            FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference databaseReference = mDatabase.getReference().child("food").child("refectory").child(""+dayOfMonth);
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final String menu = dataSnapshot.getValue(String.class);
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    final String menu = dataSnapshot.getValue(String.class);
 
-                FileOutputStream outputStream;
-                try {
-                    outputStream = openFileOutput("menu.txt", Context.MODE_PRIVATE);
-                    outputStream.write(menu.getBytes());
-                    outputStream.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    FileOutputStream outputStream;
+                    try {
+                        outputStream = openFileOutput("menu.txt", Context.MODE_PRIVATE);
+                        outputStream.write(menu.getBytes());
+                        outputStream.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //Log.e("Food",menu);
                 }
-                //Log.e("Food",menu);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("lastMenuSave", dayOfMonth);
+            editor.apply();
+        }
+
 
     }
 
