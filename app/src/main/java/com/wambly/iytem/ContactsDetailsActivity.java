@@ -18,9 +18,11 @@ public class ContactsDetailsActivity extends AppCompatActivity {
         TextView name = findViewById(R.id.name);
         TextView email = findViewById(R.id.email);
         TextView phone = findViewById(R.id.phone);
+        TextView department = findViewById(R.id.department);
         name.setText(contact.getName());
         email.setText(contact.getEmail());
         phone.setText(contact.getPhone());
+        department.setText(contact.department);
 
     }
 }
