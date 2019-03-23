@@ -1,8 +1,10 @@
 package com.wambly.iytem;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,7 +23,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -38,6 +43,7 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    public boolean[] direction = {false};//iyte-izmir
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +73,28 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("direction", direction[0]);
+        editor.apply();
+        Button b = findViewById(R.id.direction);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<String> list = new ArrayList<String>();
+                if(direction[0]){
+                    direction[0] = false;
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putBoolean("direction", direction[0]);
+                    editor.apply();
+                }else{
+                    direction[0] = true;
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putBoolean("direction", direction[0]);
+                    editor.apply();
+                }
+            }
+        });
         /*FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
         final List<String> timeTable = getTimeTable( BusActivity.Week.weekday, BusActivity.Direction.iyte_izmir);
         new Handler().postDelayed(new Runnable() {
@@ -109,16 +137,16 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             Fragment fragment = null;
             switch (position){
                 case 0:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, Direction.iyte_izmir),getTimeTable(Week.weekday, Direction.izmir_iyte));
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, Direction.iyte_izmir),getTimeTable(Week.weekday, Direction.izmir_iyte),direction);
                     break;
                 case 1:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, Direction.iyte_izmir),getTimeTable(Week.weekday, Direction.izmir_iyte));
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, Direction.iyte_izmir),getTimeTable(Week.weekday, Direction.izmir_iyte),direction);
                     break;
                 case 2:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, Direction.iyte_izmir),getTimeTable(Week.saturday, Direction.izmir_iyte));
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, Direction.iyte_izmir),getTimeTable(Week.saturday, Direction.izmir_iyte),direction);
                     break;
                 case 3:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, Direction.iyte_izmir),getTimeTable(Week.sunday, Direction.izmir_iyte));
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, Direction.iyte_izmir),getTimeTable(Week.sunday, Direction.izmir_iyte),direction);
                     break;
             }
             return fragment;

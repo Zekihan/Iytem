@@ -1,13 +1,16 @@
 package com.wambly.iytem;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -32,6 +35,9 @@ public class BlankFragment extends Fragment {
     private ArrayList<String> content1;
     private ArrayList<String> content2;
 
+    public boolean direction[] = {false};
+
+
     private OnFragmentInteractionListener mListener;
 
     public BlankFragment() {
@@ -47,11 +53,12 @@ public class BlankFragment extends Fragment {
      * @return A new instance of fragment BlankFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BlankFragment newInstance(ArrayList<String> param1,ArrayList<String> param2) {
+    public static BlankFragment newInstance(ArrayList<String> param1,ArrayList<String> param2,boolean[] direction) {
         BlankFragment fragment = new BlankFragment();
         Bundle args = new Bundle();
         args.putStringArrayList(ARG_CONTENT1, param1);
         args.putStringArrayList(ARG_CONTENT2, param2);
+        args.putBooleanArray("direction",direction);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,15 +74,49 @@ public class BlankFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
         if (getArguments() != null) {
             content1 = getArguments().getStringArrayList(ARG_CONTENT1);
             content2 = getArguments().getStringArrayList(ARG_CONTENT2);
+            direction = getArguments().getBooleanArray("direction");
         }
-        ListView listView = rootView.findViewById(R.id.timeList);
-
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
+        final ListView listView = rootView.findViewById(R.id.timeList);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, getSchedule());
         listView.setAdapter(adapter);
+        ArrayList<String> list = new ArrayList<String>();
+        if(prefs.getBoolean("direction",false)){
+            list.add("İZMİR --> İYTE");
+            list.addAll(content2);
+            adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, list);
+            listView.setAdapter(adapter);
+        }else{
+            list.add("İYTE --> İZMİR");
+            list.addAll(content1);
+            adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, list);
+            listView.setAdapter(adapter);
+        }
+        prefs.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                ArrayList<String> list = new ArrayList<String>();
+                ArrayAdapter<String> adapter;
+                if(prefs.getBoolean("direction",false)){
+                    list.add("İZMİR --> İYTE");
+                    list.addAll(content2);
+                    adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, list);
+                    listView.setAdapter(adapter);
+                }else{
+                    list.add("İYTE --> İZMİR");
+                    list.addAll(content1);
+                    adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, list);
+                    listView.setAdapter(adapter);
+                }
+            }
+        });
+
+
+
         return rootView;
     }
     private ArrayList<String> getSchedule(){
