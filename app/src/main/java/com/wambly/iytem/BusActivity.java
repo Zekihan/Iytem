@@ -38,7 +38,6 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    private Direction direction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +50,6 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,17 +76,6 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             }
         },5000); */
 
-        View button = findViewById(R.id.direction);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(direction == Direction.iyte_izmir){
-                    direction = Direction.izmir_iyte;
-                }else{
-                    direction = Direction.iyte_izmir;
-                }
-            }
-        });
     }
 
 
@@ -123,16 +109,16 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             Fragment fragment = null;
             switch (position){
                 case 0:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, direction ));
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, Direction.iyte_izmir),getTimeTable(Week.weekday, Direction.izmir_iyte));
                     break;
                 case 1:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, direction));
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, Direction.iyte_izmir),getTimeTable(Week.weekday, Direction.izmir_iyte));
                     break;
                 case 2:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, direction));
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, Direction.iyte_izmir),getTimeTable(Week.saturday, Direction.izmir_iyte));
                     break;
                 case 3:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, direction));
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, Direction.iyte_izmir),getTimeTable(Week.sunday, Direction.izmir_iyte));
                     break;
             }
             return fragment;
@@ -143,6 +129,8 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             return 4;
         }
     }
+
+
     private ArrayList<String> getTimeTable( BusActivity.Week week, BusActivity.Direction direction){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final ArrayList<String> timeTable = new ArrayList<>();

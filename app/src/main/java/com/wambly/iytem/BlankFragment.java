@@ -25,10 +25,12 @@ import java.util.List;
 public class BlankFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_CONTENT = "content";
+    private static final String ARG_CONTENT1 = "content1";
+    private static final String ARG_CONTENT2 = "content2";
 
     // TODO: Rename and change types of parameters
-    private ArrayList<String> content;
+    private ArrayList<String> content1;
+    private ArrayList<String> content2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -45,10 +47,11 @@ public class BlankFragment extends Fragment {
      * @return A new instance of fragment BlankFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BlankFragment newInstance(ArrayList<String> param2) {
+    public static BlankFragment newInstance(ArrayList<String> param1,ArrayList<String> param2) {
         BlankFragment fragment = new BlankFragment();
         Bundle args = new Bundle();
-        args.putStringArrayList(ARG_CONTENT, param2);
+        args.putStringArrayList(ARG_CONTENT1, param1);
+        args.putStringArrayList(ARG_CONTENT2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,13 +69,25 @@ public class BlankFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
         if (getArguments() != null) {
-            content = getArguments().getStringArrayList(ARG_CONTENT);
+            content1 = getArguments().getStringArrayList(ARG_CONTENT1);
+            content2 = getArguments().getStringArrayList(ARG_CONTENT2);
         }
         ListView listView = rootView.findViewById(R.id.timeList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1,content);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, getSchedule());
         listView.setAdapter(adapter);
         return rootView;
     }
+    private ArrayList<String> getSchedule(){
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("İYTE --> İZMİR");
+        list.addAll(content1);
+        list.add(" ");
+        list.add("İZMİR --> İYTE");
+        list.addAll(content2);
+        return  list;
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
