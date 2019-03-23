@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Calendar c = Calendar.getInstance();
+        int maxDayOfMonth = c.getMaximum(Calendar.DAY_OF_MONTH);
         int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
         if (prefs.getInt("lastMenuSave",-1)<dayOfMonth){
             FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
@@ -122,9 +123,16 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt("lastMenuSave", dayOfMonth);
-            editor.apply();
+            if(maxDayOfMonth != dayOfMonth){
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("lastMenuSave", dayOfMonth);
+                editor.apply();
+            }else{
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("lastMenuSave", -1);
+                editor.apply();
+            }
+
         }
 
 
