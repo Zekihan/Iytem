@@ -1,5 +1,6 @@
 package com.wambly.iytem;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
@@ -35,11 +36,9 @@ import java.util.List;
 
 public class BusActivity extends AppCompatActivity implements BlankFragment.OnFragmentInteractionListener {
 
-
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
     private ViewPager mViewPager;
-
+    private Direction direction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +47,19 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle(R.string.transportation);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -61,33 +70,28 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-        final List<String> timeTable = getTimeTable(mDatabase, BusActivity.Week.weekday, BusActivity.Direction.iyte_izmir);
+        /*FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+        final List<String> timeTable = getTimeTable( BusActivity.Week.weekday, BusActivity.Direction.iyte_izmir);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 Log.e("Trans",timeTable.toString());
             }
-        },5000);
+        },5000); */
 
+        View button = findViewById(R.id.direction);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(direction == Direction.iyte_izmir){
+                    direction = Direction.izmir_iyte;
+                }else{
+                    direction = Direction.iyte_izmir;
+                }
+            }
+        });
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_bus, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -100,7 +104,6 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -120,28 +123,28 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             Fragment fragment = null;
             switch (position){
                 case 0:
-                    fragment = BlankFragment.newInstance(getTimeTable(FirebaseDatabase.getInstance(), Week.weekday,Direction.iyte_izmir ));
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, direction ));
                     break;
                 case 1:
-                    fragment = BlankFragment.newInstance(getTimeTable(FirebaseDatabase.getInstance(), Week.weekday,Direction.iyte_izmir));
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, direction));
                     break;
                 case 2:
-                    fragment = BlankFragment.newInstance(getTimeTable(FirebaseDatabase.getInstance(), Week.saturday,Direction.iyte_izmir));
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, direction));
                     break;
                 case 3:
-                    fragment = BlankFragment.newInstance(getTimeTable(FirebaseDatabase.getInstance(), Week.sunday,Direction.iyte_izmir));
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, direction));
                     break;
             }
             return fragment;
         }
-
         @Override
         public int getCount() {
             // Show 3 total pages.
             return 4;
         }
     }
-    private ArrayList<String> getTimeTable(FirebaseDatabase database, BusActivity.Week week, BusActivity.Direction direction){
+    private ArrayList<String> getTimeTable( BusActivity.Week week, BusActivity.Direction direction){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
         final ArrayList<String> timeTable = new ArrayList<>();
         DatabaseReference databaseReference = database.getReference().child("transportation").child("eshot").child(week.toString()).child(direction.toString());
         readData(databaseReference, new BusActivity.OnGetDataListener() {
@@ -164,6 +167,7 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         });
         return timeTable;
     }
+
     public void readData(DatabaseReference ref, final BusActivity.OnGetDataListener listener) {
         listener.onStart();
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -171,14 +175,11 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             public void onDataChange(DataSnapshot dataSnapshot) {
                 listener.onSuccess(dataSnapshot);
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 listener.onFailure();
             }
-
         });
-
     }
     public enum Week{
         weekday,saturday,sunday
