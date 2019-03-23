@@ -63,6 +63,14 @@ public class FoodActivity extends AppCompatActivity {
             }
         });
 
+        View monthly = findViewById(R.id.monthlyMenu);
+        monthly.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MonthlyMenuActivity.class));
+            }
+        });
+
     }
     private void chromeTab(String url){
         CustomTabsIntent customTabsIntent = intentBuilder.build();

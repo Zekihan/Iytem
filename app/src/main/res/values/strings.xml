@@ -22,7 +22,7 @@
     <string name="tab_text_4">Pazar</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
-
+    <string name="bus">Otobüs - 982</string>
 
 
 </resources>

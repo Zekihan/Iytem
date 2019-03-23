@@ -52,7 +52,7 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(R.string.transportation);
+        toolbar.setTitle(R.string.bus);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -95,14 +95,6 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
                 }
             }
         });
-        /*FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-        final List<String> timeTable = getTimeTable( BusActivity.Week.weekday, BusActivity.Direction.iyte_izmir);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Log.e("Trans",timeTable.toString());
-            }
-        },5000); */
 
     }
 
@@ -158,7 +150,6 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         }
     }
 
-
     private ArrayList<String> getTimeTable( BusActivity.Week week, BusActivity.Direction direction){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final ArrayList<String> timeTable = new ArrayList<>();
@@ -197,6 +188,7 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             }
         });
     }
+
     public enum Week{
         weekday,saturday,sunday
     }
@@ -209,6 +201,5 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         void onStart();
         void onFailure();
     }
-
 
 }

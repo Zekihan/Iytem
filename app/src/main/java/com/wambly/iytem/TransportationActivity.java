@@ -42,5 +42,14 @@ public class TransportationActivity extends AppCompatActivity {
             }
         });
 
+        View bus = findViewById(R.id.busCard);
+        bus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), BusActivity.class));
+            }
+        });
+
+
     }
 }
