@@ -3,7 +3,7 @@ package com.wambly.iytem;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Contact implements Parcelable {
+public class Contact implements Parcelable{
     String name;
     String email;
     String phone;
@@ -23,6 +23,7 @@ public class Contact implements Parcelable {
         name = in.readString();
         email = in.readString();
         phone = in.readString();
+        department = in.readString();
     }
 
     public static final Creator<Contact> CREATOR = new Creator<Contact>() {
@@ -68,6 +69,7 @@ public class Contact implements Parcelable {
     public void setDepartment(String department) {
         this.department = department;
     }
+
     @Override
     public int describeContents() {
         return 0;
@@ -78,5 +80,7 @@ public class Contact implements Parcelable {
         dest.writeString(name);
         dest.writeString(email);
         dest.writeString(phone);
+        dest.writeString(department);
     }
 }
+
