@@ -7,14 +7,16 @@ public class Contact implements Parcelable {
     String name;
     String email;
     String phone;
+    String department;
 
     public Contact() {
     }
 
-    public Contact(String name, String email, String phone) {
+    public Contact(String name, String email, String phone, String department) {
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.department = department;
     }
 
     protected Contact(Parcel in) {
@@ -59,6 +61,13 @@ public class Contact implements Parcelable {
         this.phone = phone;
     }
 
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
     @Override
     public int describeContents() {
         return 0;
