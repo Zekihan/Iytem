@@ -74,6 +74,7 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
                 return filterResults;
             }
 
+            @SuppressWarnings("unchecked")
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 mDisplayedValues = (ArrayList<Contact>) filterResults.values;

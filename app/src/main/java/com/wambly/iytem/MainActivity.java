@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -16,7 +17,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.params.HttpClientParams;
+import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.commons.io.IOUtils;
+
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.ConnectException;
 import java.util.Calendar;
 
 
@@ -78,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         saveMenu();
+        saveTransportation();
     }
 
     @Override
@@ -85,6 +96,77 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+    public static String getHtml(String fileURL)
+            throws IOException {
+        GetMethod get = new GetMethod(fileURL);
+        HttpClient client = new HttpClient();
+        HttpClientParams params = client.getParams();
+        params.setSoTimeout(2000);
+        params.setParameter(HttpMethodParams.USER_AGENT,
+                "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2"
+        );
+        client.setParams(params);
+        try {
+            client.executeMethod(get);
+        } catch(ConnectException e){
+            // Add some context to the exception and rethrow
+            throw new IOException("ConnectionException trying to GET " +
+                    fileURL,e);
+        }
+
+        if(get.getStatusCode()!=200){
+            throw new FileNotFoundException(
+                    "Server returned " + get.getStatusCode());
+        }
+        return  IOUtils.toString(get.getResponseBodyAsStream());
+    }
+    private void saveTransportation(){
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = mDatabase.getReference().child("transportation").child("vcs");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final Integer vcs = dataSnapshot.getValue(Integer.class);
+                if (prefs.getInt("TransportationVCS",-1)< vcs){
+                    final String s = "https://iytem-e266d.firebaseio.com/transportation/eshot.json?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNTUzNDU4NTMyLCJpYXQiOjE1NTM0NTQ5MzIsInYiOjB9.l0Qrt3o683MS7yFb2xNXMQnUJkyOXaEYxBPxP5plqDs&download=iytem-e266d-eshot-export.json&format=export&print=pretty";
+                    final FileOutputStream[] outputStream = new FileOutputStream[1];
+                    try {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String x = null;
+                                try {
+                                    x = getHtml(s);
+                                    try {
+                                        outputStream[0] = openFileOutput("transportation.json", Context.MODE_PRIVATE);
+                                        outputStream[0].write(x.getBytes());
+                                        outputStream[0].close();
+                                        SharedPreferences.Editor editor = prefs.edit();
+                                        editor.putInt("lastMenuSave", vcs);
+                                        editor.apply();
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+                    }catch (Exception e) {
+                        Log.e("Main",""+e.toString());
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void saveMenu(){
@@ -96,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
         if (prefs.getInt("lastMenuSave",-1)<dayOfMonth){
             FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
             DatabaseReference databaseReference = mDatabase.getReference().child("food").child("refectory").child(""+dayOfMonth);
-
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
