@@ -61,8 +61,6 @@ public class FoodActivity extends AppCompatActivity {
                 android.R.anim.slide_out_right);
         intentBuilder.setToolbarColor(Color.parseColor("#3949AB"));
 
-
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,7 +1,6 @@
 package com.wambly.iytem;
 
 import android.content.ComponentName;
-import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsCallback;
@@ -47,9 +46,6 @@ public class ShortcutActivity extends AppCompatActivity {
             }
         };
         CustomTabsClient.bindCustomTabsService(this,"custom.tabs", connection);
-
-
-
         intentBuilder = new CustomTabsIntent.Builder(session);
         intentBuilder.setStartAnimations(this,R.anim.slide_in_right , R.anim.slide_out_left);
         intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left,
