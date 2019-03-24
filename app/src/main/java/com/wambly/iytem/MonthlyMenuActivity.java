@@ -17,9 +17,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Scanner;
 
 public class MonthlyMenuActivity extends AppCompatActivity {
 
@@ -27,7 +34,7 @@ public class MonthlyMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monthly_menu);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.food);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -39,33 +46,30 @@ public class MonthlyMenuActivity extends AppCompatActivity {
             }
         });
 
-        ListView lv = (ListView) findViewById(R.id.menuList);
+        ListView lv = findViewById(R.id.menuList);
         final ArrayList<String> menuList = new ArrayList<>();
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("food").child("refectory");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                GenericTypeIndicator<ArrayList<String>> t = new GenericTypeIndicator<ArrayList<String>>() {
-                };
-                menuList.addAll(dataSnapshot.getValue(t));
+        try {
+            Calendar c = Calendar.getInstance();
+            int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+            Scanner scan = new Scanner(new File(getFilesDir(),"monthlyMenu.json"));
+            scan.useDelimiter("\\Z");
+            String content = scan.next();
+            JSONObject reader = new JSONObject(content);
+            JSONArray monthly  = reader.getJSONArray("refectory");
+            for (int i = 1; i < c.getMaximum(Calendar.DAY_OF_MONTH)+1; i++) {
+                String menu = monthly.getString(i);
+                menuList.add(menu);
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuList);
         lv.setAdapter(adapter);
 
     }
 
-    public interface OnGetDataListener {
-        //this is for callbacks
-        void onSuccess(DataSnapshot dataSnapshot);
-        void onStart();
-        void onFailure();
-    }
 }

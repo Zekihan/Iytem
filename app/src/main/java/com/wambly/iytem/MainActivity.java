@@ -87,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        saveMenu();
         saveTransportation();
+        saveMonthlyMenu();
     }
 
     @Override
@@ -121,6 +121,54 @@ public class MainActivity extends AppCompatActivity {
         }
         return  IOUtils.toString(get.getResponseBodyAsStream());
     }
+    private void saveMonthlyMenu(){
+
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = mDatabase.getReference().child("food").child("vcs");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final Integer vcs = dataSnapshot.getValue(Integer.class);
+                if (prefs.getInt("MonthlyMenuVCS",-1)< vcs){
+                    final String s = "https://iytem-e266d.firebaseio.com/food.json?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNTUzNDYwNzYzLCJpYXQiOjE1NTM0NTcxNjMsInYiOjB9.6T1gUtu9QeRFGRcC1gwidLb4o0-E9UyIyGrmGwxbXhE&download=iytem-e266d-food-export.json&format=export&print=pretty";
+                    final FileOutputStream[] outputStream = new FileOutputStream[1];
+                    try {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String x;
+                                try {
+                                    x = getHtml(s);
+                                    try {
+                                        outputStream[0] = openFileOutput("monthlyMenu.json", Context.MODE_PRIVATE);
+                                        outputStream[0].write(x.getBytes());
+                                        outputStream[0].close();
+                                        SharedPreferences.Editor editor = prefs.edit();
+                                        editor.putInt("MonthlyMenuVCS", vcs);
+                                        editor.apply();
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+                    }catch (Exception e) {
+                        Log.e("Main",""+e.toString());
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
     private void saveTransportation(){
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         final FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
@@ -144,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
                                         outputStream[0].write(x.getBytes());
                                         outputStream[0].close();
                                         SharedPreferences.Editor editor = prefs.edit();
-                                        editor.putInt("lastMenuSave", vcs);
+                                        editor.putInt("TransportationVCS", vcs);
                                         editor.apply();
                                     } catch (FileNotFoundException e) {
                                         e.printStackTrace();
@@ -169,46 +217,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void saveMenu(){
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Calendar c = Calendar.getInstance();
-        int maxDayOfMonth = c.getMaximum(Calendar.DAY_OF_MONTH);
-        int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
-        if (prefs.getInt("lastMenuSave",-1)<dayOfMonth){
-            FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-            DatabaseReference databaseReference = mDatabase.getReference().child("food").child("refectory").child(""+dayOfMonth);
-            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final String menu = dataSnapshot.getValue(String.class);
-
-                    FileOutputStream outputStream;
-                    try {
-                        outputStream = openFileOutput("menu.txt", Context.MODE_PRIVATE);
-                        outputStream.write(menu.getBytes());
-                        outputStream.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    //Log.e("Food",menu);
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-            if(maxDayOfMonth != dayOfMonth){
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt("lastMenuSave", dayOfMonth);
-                editor.apply();
-            }else{
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt("lastMenuSave", -1);
-                editor.apply();
-            }
-        }
-    }
     public void onBackPressed() {
         //  super.onBackPressed();
         moveTaskToBack(true);

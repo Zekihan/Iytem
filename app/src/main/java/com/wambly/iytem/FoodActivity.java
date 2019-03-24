@@ -14,12 +14,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
+import android.util.JsonReader;
 import android.view.View;
 import android.widget.TextView;
 
 
+import com.google.android.gms.common.util.JsonUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Calendar;
 import java.util.Scanner;
 
 public class FoodActivity extends AppCompatActivity {
@@ -67,14 +75,23 @@ public class FoodActivity extends AppCompatActivity {
             }
         });
 
+
+
         TextView tv = findViewById(R.id.menu);
 
         try {
-            Scanner scan = new Scanner(new File(getFilesDir(),"menu.txt"));
+            Calendar c = Calendar.getInstance();
+            int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+            Scanner scan = new Scanner(new File(getFilesDir(),"monthlyMenu.json"));
             scan.useDelimiter("\\Z");
             String content = scan.next();
-            tv.setText(content);
+            JSONObject reader = new JSONObject(content);
+            JSONArray monthly  = reader.getJSONArray("refectory");
+            String menu = monthly.getString(dayOfMonth);
+            tv.setText(menu);
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
