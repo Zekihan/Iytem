@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ContactsDetailsActivity">
 
+    <include layout="@layout/toolbar_layout"/>
+
     <TextView
         android:id="@+id/department"
         android:layout_width="match_parent"
@@ -25,7 +27,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="85dp"
         android:fontFamily="@font/open_sans_bold"
         android:text="TextView"
         android:textSize="24sp" />

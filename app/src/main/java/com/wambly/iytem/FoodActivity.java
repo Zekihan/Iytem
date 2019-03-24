@@ -3,7 +3,6 @@ package com.wambly.iytem;
 
 import android.content.ComponentName;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsCallback;

@@ -126,10 +126,11 @@ public class MainActivity extends AppCompatActivity {
                 editor.putInt("lastMenuSave", -1);
                 editor.apply();
             }
-
         }
-
-
+    }
+    public void onBackPressed() {
+        //  super.onBackPressed();
+        moveTaskToBack(true);
     }
 
 }
