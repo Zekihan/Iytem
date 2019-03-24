@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/bg"
+    android:background="@color/bgColor"
     tools:context=".MainActivity">
 
     <include layout="@layout/toolbar_layout"/>
@@ -51,7 +51,7 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="80dp"
+                    android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/duyuru" />
@@ -59,7 +59,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans_bold"
+                    android:fontFamily="@font/roboto"
                     android:text="@string/announcements"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
@@ -90,7 +90,7 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="80dp"
+                    android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/ulasim" />
@@ -98,7 +98,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans_bold"
+                    android:fontFamily="@font/roboto"
                     android:text="@string/transportation"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
@@ -132,7 +132,7 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="80dp"
+                    android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/tips" />
@@ -140,7 +140,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans_bold"
+                    android:fontFamily="@font/roboto"
                     android:text="@string/tips"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
@@ -171,7 +171,7 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="80dp"
+                    android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/yemek" />
@@ -179,7 +179,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans_bold"
+                    android:fontFamily="@font/roboto"
                     android:text="@string/food"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
@@ -213,7 +213,7 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="80dp"
+                    android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/shortcuts" />
@@ -221,7 +221,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans_bold"
+                    android:fontFamily="@font/roboto"
                     android:text="@string/shortcuts"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
@@ -252,7 +252,7 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="80dp"
+                    android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/contact" />
@@ -260,7 +260,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans_bold"
+                    android:fontFamily="@font/roboto"
                     android:text="@string/contacts"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"

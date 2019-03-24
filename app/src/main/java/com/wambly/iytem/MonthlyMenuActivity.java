@@ -14,10 +14,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class MonthlyMenuActivity extends AppCompatActivity {
 
@@ -38,58 +40,28 @@ public class MonthlyMenuActivity extends AppCompatActivity {
         });
 
         ListView lv = (ListView) findViewById(R.id.menuList);
-        ArrayList<String> menuList = new ArrayList<>();
-        menuList.add("MERHABALAR");
-        menuList.addAll(getFoodTable());
+        final ArrayList<String> menuList = new ArrayList<>();
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("food").child("refectory");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                GenericTypeIndicator<ArrayList<String>> t = new GenericTypeIndicator<ArrayList<String>>() {
+                };
+                menuList.addAll(dataSnapshot.getValue(t));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuList);
         lv.setAdapter(adapter);
 
     }
 
-    private ArrayList<String> getFoodTable(){
-        Calendar c = Calendar.getInstance();
-        final int maxDayOfMonth = c.getMaximum(Calendar.DAY_OF_MONTH);
-        final int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final ArrayList<String> foodTable = new ArrayList<>();
-
-        for (int i = dayOfMonth; i<maxDayOfMonth+1; i++) {
-            DatabaseReference databaseReference = database.getReference().child("food").child("refectory").child(""+i);
-            readData(databaseReference, new OnGetDataListener() {
-                @Override
-                public void onSuccess(DataSnapshot dataSnapshot) {
-                    foodTable.add(dataSnapshot.getValue(String.class));
-                }
-
-                @Override
-                public void onStart() {
-                    //when starting
-                    Log.d("ONSTART", "Started");
-                }
-
-                @Override
-                public void onFailure() {
-                    Log.d("onFailure", "Failed");
-                }
-            });
-        }
-
-        return foodTable;
-    }
-
-    public void readData(DatabaseReference ref, final OnGetDataListener listener) {
-        listener.onStart();
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                listener.onSuccess(dataSnapshot);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                listener.onFailure();
-            }
-        });
-    }
     public interface OnGetDataListener {
         //this is for callbacks
         void onSuccess(DataSnapshot dataSnapshot);

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/bg"
+    android:background="@color/bgColor"
     tools:context=".ShortcutActivity">
 
     <include layout="@layout/toolbar_layout"/>
@@ -59,7 +59,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans_bold"
+                    android:fontFamily="@font/roboto"
                     android:text="@string/obs"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
@@ -98,7 +98,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans_bold"
+                    android:fontFamily="@font/roboto"
                     android:text="@string/iztech"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
@@ -140,7 +140,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="@font/open_sans_bold"
+                    android:fontFamily="@font/roboto"
                     android:text="@string/library"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
@@ -179,7 +179,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans_bold"
+                    android:fontFamily="@font/roboto"
                     android:text="@string/cms"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
@@ -217,7 +217,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans_bold"
+                    android:fontFamily="@font/roboto"
                     android:text="@string/ydyo"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
@@ -256,7 +256,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans_bold"
+                    android:fontFamily="@font/roboto"
                     android:text="@string/webmail"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
