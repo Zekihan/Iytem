@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -36,6 +38,7 @@ public class BlankFragment extends Fragment {
     private ArrayList<String> content2;
 
     public boolean direction[] = {false};
+    public boolean today = false;
 
 
     private OnFragmentInteractionListener mListener;
@@ -53,12 +56,12 @@ public class BlankFragment extends Fragment {
      * @return A new instance of fragment BlankFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BlankFragment newInstance(ArrayList<String> param1,ArrayList<String> param2,boolean[] direction) {
+    public static BlankFragment newInstance(ArrayList<String> param1,ArrayList<String> param2,boolean today) {
         BlankFragment fragment = new BlankFragment();
         Bundle args = new Bundle();
         args.putStringArrayList(ARG_CONTENT1, param1);
         args.putStringArrayList(ARG_CONTENT2, param2);
-        args.putBooleanArray("direction",direction);
+        args.putBoolean("today",today);
         fragment.setArguments(args);
         return fragment;
     }
@@ -78,42 +81,80 @@ public class BlankFragment extends Fragment {
         if (getArguments() != null) {
             content1 = getArguments().getStringArrayList(ARG_CONTENT1);
             content2 = getArguments().getStringArrayList(ARG_CONTENT2);
-            direction = getArguments().getBooleanArray("direction");
+            today = getArguments().getBoolean("today");
         }
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
-        final ListView listView = rootView.findViewById(R.id.timeList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, getSchedule());
-        listView.setAdapter(adapter);
-        ArrayList<String> list = new ArrayList<String>();
-        if(prefs.getBoolean("direction",false)){
-            list.add("İZMİR --> İYTE");
-            list.addAll(content2);
-            adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, list);
+        if(today){
+            final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
+            final ListView listView = rootView.findViewById(R.id.timeList);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, getSchedule());
             listView.setAdapter(adapter);
-        }else{
-            list.add("İYTE --> İZMİR");
-            list.addAll(content1);
-            adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, list);
-            listView.setAdapter(adapter);
-        }
-        prefs.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                ArrayList<String> list = new ArrayList<String>();
-                ArrayAdapter<String> adapter;
-                if(prefs.getBoolean("direction",false)){
-                    list.add("İZMİR --> İYTE");
-                    list.addAll(content2);
-                    adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, list);
-                    listView.setAdapter(adapter);
-                }else{
-                    list.add("İYTE --> İZMİR");
-                    list.addAll(content1);
-                    adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, list);
-                    listView.setAdapter(adapter);
-                }
+            ArrayList<String> list = new ArrayList<String>();
+            if(prefs.getBoolean("direction",false)){
+                list.add("İZMİR --> İYTE");
+                list.addAll(filterByTime(content2,getTime()));
+                adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, list);
+                listView.setAdapter(adapter);
+            }else{
+                list.add("İYTE --> İZMİR");
+                list.addAll(filterByTime(content1,getTime()));
+                adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, list);
+                listView.setAdapter(adapter);
             }
-        });
+            prefs.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+                @Override
+                public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                    ArrayList<String> list = new ArrayList<String>();
+                    ArrayAdapter<String> adapter;
+                    if(prefs.getBoolean("direction",false)){
+                        list.add("İZMİR --> İYTE");
+                        list.addAll(filterByTime(content2,getTime()));
+                        adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, list);
+                        listView.setAdapter(adapter);
+                    }else{
+                        list.add("İYTE --> İZMİR");
+                        list.addAll(filterByTime(content1,getTime()));
+                        adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, list);
+                        listView.setAdapter(adapter);
+                    }
+                }
+            });
+        }else{
+            final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
+            final ListView listView = rootView.findViewById(R.id.timeList);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, getSchedule());
+            listView.setAdapter(adapter);
+            ArrayList<String> list = new ArrayList<String>();
+            if(prefs.getBoolean("direction",false)){
+                list.add("İZMİR --> İYTE");
+                list.addAll(content2);
+                adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, list);
+                listView.setAdapter(adapter);
+            }else{
+                list.add("İYTE --> İZMİR");
+                list.addAll(content1);
+                adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, list);
+                listView.setAdapter(adapter);
+            }
+            prefs.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+                @Override
+                public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                    ArrayList<String> list = new ArrayList<String>();
+                    ArrayAdapter<String> adapter;
+                    if(prefs.getBoolean("direction",false)){
+                        list.add("İZMİR --> İYTE");
+                        list.addAll(content2);
+                        adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, list);
+                        listView.setAdapter(adapter);
+                    }else{
+                        list.add("İYTE --> İZMİR");
+                        list.addAll(content1);
+                        adapter = new ArrayAdapter<String>(rootView.getContext(),android.R.layout.simple_list_item_1, list);
+                        listView.setAdapter(adapter);
+                    }
+                }
+            });
+        }
+
 
 
 
@@ -127,6 +168,36 @@ public class BlankFragment extends Fragment {
         list.add("İZMİR --> İYTE");
         list.addAll(content2);
         return  list;
+    }
+    private String getTime(){
+        Calendar calendar = Calendar.getInstance();
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        int minuteOfDay = calendar.get(Calendar.MINUTE);
+        return hourOfDay+":"+minuteOfDay;
+    }
+
+    private List<String> filterByTime(List<String> list,String time){
+        List<String> result = new ArrayList<>();
+
+        for (String s :list) {
+            Log.e("Bus",s+"  "+time);
+            if(s.contains(":")&&time.contains(":")){
+                String ss[] = s.split(":");
+                String[] time2 = time.split(":");
+                if(Integer.parseInt(ss[0])>Integer.parseInt(time2[0])){
+                    result.add(s);
+                }else if(Integer.parseInt(ss[0]) == Integer.parseInt(time2[0])){
+                    if(Integer.parseInt(ss[1])>Integer.parseInt(time2[1])){
+                        result.add(s);
+                    }
+                }
+            }else{
+                list.add(s);
+            }
+
+        }
+
+        return result;
     }
 
 

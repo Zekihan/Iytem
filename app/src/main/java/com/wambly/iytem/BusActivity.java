@@ -36,8 +36,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Scanner;
 
 public class BusActivity extends AppCompatActivity implements BlankFragment.OnFragmentInteractionListener {
 
@@ -129,16 +137,23 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             Fragment fragment = null;
             switch (position){
                 case 0:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, Direction.iyte_izmir),getTimeTable(Week.weekday, Direction.izmir_iyte),direction);
+                    Calendar c = Calendar.getInstance();
+                    if(c.get(Calendar.DAY_OF_WEEK)==1){
+                        fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, Direction.iyte_izmir),getTimeTable(Week.sunday, Direction.izmir_iyte),true);
+                    }else if(c.get(Calendar.DAY_OF_WEEK)==7){
+                        fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, Direction.iyte_izmir),getTimeTable(Week.saturday, Direction.izmir_iyte),true);
+                    }else{
+                        fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, Direction.iyte_izmir),getTimeTable(Week.weekday, Direction.izmir_iyte),true);
+                    }
                     break;
                 case 1:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, Direction.iyte_izmir),getTimeTable(Week.weekday, Direction.izmir_iyte),direction);
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, Direction.iyte_izmir),getTimeTable(Week.weekday, Direction.izmir_iyte),false);
                     break;
                 case 2:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, Direction.iyte_izmir),getTimeTable(Week.saturday, Direction.izmir_iyte),direction);
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, Direction.iyte_izmir),getTimeTable(Week.saturday, Direction.izmir_iyte),false);
                     break;
                 case 3:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, Direction.iyte_izmir),getTimeTable(Week.sunday, Direction.izmir_iyte),direction);
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, Direction.iyte_izmir),getTimeTable(Week.sunday, Direction.izmir_iyte),false);
                     break;
             }
             return fragment;
@@ -151,42 +166,28 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
     }
 
     private ArrayList<String> getTimeTable( BusActivity.Week week, BusActivity.Direction direction){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         final ArrayList<String> timeTable = new ArrayList<>();
-        DatabaseReference databaseReference = database.getReference().child("transportation").child("eshot").child(week.toString()).child(direction.toString());
-        readData(databaseReference, new BusActivity.OnGetDataListener() {
-            @Override
-            public void onSuccess(DataSnapshot dataSnapshot) {
-                for (final DataSnapshot ds : dataSnapshot.getChildren()) {
-                    timeTable.add(ds.getValue(String.class));
-                }
+        try {
+            Scanner scan = new Scanner(new File(getFilesDir(),"transportation.json"));
+            scan.useDelimiter("\\Z");
+            String content = scan.next();
+            JSONObject reader = new JSONObject(content);
+            JSONObject weekly  = reader.getJSONObject(week.toString());
+            JSONArray table = weekly.getJSONArray(direction.toString());
+            int i = 0;
+            String item = table.getString(i);
+            while (item != null){
+                item = table.getString(i);
+                timeTable.add(item);
+                i++;
             }
-            @Override
-            public void onStart() {
-                //when starting
-                Log.d("ONSTART", "Started");
-            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-            @Override
-            public void onFailure() {
-                Log.d("onFailure", "Failed");
-            }
-        });
         return timeTable;
-    }
-
-    public void readData(DatabaseReference ref, final BusActivity.OnGetDataListener listener) {
-        listener.onStart();
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                listener.onSuccess(dataSnapshot);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                listener.onFailure();
-            }
-        });
     }
 
     public enum Week{
@@ -194,12 +195,6 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
     }
     public enum Direction{
         iyte_izmir,izmir_iyte
-    }
-    public interface OnGetDataListener {
-        //this is for callbacks
-        void onSuccess(DataSnapshot dataSnapshot);
-        void onStart();
-        void onFailure();
     }
 
 }
