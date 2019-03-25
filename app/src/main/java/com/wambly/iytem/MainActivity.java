@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.util.JsonMapper;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -128,10 +129,10 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference databaseReference = mDatabase.getReference().child("food").child("vcs");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                 final Integer vcs = dataSnapshot.getValue(Integer.class);
                 if (prefs.getInt("MonthlyMenuVCS",-1)< vcs){
-                    final String s = "https://iytem-e266d.firebaseio.com/food.json?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNTUzNDYwNzYzLCJpYXQiOjE1NTM0NTcxNjMsInYiOjB9.6T1gUtu9QeRFGRcC1gwidLb4o0-E9UyIyGrmGwxbXhE&download=iytem-e266d-food-export.json&format=export&print=pretty";
+                    final String s = "https://iytem-e266d.firebaseio.com/food.json";
                     final FileOutputStream[] outputStream = new FileOutputStream[1];
                     try {
                         new Thread(new Runnable() {
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                             public void run() {
                                 String x;
                                 try {
-                                    x = getHtml(s);
+                                        x = getHtml(s);
                                     try {
                                         outputStream[0] = openFileOutput("monthlyMenu.json", Context.MODE_PRIVATE);
                                         outputStream[0].write(x.getBytes());
@@ -178,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 final Integer vcs = dataSnapshot.getValue(Integer.class);
                 if (prefs.getInt("TransportationVCS",-1)< vcs){
-                    final String s = "https://iytem-e266d.firebaseio.com/transportation/eshot.json?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNTUzNDU4NTMyLCJpYXQiOjE1NTM0NTQ5MzIsInYiOjB9.l0Qrt3o683MS7yFb2xNXMQnUJkyOXaEYxBPxP5plqDs&download=iytem-e266d-eshot-export.json&format=export&print=pretty";
+                    final String s = "https://iytem-e266d.firebaseio.com/transportation/eshot.json";
                     final FileOutputStream[] outputStream = new FileOutputStream[1];
                     try {
                         new Thread(new Runnable() {
