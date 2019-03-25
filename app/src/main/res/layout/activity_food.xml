@@ -134,8 +134,9 @@
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/roboto"
+            android:lineSpacingExtra="8sp"
             android:text="TextView"
-            android:textSize="18sp" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/menuTitle"
