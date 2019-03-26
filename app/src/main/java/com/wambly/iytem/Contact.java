@@ -8,15 +8,17 @@ public class Contact implements Parcelable{
     String email;
     String phone;
     String department;
+    String title;
 
     public Contact() {
     }
 
-    public Contact(String name, String email, String phone, String department) {
+    public Contact(String name, String email, String phone, String department, String title) {
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.department = department;
+        this.title = title;
     }
 
     protected Contact(Parcel in) {
@@ -24,6 +26,7 @@ public class Contact implements Parcelable{
         email = in.readString();
         phone = in.readString();
         department = in.readString();
+        title = in.readString();
     }
 
     public static final Creator<Contact> CREATOR = new Creator<Contact>() {
@@ -70,6 +73,14 @@ public class Contact implements Parcelable{
         this.department = department;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -81,6 +92,7 @@ public class Contact implements Parcelable{
         dest.writeString(email);
         dest.writeString(phone);
         dest.writeString(department);
+        dest.writeString(title);
     }
 }
 
