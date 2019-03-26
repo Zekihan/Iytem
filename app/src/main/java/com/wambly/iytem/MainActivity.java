@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
         saveTransportation();
         saveMonthlyMenu();
+        saveContacts();
     }
 
     @Override
@@ -216,6 +217,56 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void saveContacts(){
+
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = mDatabase.getReference().child("contacts").child("vcs");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final Integer vcs = dataSnapshot.getValue(Integer.class);
+                if (prefs.getInt("ContactsVCS",-1)< vcs){
+                    final String s = "https://iytem-e266d.firebaseio.com/contacts.json";
+                    final FileOutputStream[] outputStream = new FileOutputStream[1];
+                    try {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String x = null;
+                                try {
+                                    x = getHtml(s);
+                                    try {
+                                        outputStream[0] = openFileOutput("contacts.json", Context.MODE_PRIVATE);
+                                        outputStream[0].write(x.getBytes());
+                                        outputStream[0].close();
+                                        SharedPreferences.Editor editor = prefs.edit();
+                                        editor.putInt("ContactsVCS", vcs);
+                                        editor.apply();
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+                    }catch (Exception e) {
+                        Log.e("Main",""+e.toString());
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     public void onBackPressed() {
