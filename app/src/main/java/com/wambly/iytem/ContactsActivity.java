@@ -87,7 +87,7 @@ public class ContactsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 Intent reader = new Intent(getApplicationContext(), ContactsDetailsActivity.class);
-                reader.putExtra("contact", contacts.get(position));
+                reader.putExtra("contact", contactsCustomAdapter.getmDisplayedValues().get(position));
                 startActivity(reader);
             }
 

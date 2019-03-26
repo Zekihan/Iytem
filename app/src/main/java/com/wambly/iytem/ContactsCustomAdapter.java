@@ -47,6 +47,10 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
         return mDisplayedValues.size();
     }
 
+    public List<Contact> getmDisplayedValues() {
+        return mDisplayedValues;
+    }
+
     @Override
     public Filter getFilter() {
         return new Filter() {
