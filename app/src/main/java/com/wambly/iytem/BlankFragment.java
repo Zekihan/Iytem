@@ -171,6 +171,7 @@ public class BlankFragment extends Fragment {
     }
     private String getTime(){
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(calendar.getTimeInMillis()-900000);
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         int minuteOfDay = calendar.get(Calendar.MINUTE);
         return hourOfDay+":"+minuteOfDay;
@@ -180,7 +181,6 @@ public class BlankFragment extends Fragment {
         List<String> result = new ArrayList<>();
 
         for (String s :list) {
-            Log.e("Bus",s+"  "+time);
             if(s.contains(":")&&time.contains(":")){
                 String ss[] = s.split(":");
                 String[] time2 = time.split(":");
