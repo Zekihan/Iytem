@@ -35,10 +35,12 @@ public class ContactsDetailsActivity extends AppCompatActivity {
         TextView email = findViewById(R.id.email);
         TextView phone = findViewById(R.id.phone);
         TextView department = findViewById(R.id.department);
+        TextView title = findViewById(R.id.title);
         name.setText(contact.getName());
-        email.setText(contact.getEmail());
-        phone.setText(contact.getPhone());
-        department.setText(contact.department);
+        email.setText("Email: \n" + contact.getEmail());
+        phone.setText("Tel: \n" + contact.getPhone());
+        title.setText("Ünvan: \n" + contact.getTitle());
+        department.setText("Bölüm: \n" + contact.getDepartment());
 
     }
 }
