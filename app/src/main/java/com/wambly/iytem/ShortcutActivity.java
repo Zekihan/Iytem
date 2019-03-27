@@ -16,7 +16,8 @@ import android.view.View;
 public class ShortcutActivity extends AppCompatActivity {
     private CustomTabsIntent.Builder intentBuilder;
     private Toolbar toolbar;
-    CustomTabsSession session;
+    CustomTabsSession tabsSession;
+    CustomTabsServiceConnection tabsConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +31,12 @@ public class ShortcutActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
-        CustomTabsServiceConnection connection = new CustomTabsServiceConnection() {
+        tabsConnection = new CustomTabsServiceConnection() {
             @Override
             public void onCustomTabsServiceConnected(ComponentName componentName, CustomTabsClient customTabsClient) {
                 customTabsClient.warmup(1);
                 CustomTabsCallback customTabsCallback = new CustomTabsCallback();
-                 session = customTabsClient.newSession(customTabsCallback);
+                tabsSession = customTabsClient.newSession(customTabsCallback);
 
             }
 
@@ -44,8 +45,8 @@ public class ShortcutActivity extends AppCompatActivity {
 
             }
         };
-        CustomTabsClient.bindCustomTabsService(this,"custom.tabs", connection);
-        intentBuilder = new CustomTabsIntent.Builder(session);
+        CustomTabsClient.bindCustomTabsService(this,"custom.tabs", tabsConnection);
+        intentBuilder = new CustomTabsIntent.Builder(tabsSession);
         intentBuilder.setStartAnimations(this,R.anim.slide_in_right , R.anim.slide_out_left);
         intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left,
                 android.R.anim.slide_out_right);
@@ -112,5 +113,11 @@ public class ShortcutActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(tabsConnection);
     }
 }

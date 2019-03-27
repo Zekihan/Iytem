@@ -34,7 +34,8 @@ public class FoodActivity extends AppCompatActivity {
     private CustomTabsIntent.Builder intentBuilder;
 
     private Toolbar toolbar;
-    private CustomTabsSession session;
+    private CustomTabsServiceConnection tabsConnection;
+    private CustomTabsSession tabsSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +48,12 @@ public class FoodActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        CustomTabsServiceConnection connection = new CustomTabsServiceConnection() {
+        tabsConnection = new CustomTabsServiceConnection() {
             @Override
             public void onCustomTabsServiceConnected(ComponentName componentName, CustomTabsClient customTabsClient) {
                 customTabsClient.warmup(1);
                 CustomTabsCallback customTabsCallback = new CustomTabsCallback();
-                session = customTabsClient.newSession(customTabsCallback);
+                tabsSession = customTabsClient.newSession(customTabsCallback);
             }
 
             @Override
@@ -60,7 +61,9 @@ public class FoodActivity extends AppCompatActivity {
 
             }
         };
-        CustomTabsClient.bindCustomTabsService(this,"custom.tabs", connection);
+        CustomTabsClient.bindCustomTabsService(this,"custom.tabs", tabsConnection);
+
+
 
         intentBuilder = new CustomTabsIntent.Builder();
         intentBuilder.setStartAnimations(this,R.anim.slide_in_right , R.anim.slide_out_left);
@@ -117,4 +120,10 @@ public class FoodActivity extends AppCompatActivity {
         customTabsIntent.launchUrl(this, Uri.parse(url));
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(tabsConnection);
+
+    }
 }
