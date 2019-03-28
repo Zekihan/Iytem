@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Scanner;
 
 public class FoodActivity extends AppCompatActivity {
@@ -86,6 +87,15 @@ public class FoodActivity extends AppCompatActivity {
             JSONObject reader = new JSONObject(content);
             JSONArray monthly  = reader.getJSONArray("refectory");
             String menu = monthly.getString(dayOfMonth);
+
+            String[] menuList = menu.split("\n");
+            menu = "";
+            for(String m : menuList){
+                menu = menu + m.substring(0, m.indexOf("(") ) + "\n";
+            }
+
+
+
             tv.setText(menu);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

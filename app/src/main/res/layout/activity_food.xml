@@ -144,7 +144,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="40dp"
             android:fontFamily="@font/roboto"
-            android:lineSpacingExtra="8sp"
+            android:lineSpacingExtra="18sp"
             android:text="TextView"
             android:textAlignment="center"
             android:textSize="20sp" />
