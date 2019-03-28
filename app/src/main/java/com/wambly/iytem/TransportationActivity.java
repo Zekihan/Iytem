@@ -14,7 +14,7 @@ public class TransportationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transportation);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.transportation);
         setSupportActionBar(toolbar);
