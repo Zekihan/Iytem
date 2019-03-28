@@ -1,6 +1,7 @@
 package com.wambly.iytem;
 
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
@@ -35,6 +36,7 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bus);
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

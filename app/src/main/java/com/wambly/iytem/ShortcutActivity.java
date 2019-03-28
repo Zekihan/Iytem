@@ -1,6 +1,7 @@
 package com.wambly.iytem;
 
 import android.content.ComponentName;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsCallback;
@@ -22,6 +23,7 @@ public class ShortcutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shortcut);
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.shortcuts);
