@@ -4,6 +4,10 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -46,7 +50,10 @@ public class MonthlyMenuActivity extends AppCompatActivity {
             }
         });
 
-        ListView lv = findViewById(R.id.menuList);
+        RecyclerView recyclerView = findViewById(R.id.menuList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         final ArrayList<String> menuList = new ArrayList<>();
 
         try {
@@ -67,8 +74,9 @@ public class MonthlyMenuActivity extends AppCompatActivity {
         }
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.monthly_menu_row_item, menuList);
-        lv.setAdapter(adapter);
+        Log.e("Menus",menuList.toString());
+        MonthlyMenuCustomAdapter adapter = new MonthlyMenuCustomAdapter(menuList,getApplicationContext());
+        recyclerView.setAdapter(adapter);
 
     }
 

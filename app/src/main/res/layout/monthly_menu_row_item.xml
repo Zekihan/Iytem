@@ -9,7 +9,7 @@
     android:padding="10dp" >
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/menu"
         android:layout_width="354dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/date"
