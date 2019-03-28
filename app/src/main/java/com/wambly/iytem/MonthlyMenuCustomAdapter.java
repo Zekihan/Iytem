@@ -21,7 +21,6 @@ public class MonthlyMenuCustomAdapter extends RecyclerView.Adapter<MonthlyMenuCu
     public MonthlyMenuCustomAdapter(List<String> menus, Context context) {
         this.menus = menus;
         this.context = context;
-        Log.e("Adapter",menus+"");
     }
 
     @NonNull
@@ -35,7 +34,6 @@ public class MonthlyMenuCustomAdapter extends RecyclerView.Adapter<MonthlyMenuCu
     @Override
     public void onBindViewHolder(@NonNull MonthlyMenuCustomAdapter.MyViewHolder myViewHolder, int i) {
         String menu = menus.get(i);
-        Log.e("Adapter",i+"");
         myViewHolder.date.setText(getDate(i+1));
         myViewHolder.menu.setText(menu);
     }

@@ -74,7 +74,6 @@ public class MonthlyMenuActivity extends AppCompatActivity {
         }
 
 
-        Log.e("Menus",menuList.toString());
         MonthlyMenuCustomAdapter adapter = new MonthlyMenuCustomAdapter(menuList,getApplicationContext());
         recyclerView.setAdapter(adapter);
 
