@@ -71,7 +71,7 @@
         android:layout_marginBottom="16dp"
         android:background="@color/colorAccent"
         android:fontFamily="@font/open_sans_semibold"
-        android:text="yön değiştir"
+        android:text="@string/change_direction"
         app:layout_anchor="@+id/container"
         app:layout_anchorGravity="bottom|center" />
 

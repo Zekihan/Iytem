@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 public class TipsDetailsActivity extends AppCompatActivity {
 
-    Tip tip;
+    private Tip tip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -16,7 +16,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.util.JsonMapper;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -28,7 +27,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.ConnectException;
-import java.util.Calendar;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -99,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-    public static String getHtml(String fileURL)
+    private static String getHtml(String fileURL)
             throws IOException {
         GetMethod get = new GetMethod(fileURL);
         HttpClient client = new HttpClient();
@@ -186,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                String x = null;
+                                String x;
                                 try {
                                     x = getHtml(s);
                                     try {
@@ -235,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                String x = null;
+                                String x;
                                 try {
                                     x = getHtml(s);
                                     try {

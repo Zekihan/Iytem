@@ -9,14 +9,14 @@ import android.widget.TextView;
 
 public class AnnouncementsDetailsActivity extends AppCompatActivity {
 
-    Announcement announcement;
-    private Toolbar toolbar;
+    private Announcement announcement;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_announcements_details);
 
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.announcements);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

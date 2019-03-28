@@ -14,12 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
-import android.util.JsonReader;
 import android.view.View;
 import android.widget.TextView;
 
-
-import com.google.android.gms.common.util.JsonUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,17 +29,15 @@ import java.util.Scanner;
 
 public class FoodActivity extends AppCompatActivity {
     private CustomTabsIntent.Builder intentBuilder;
-
-    private Toolbar toolbar;
     private CustomTabsServiceConnection tabsConnection;
-    private CustomTabsSession tabsSession;
+    public CustomTabsSession tabsSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food);
 
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.food);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -102,7 +97,7 @@ public class FoodActivity extends AppCompatActivity {
         food.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chromeTab("https://yks.iyte.edu.tr/Login.aspx");
+                chromeTab();
             }
         });
 
@@ -115,9 +110,9 @@ public class FoodActivity extends AppCompatActivity {
         });
 
     }
-    private void chromeTab(String url){
+    private void chromeTab(){
         CustomTabsIntent customTabsIntent = intentBuilder.build();
-        customTabsIntent.launchUrl(this, Uri.parse(url));
+        customTabsIntent.launchUrl(this, Uri.parse("https://yks.iyte.edu.tr/Login.aspx"));
     }
 
     @Override

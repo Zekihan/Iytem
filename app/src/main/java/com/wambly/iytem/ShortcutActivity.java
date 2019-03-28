@@ -15,16 +15,15 @@ import android.view.View;
 
 public class ShortcutActivity extends AppCompatActivity {
     private CustomTabsIntent.Builder intentBuilder;
-    private Toolbar toolbar;
-    CustomTabsSession tabsSession;
-    CustomTabsServiceConnection tabsConnection;
+    private CustomTabsSession tabsSession;
+    private CustomTabsServiceConnection tabsConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shortcut);
 
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.shortcuts);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

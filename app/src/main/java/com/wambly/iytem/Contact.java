@@ -4,11 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Contact implements Parcelable{
-    String name;
-    String email;
-    String phone;
-    String department;
-    String title;
+    private String name;
+    private String email;
+    private String phone;
+    private String department;
+    private String title;
 
     public Contact() {
     }
@@ -21,7 +21,7 @@ public class Contact implements Parcelable{
         this.title = title;
     }
 
-    protected Contact(Parcel in) {
+    private Contact(Parcel in) {
         name = in.readString();
         email = in.readString();
         phone = in.readString();

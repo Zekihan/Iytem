@@ -8,15 +8,14 @@ import android.widget.TextView;
 
 public class ContactsDetailsActivity extends AppCompatActivity {
 
-    Contact contact;
-    private Toolbar toolbar;
+    private Contact contact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts_details);
 
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.contacts);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -37,10 +36,10 @@ public class ContactsDetailsActivity extends AppCompatActivity {
         TextView department = findViewById(R.id.department);
         TextView title = findViewById(R.id.title);
         name.setText(contact.getName());
-        email.setText("Email: \n" + contact.getEmail());
-        phone.setText("Telefon: \n" + contact.getPhone());
-        title.setText("Ünvan: \n" + contact.getTitle());
-        department.setText("Bölüm: \n" + contact.getDepartment());
+        email.setText(String.format("%s: \n%s", getString(R.string.email), contact.getEmail()));
+        phone.setText(String.format("%s: \n%s", getString(R.string.phone), contact.getPhone()));
+        title.setText(String.format("%s: \n%s", getString(R.string.title), contact.getTitle()));
+        department.setText(String.format("%s: \n%s", getString(R.string.department), contact.getDepartment()));
 
     }
 }

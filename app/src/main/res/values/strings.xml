@@ -28,6 +28,13 @@
     <string name="bus_982">Otobüs - 982</string>
     <string name="minibus">Dolmuş</string>
     <string name="teneke">Teneke</string>
+    <string name="change_direction">yön değiştir</string>
+    <string name="monthly_menu">Aylık Menü</string>
+    <string name="add_money">Bakiye Yükle</string>
+    <string name="email">Email</string>
+    <string name="phone">Telefon</string>
+    <string name="title">Ünvan</string>
+    <string name="department">Bölüm</string>
 
 
 </resources>
