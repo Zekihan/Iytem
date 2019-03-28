@@ -66,7 +66,8 @@ public class MonthlyMenuActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuList);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.monthly_menu_row_item, menuList);
         lv.setAdapter(adapter);
 
     }
