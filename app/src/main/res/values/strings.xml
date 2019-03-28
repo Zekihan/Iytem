@@ -25,6 +25,9 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="bus">Otobüs - 982</string>
     <string name="search">Ara</string>
+    <string name="bus_982">Otobüs - 982</string>
+    <string name="minibus">Dolmuş</string>
+    <string name="teneke">Teneke</string>
 
 
 </resources>

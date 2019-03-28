@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/roboto_bold"
-            android:text="Otobüs - 982"
+            android:text="@string/bus_982"
             android:textSize="24sp" />
     </android.support.v7.widget.CardView>
 
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/roboto_bold"
-            android:text="Dolmuş"
+            android:text="@string/minibus"
             android:textSize="24sp" />
     </android.support.v7.widget.CardView>
 
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/roboto_bold"
-            android:text="Teneke"
+            android:text="@string/teneke"
             android:textSize="24sp" />
     </android.support.v7.widget.CardView>
 
