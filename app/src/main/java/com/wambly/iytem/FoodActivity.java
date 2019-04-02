@@ -93,12 +93,14 @@ public class FoodActivity extends AppCompatActivity {
             String[] menuList = menu.split("\n");
             menu = "";
             for(String m : menuList){
-                menu = menu + m.substring(0, m.indexOf("(") ) + "\n";
+                if(m.contains("(")){
+                    menu += m.substring(0, m.indexOf("(") ) + "\n";
+                }else{
+                    menu += m;
+                }
             }
-
-
-
             tv.setText(menu);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (JSONException e) {
