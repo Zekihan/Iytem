@@ -47,7 +47,7 @@ public class TipsActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("tips");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("tips/posts");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
