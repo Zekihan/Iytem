@@ -35,6 +35,13 @@ public class TransportationActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), BusActivity.class));
             }
         });
+        View teneke = findViewById(R.id.tenekeCard);
+        teneke.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), TenekeActivity.class));
+            }
+        });
 
 
     }

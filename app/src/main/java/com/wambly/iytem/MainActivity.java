@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 final Integer vcs = dataSnapshot.getValue(Integer.class);
                 if (prefs.getInt("TransportationVCS",-1)< vcs){
-                    final String s = "https://iytem-e266d.firebaseio.com/transportation/eshot.json";
+                    final String s = "https://iytem-e266d.firebaseio.com/transportation.json";
                     final FileOutputStream[] outputStream = new FileOutputStream[1];
                     try {
                         new Thread(new Runnable() {

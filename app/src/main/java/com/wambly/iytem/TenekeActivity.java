@@ -28,9 +28,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Scanner;
 
-public class BusActivity extends AppCompatActivity implements BlankFragment.OnFragmentInteractionListener {
+public class TenekeActivity extends AppCompatActivity implements BlankFragment.OnFragmentInteractionListener{
 
-    private boolean[] direction = {false};//iyte-izmir
+	private boolean[] direction = {false};//iyte-izmir
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,21 +118,21 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
                 case 0:
                     Calendar c = Calendar.getInstance();
                     if(c.get(Calendar.DAY_OF_WEEK)== Calendar.SUNDAY){
-                        fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, Direction.iyte_izmir),getTimeTable(Week.sunday, Direction.izmir_iyte),true,"bus");
+                        fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, Direction.iyte_urla),getTimeTable(Week.sunday, Direction.urla_iyte),true,"teneke");
                     }else if(c.get(Calendar.DAY_OF_WEEK)== Calendar.SATURDAY){
-                        fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, Direction.iyte_izmir),getTimeTable(Week.saturday, Direction.izmir_iyte),true,"bus");
+                        fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, Direction.iyte_urla),getTimeTable(Week.saturday, Direction.urla_iyte),true,"teneke");
                     }else{
-                        fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, Direction.iyte_izmir),getTimeTable(Week.weekday, Direction.izmir_iyte),true,"bus");
+                        fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, Direction.iyte_urla),getTimeTable(Week.weekday, Direction.urla_iyte),true,"teneke");
                     }
                     break;
                 case 1:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, Direction.iyte_izmir),getTimeTable(Week.weekday, Direction.izmir_iyte),false,"bus");
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, Direction.iyte_urla),getTimeTable(Week.weekday, Direction.urla_iyte),false,"teneke");
                     break;
                 case 2:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, Direction.iyte_izmir),getTimeTable(Week.saturday, Direction.izmir_iyte),false,"bus");
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, Direction.iyte_urla),getTimeTable(Week.saturday, Direction.urla_iyte),false,"teneke");
                     break;
                 case 3:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, Direction.iyte_izmir),getTimeTable(Week.sunday, Direction.izmir_iyte),false,"bus");
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, Direction.iyte_urla),getTimeTable(Week.sunday, Direction.urla_iyte),false,"teneke");
                     break;
             }
             return fragment;
@@ -144,14 +144,14 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         }
     }
 
-    private ArrayList<String> getTimeTable( BusActivity.Week week, BusActivity.Direction direction){
+    private ArrayList<String> getTimeTable(Week week, Direction direction){
         final ArrayList<String> timeTable = new ArrayList<>();
         try {
             Scanner scan = new Scanner(new File(getFilesDir(),"transportation.json"));
             scan.useDelimiter("\\Z");
             String content = scan.next();
             JSONObject reader = new JSONObject(content);
-            JSONObject bus  = reader.getJSONObject("eshot");
+            JSONObject bus  = reader.getJSONObject("teneke");
             JSONObject weekly  = bus.getJSONObject(week.toString());
             JSONArray table = weekly.getJSONArray(direction.toString());
             int i = 0;
@@ -174,7 +174,7 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         weekday,saturday,sunday
     }
     public enum Direction{
-        iyte_izmir,izmir_iyte
+        iyte_urla,urla_iyte
     }
 
 }
