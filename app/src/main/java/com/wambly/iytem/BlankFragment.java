@@ -210,7 +210,9 @@ public class BlankFragment extends Fragment {
             }
 
         }
-
+        if(result.isEmpty()){
+            result.add(getString(R.string.sefer_yok));
+        }
         return result;
     }
 

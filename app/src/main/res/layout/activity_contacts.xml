@@ -41,15 +41,17 @@
             android:layout_marginEnd="18dp"
             android:background="#9FA8DA"
             android:ems="10"
+            android:focusable="auto"
             android:fontFamily="@font/roboto_bold"
             android:hint="@string/search"
+            android:importantForAutofill="no"
             android:inputType="textPersonName"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textColorHint="@drawable/selector"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            android:importantForAutofill="no" tools:targetApi="o"/>
+            tools:targetApi="o" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/RC"

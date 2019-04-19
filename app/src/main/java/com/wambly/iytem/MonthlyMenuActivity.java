@@ -54,7 +54,7 @@ public class MonthlyMenuActivity extends AppCompatActivity {
             String content = scan.next();
             JSONObject reader = new JSONObject(content);
             JSONArray monthly  = reader.getJSONArray("refectory");
-            for (int i = 1; i < c.getMaximum(Calendar.DAY_OF_MONTH)+1; i++) {
+            for (int i = 1; i < c.getMaximum(Calendar.DAY_OF_MONTH); i++) {
                 String menu = monthly.getString(i);
                 menuList.add(menu);
             }
@@ -67,6 +67,7 @@ public class MonthlyMenuActivity extends AppCompatActivity {
 
         MonthlyMenuCustomAdapter adapter = new MonthlyMenuCustomAdapter(menuList,getApplicationContext());
         recyclerView.setAdapter(adapter);
+        recyclerView.smoothScrollToPosition(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
 
     }
 

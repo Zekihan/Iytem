@@ -35,6 +35,7 @@
     <string name="phone">Telefon</string>
     <string name="title">Ünvan</string>
     <string name="department">Bölüm</string>
+    <string name="sefer_yok">Sefer Yok</string>
 
 
 </resources>
