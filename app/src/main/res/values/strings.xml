@@ -2,8 +2,12 @@
     <string name="app_name">İytem</string>
     <string name="announcements">Duyurular</string>
     <string name="transportation">Ulaşım</string>
+    <string name="transportation_des">İYTE\'ye ulaşım saatleri</string>
+    <string name="food_des">Yemekhane menüsü \n Bakiye yükleme</string>
+    <string name="shortcut_des">En gerekli siteler</string>
+    <string name="contacts_des">Okul personeli iletişim bilgileri</string>
     <string name="tips">İpuçları</string>
-    <string name="food">Yemek</string>
+    <string name="food">Yemekhane</string>
     <string name="shortcuts">Kolay Erişim</string>
     <string name="contacts">Rehber</string>
     <string name="obs">ÖBS</string>
