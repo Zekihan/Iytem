@@ -99,7 +99,10 @@ public class FoodActivity extends AppCompatActivity {
                     menu += m;
                 }
             }
-            tv.setText(menu);
+            if(menu.equals("No Menu\n")){
+                tv.setText(R.string.menu_yok);
+            }else
+                tv.setText(menu);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

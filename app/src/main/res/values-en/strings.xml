@@ -37,4 +37,5 @@
     <string name="sefer_yok">No Service</string>
     <string name="shortcut_des">Most used websites</string>
     <string name="transportation_des">Transportation schedules for Iztech</string>
+    <string name="menu_yok">No Menu Avaliable</string>
 </resources>

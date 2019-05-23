@@ -9,6 +9,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import org.json.JSONArray;
@@ -56,7 +57,13 @@ public class MonthlyMenuActivity extends AppCompatActivity {
             JSONArray monthly  = reader.getJSONArray("refectory");
             for (int i = 1; i < c.getMaximum(Calendar.DAY_OF_MONTH); i++) {
                 String menu = monthly.getString(i);
-                menuList.add(menu);
+                Log.e("menu",menu);
+                if(menu.equals("No Menu\n")){
+                    Log.e("menu",menu);
+                    menuList.add(getString(R.string.menu_yok));
+                }else {
+                    menuList.add(menu);
+                }
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

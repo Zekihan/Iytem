@@ -38,6 +38,7 @@
     <string name="title">Ünvan</string>
     <string name="department">Bölüm</string>
     <string name="sefer_yok">Sefer Yok</string>
+    <string name="menu_yok">Menü yok</string>
 
 
 </resources>
