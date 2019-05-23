@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -194,9 +195,11 @@ public class BlankFragment extends Fragment {
     private List<String> filterByTime(List<String> list,String time){
         List<String> result = new ArrayList<>();
 
-        for (String s :list) {
+        for (int i = 0; i < list.size(); i++) {
+            Log.e("Blank", list.size()+"");
+            String s = list.get(i);
             if(s.contains(":")&&time.contains(":")){
-                String ss[] = s.split(":");
+                String[] ss = s.split(":");
                 String[] time2 = time.split(":");
                 if(Integer.parseInt(ss[0])>Integer.parseInt(time2[0])){
                     result.add(s);
@@ -205,8 +208,6 @@ public class BlankFragment extends Fragment {
                         result.add(s);
                     }
                 }
-            }else{
-                list.add(s);
             }
 
         }
