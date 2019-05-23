@@ -18,16 +18,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.params.HttpClientParams;
-import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.io.IOUtils;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.ConnectException;
+import java.net.URL;
+import java.net.URLConnection;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -84,30 +87,26 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-    private static String getHtml(String fileURL)
-            throws IOException {
-        GetMethod get = new GetMethod(fileURL);
-        HttpClient client = new HttpClient();
-        HttpClientParams params = client.getParams();
-        params.setSoTimeout(2000);
-        params.setParameter(HttpMethodParams.USER_AGENT,
-                "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2"
-        );
-        client.setParams(params);
-        try {
-            client.executeMethod(get);
-        } catch(ConnectException e){
-            // Add some context to the exception and rethrow
-            throw new IOException("ConnectionException trying to GET " +
-                    fileURL,e);
-        }
 
-        if(get.getStatusCode()!=200){
-            throw new FileNotFoundException(
-                    "Server returned " + get.getStatusCode());
+    public static String getHtml(String url) throws IOException {
+        // Build and set timeout values for the request.
+        URLConnection connection = (new URL(url)).openConnection();
+        connection.setConnectTimeout(5000);
+        connection.setReadTimeout(5000);
+        connection.connect();
+
+        // Read and store the result line by line then return the entire string.
+        InputStream in = connection.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        StringBuilder html = new StringBuilder();
+        for (String line; (line = reader.readLine()) != null; ) {
+            html.append(line);
         }
-        return  IOUtils.toString(get.getResponseBodyAsStream());
+        in.close();
+
+        return html.toString();
     }
+
     private void saveMonthlyMenu(){
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
