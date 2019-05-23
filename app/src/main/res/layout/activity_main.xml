@@ -26,7 +26,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="8dp"
         android:clipToPadding="false"
         android:gravity="center"
         android:orientation="horizontal"
@@ -36,7 +36,7 @@
         <android.support.v7.widget.CardView
             android:id="@+id/transportation"
             android:layout_width="160dp"
-            android:layout_height="240dp"
+            android:layout_height="220dp"
             android:layout_margin="10dp"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground">
@@ -64,7 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_margin="10dp"
-                    android:background="@color/lightgray"/>
+                    android:background="@color/lightgray" />
 
                 <TextView
                     android:layout_width="140dp"
@@ -80,7 +80,7 @@
         <android.support.v7.widget.CardView
             android:id="@+id/food"
             android:layout_width="160dp"
-            android:layout_height="240dp"
+            android:layout_height="220dp"
             android:layout_margin="10dp"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground">
@@ -108,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_margin="10dp"
-                    android:background="@color/lightgray"/>
+                    android:background="@color/lightgray" />
 
                 <TextView
                     android:layout_width="140dp"
@@ -126,17 +126,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:clipToPadding="false"
         android:gravity="center"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         tools:layout_editor_absoluteX="0dp">
 
         <android.support.v7.widget.CardView
             android:id="@+id/shortcuts"
             android:layout_width="160dp"
-            android:layout_height="240dp"
+            android:layout_height="220dp"
             android:layout_margin="10dp"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground">
@@ -180,13 +182,13 @@
         <android.support.v7.widget.CardView
             android:id="@+id/contacts"
             android:layout_width="160dp"
-            android:layout_height="240dp"
+            android:layout_height="220dp"
             android:layout_margin="10dp"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="166dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical">
