@@ -35,9 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        saveMonthlyMenu();
-        saveTransportation();
-        saveContacts();
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -100,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         in.close();
         return html.toString();
     }
-
+/*
     private void saveMonthlyMenu(){
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         final FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
@@ -280,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+*/
     public void onBackPressed() {
         moveTaskToBack(true);
     }

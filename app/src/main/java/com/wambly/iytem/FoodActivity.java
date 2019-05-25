@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsCallback;
 import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
@@ -20,15 +21,13 @@ import android.view.View;
 import android.widget.TextView;
 
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Calendar;
-import java.util.List;
-import java.util.Scanner;
 
 public class FoodActivity extends AppCompatActivity {
     private CustomTabsIntent.Builder intentBuilder;
@@ -47,23 +46,7 @@ public class FoodActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        TextView tv = findViewById(R.id.menu);
-
-        String menu = readMenu();
-        String[] menuList = menu.split("\n");
-        menu = "";
-        for (String m : menuList) {
-            if (m.contains("(")) {
-                menu += m.substring(0, m.indexOf("(")) + "\n";
-            } else {
-                menu += m;
-            }
-        }
-        if(menu.equals("No Menu")){
-            tv.setText(R.string.menu_yok);
-        }else{
-            tv.setText(menu);
-        }
+        showMenu();
 
         tabsConnection = new CustomTabsServiceConnection() {
             @Override
@@ -75,7 +58,6 @@ public class FoodActivity extends AppCompatActivity {
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
-
             }
         };
 
@@ -108,25 +90,47 @@ public class FoodActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), MonthlyMenuActivity.class));
             }
         });
-
     }
-    private String readMenu() {
-        String menu = "";
-        try {
-            Calendar c = Calendar.getInstance();
-            int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
-            Scanner scan = new Scanner(new File(getFilesDir(), "monthlyMenu.json"));
-            scan.useDelimiter("\\Z");
-            String content = scan.next();
-            JSONObject reader = new JSONObject(content);
-            JSONArray monthly = reader.getJSONArray("refectory");
-            menu = monthly.getString(dayOfMonth);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
+
+    private void setMenuText(String str){
+        TextView tv = findViewById(R.id.menu);
+
+        String[] menuList = str.split("\n");
+        String menuOut = "";
+        for (String m : menuList) {
+            if (m.contains("(")) {
+                menuOut += m.substring(0, m.indexOf("(")) + "\n";
+            } else {
+                menuOut += m;
+            }
         }
-        return menu;
+        if(menuOut.equals("No Menu")){
+            tv.setText(R.string.menu_yok);
+        }else{
+            tv.setText(menuOut);
+        }
+    }
+
+    private void showMenu() {
+
+        Calendar c = Calendar.getInstance();
+        final String dayOfMonth = Integer.toString(c.get(Calendar.DAY_OF_MONTH));
+        System.out.println(dayOfMonth);
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference ref = database.getReference().child("food").child("refectory").child(dayOfMonth);
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot ds) {
+                setMenuText(ds.getValue(String.class));
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
     }
 
     private void chromeTab(){
@@ -138,6 +142,5 @@ public class FoodActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbindService(tabsConnection);
-
     }
 }
