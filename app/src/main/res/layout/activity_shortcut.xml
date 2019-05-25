@@ -73,7 +73,7 @@
                     android:text="@string/obs"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
-                    android:layout_marginTop="@dimen/_16ssp"
+                    android:layout_marginTop="@dimen/_8ssp"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -113,7 +113,7 @@
                     android:text="@string/iztech"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
-                    android:layout_marginTop="@dimen/_16ssp"
+                    android:layout_marginTop="@dimen/_8ssp"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -156,7 +156,7 @@
                     android:text="@string/library"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
-                    android:layout_marginTop="@dimen/_16ssp"
+                    android:layout_marginTop="@dimen/_8ssp"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -196,7 +196,7 @@
                     android:text="@string/cms"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
-                    android:layout_marginTop="@dimen/_16ssp"
+                    android:layout_marginTop="@dimen/_8ssp"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -235,7 +235,7 @@
                     android:text="@string/ydyo"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
-                    android:layout_marginTop="@dimen/_16ssp"
+                    android:layout_marginTop="@dimen/_8ssp"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -275,7 +275,7 @@
                     android:text="@string/webmail"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
-                    android:layout_marginTop="@dimen/_16ssp"
+                    android:layout_marginTop="@dimen/_8ssp"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
             </LinearLayout>
