@@ -129,16 +129,28 @@ public class MainActivity extends AppCompatActivity {
                                         editor.putInt("MonthlyMenuVCS", vcs);
                                         editor.apply();
                                     } catch (FileNotFoundException e) {
+                                        SharedPreferences.Editor editor = prefs.edit();
+                                        editor.putInt("MonthlyMenuVCS", -1);
+                                        editor.apply();
                                         e.printStackTrace();
                                     } catch (IOException e) {
+                                        SharedPreferences.Editor editor = prefs.edit();
+                                        editor.putInt("MonthlyMenuVCS", -1);
+                                        editor.apply();
                                         e.printStackTrace();
                                     }
                                 } catch (IOException e) {
+                                    SharedPreferences.Editor editor = prefs.edit();
+                                    editor.putInt("MonthlyMenuVCS", -1);
+                                    editor.apply();
                                     e.printStackTrace();
                                 }
                             }
                         }).start();
                     }catch (Exception e) {
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putInt("MonthlyMenuVCS", -1);
+                        editor.apply();
                         Log.e("Main",""+e.toString());
                         e.printStackTrace();
                     }
@@ -146,7 +158,9 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("MonthlyMenuVCS", -1);
+                editor.apply();
             }
         });
     }
@@ -176,16 +190,28 @@ public class MainActivity extends AppCompatActivity {
                                         editor.putInt("TransportationVCS", vcs);
                                         editor.apply();
                                     } catch (FileNotFoundException e) {
+                                        SharedPreferences.Editor editor = prefs.edit();
+                                        editor.putInt("MonthlyMenuVCS", -1);
+                                        editor.apply();
                                         e.printStackTrace();
                                     } catch (IOException e) {
+                                        SharedPreferences.Editor editor = prefs.edit();
+                                        editor.putInt("MonthlyMenuVCS", -1);
+                                        editor.apply();
                                         e.printStackTrace();
                                     }
                                 } catch (IOException e) {
+                                    SharedPreferences.Editor editor = prefs.edit();
+                                    editor.putInt("MonthlyMenuVCS", -1);
+                                    editor.apply();
                                     e.printStackTrace();
                                 }
                             }
                         }).start();
                     }catch (Exception e) {
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putInt("MonthlyMenuVCS", -1);
+                        editor.apply();
                         Log.e("Main",""+e.toString());
                         e.printStackTrace();
                     }
@@ -193,7 +219,9 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("MonthlyMenuVCS", -1);
+                editor.apply();
             }
         });
     }
@@ -225,16 +253,28 @@ public class MainActivity extends AppCompatActivity {
                                         editor.putInt("ContactsVCS", vcs);
                                         editor.apply();
                                     } catch (FileNotFoundException e) {
+                                        SharedPreferences.Editor editor = prefs.edit();
+                                        editor.putInt("MonthlyMenuVCS", -1);
+                                        editor.apply();
                                         e.printStackTrace();
                                     } catch (IOException e) {
+                                        SharedPreferences.Editor editor = prefs.edit();
+                                        editor.putInt("MonthlyMenuVCS", -1);
+                                        editor.apply();
                                         e.printStackTrace();
                                     }
                                 } catch (IOException e) {
+                                    SharedPreferences.Editor editor = prefs.edit();
+                                    editor.putInt("MonthlyMenuVCS", -1);
+                                    editor.apply();
                                     e.printStackTrace();
                                 }
                             }
                         }).start();
                     }catch (Exception e) {
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putInt("MonthlyMenuVCS", -1);
+                        editor.apply();
                         Log.e("Main",""+e.toString());
                         e.printStackTrace();
                     }
@@ -242,7 +282,9 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("MonthlyMenuVCS", -1);
+                editor.apply();
             }
         });
 
