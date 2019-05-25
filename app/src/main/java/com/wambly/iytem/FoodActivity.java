@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -99,10 +100,11 @@ public class FoodActivity extends AppCompatActivity {
                     menu += m;
                 }
             }
-            if(menu.equals("No Menu\n")){
+            if(menu.equals("No Menu")){
                 tv.setText(R.string.menu_yok);
-            }else
+            }else{
                 tv.setText(menu);
+            }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
