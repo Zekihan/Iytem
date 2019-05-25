@@ -47,6 +47,24 @@ public class FoodActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        TextView tv = findViewById(R.id.menu);
+
+        String menu = readMenu();
+        String[] menuList = menu.split("\n");
+        menu = "";
+        for (String m : menuList) {
+            if (m.contains("(")) {
+                menu += m.substring(0, m.indexOf("(")) + "\n";
+            } else {
+                menu += m;
+            }
+        }
+        if(menu.equals("No Menu")){
+            tv.setText(R.string.menu_yok);
+        }else{
+            tv.setText(menu);
+        }
+
         tabsConnection = new CustomTabsServiceConnection() {
             @Override
             public void onCustomTabsServiceConnected(ComponentName componentName, CustomTabsClient customTabsClient) {
@@ -60,15 +78,6 @@ public class FoodActivity extends AppCompatActivity {
 
             }
         };
-        CustomTabsClient.bindCustomTabsService(this,"custom.tabs", tabsConnection);
-
-
-
-        intentBuilder = new CustomTabsIntent.Builder();
-        intentBuilder.setStartAnimations(this,R.anim.slide_in_right , R.anim.slide_out_left);
-        intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left,
-                android.R.anim.slide_out_right);
-        intentBuilder.setToolbarColor(Color.parseColor("#3949AB"));
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,40 +86,12 @@ public class FoodActivity extends AppCompatActivity {
             }
         });
 
-
-
-        TextView tv = findViewById(R.id.menu);
-
-        try {
-            Calendar c = Calendar.getInstance();
-            int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
-            Scanner scan = new Scanner(new File(getFilesDir(),"monthlyMenu.json"));
-            scan.useDelimiter("\\Z");
-            String content = scan.next();
-            JSONObject reader = new JSONObject(content);
-            JSONArray monthly  = reader.getJSONArray("refectory");
-            String menu = monthly.getString(dayOfMonth);
-
-            String[] menuList = menu.split("\n");
-            menu = "";
-            for(String m : menuList){
-                if(m.contains("(")){
-                    menu += m.substring(0, m.indexOf("(") ) + "\n";
-                }else{
-                    menu += m;
-                }
-            }
-            if(menu.equals("No Menu")){
-                tv.setText(R.string.menu_yok);
-            }else{
-                tv.setText(menu);
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        CustomTabsClient.bindCustomTabsService(this,"custom.tabs", tabsConnection);
+        intentBuilder = new CustomTabsIntent.Builder();
+        intentBuilder.setStartAnimations(this,R.anim.slide_in_right , R.anim.slide_out_left);
+        intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left,
+                android.R.anim.slide_out_right);
+        intentBuilder.setToolbarColor(Color.parseColor("#3949AB"));
 
         View food = findViewById(R.id.addMoney);
         food.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +110,25 @@ public class FoodActivity extends AppCompatActivity {
         });
 
     }
+    private String readMenu() {
+        String menu = "";
+        try {
+            Calendar c = Calendar.getInstance();
+            int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+            Scanner scan = new Scanner(new File(getFilesDir(), "monthlyMenu.json"));
+            scan.useDelimiter("\\Z");
+            String content = scan.next();
+            JSONObject reader = new JSONObject(content);
+            JSONArray monthly = reader.getJSONArray("refectory");
+            menu = monthly.getString(dayOfMonth);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return menu;
+    }
+
     private void chromeTab(){
         CustomTabsIntent customTabsIntent = intentBuilder.build();
         customTabsIntent.launchUrl(this, Uri.parse("https://yks.iyte.edu.tr/Login.aspx"));

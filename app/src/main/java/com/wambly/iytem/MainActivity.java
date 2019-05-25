@@ -27,7 +27,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -35,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        saveMonthlyMenu();
+        saveTransportation();
+        saveContacts();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -71,9 +74,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        saveTransportation();
-        saveMonthlyMenu();
-        saveContacts();
     }
 
     @Override
@@ -98,12 +98,10 @@ public class MainActivity extends AppCompatActivity {
             html.append(line);
         }
         in.close();
-
         return html.toString();
     }
 
     private void saveMonthlyMenu(){
-
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         final FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = mDatabase.getReference().child("food").child("vcs");
@@ -119,28 +117,25 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 String x;
+                                SharedPreferences.Editor editor = prefs.edit();
                                 try {
                                         x = getHtml(s);
                                     try {
                                         outputStream[0] = openFileOutput("monthlyMenu.json", Context.MODE_PRIVATE);
                                         outputStream[0].write(x.getBytes());
                                         outputStream[0].close();
-                                        SharedPreferences.Editor editor = prefs.edit();
                                         editor.putInt("MonthlyMenuVCS", vcs);
                                         editor.apply();
                                     } catch (FileNotFoundException e) {
-                                        SharedPreferences.Editor editor = prefs.edit();
                                         editor.putInt("MonthlyMenuVCS", -1);
                                         editor.apply();
                                         e.printStackTrace();
                                     } catch (IOException e) {
-                                        SharedPreferences.Editor editor = prefs.edit();
                                         editor.putInt("MonthlyMenuVCS", -1);
                                         editor.apply();
                                         e.printStackTrace();
                                     }
                                 } catch (IOException e) {
-                                    SharedPreferences.Editor editor = prefs.edit();
                                     editor.putInt("MonthlyMenuVCS", -1);
                                     editor.apply();
                                     e.printStackTrace();
@@ -164,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     private void saveTransportation(){
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         final FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
@@ -180,28 +176,26 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 String x;
+                                SharedPreferences.Editor editor = prefs.edit();
                                 try {
                                     x = getHtml(s);
                                     try {
                                         outputStream[0] = openFileOutput("transportation.json", Context.MODE_PRIVATE);
                                         outputStream[0].write(x.getBytes());
                                         outputStream[0].close();
-                                        SharedPreferences.Editor editor = prefs.edit();
+
                                         editor.putInt("TransportationVCS", vcs);
                                         editor.apply();
                                     } catch (FileNotFoundException e) {
-                                        SharedPreferences.Editor editor = prefs.edit();
                                         editor.putInt("MonthlyMenuVCS", -1);
                                         editor.apply();
                                         e.printStackTrace();
                                     } catch (IOException e) {
-                                        SharedPreferences.Editor editor = prefs.edit();
                                         editor.putInt("MonthlyMenuVCS", -1);
                                         editor.apply();
                                         e.printStackTrace();
                                     }
                                 } catch (IOException e) {
-                                    SharedPreferences.Editor editor = prefs.edit();
                                     editor.putInt("MonthlyMenuVCS", -1);
                                     editor.apply();
                                     e.printStackTrace();
@@ -227,7 +221,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void saveContacts(){
-
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         final FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = mDatabase.getReference().child("contacts").child("vcs");
@@ -243,28 +236,26 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 String x;
+                                SharedPreferences.Editor editor = prefs.edit();
                                 try {
                                     x = getHtml(s);
                                     try {
                                         outputStream[0] = openFileOutput("contacts.json", Context.MODE_PRIVATE);
                                         outputStream[0].write(x.getBytes());
                                         outputStream[0].close();
-                                        SharedPreferences.Editor editor = prefs.edit();
+
                                         editor.putInt("ContactsVCS", vcs);
                                         editor.apply();
                                     } catch (FileNotFoundException e) {
-                                        SharedPreferences.Editor editor = prefs.edit();
                                         editor.putInt("MonthlyMenuVCS", -1);
                                         editor.apply();
                                         e.printStackTrace();
                                     } catch (IOException e) {
-                                        SharedPreferences.Editor editor = prefs.edit();
                                         editor.putInt("MonthlyMenuVCS", -1);
                                         editor.apply();
                                         e.printStackTrace();
                                     }
                                 } catch (IOException e) {
-                                    SharedPreferences.Editor editor = prefs.edit();
                                     editor.putInt("MonthlyMenuVCS", -1);
                                     editor.apply();
                                     e.printStackTrace();
@@ -280,6 +271,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 SharedPreferences.Editor editor = prefs.edit();
@@ -287,11 +279,9 @@ public class MainActivity extends AppCompatActivity {
                 editor.apply();
             }
         });
-
     }
 
     public void onBackPressed() {
-        //  super.onBackPressed();
         moveTaskToBack(true);
     }
 
