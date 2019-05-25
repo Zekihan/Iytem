@@ -2,6 +2,8 @@ package com.wambly.iytem;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,6 +14,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,12 +29,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Scanner;
 
 public class MonthlyMenuActivity extends AppCompatActivity {
 
+    final List<String> menuList = new ArrayList<>();
+    MonthlyMenuCustomAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        dbCheck();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monthly_menu);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -35,6 +49,19 @@ public class MonthlyMenuActivity extends AppCompatActivity {
         toolbar.setTitle(R.string.food);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        RecyclerView recyclerView = findViewById(R.id.menulist);
+        adapter = new MonthlyMenuCustomAdapter(menuList,getApplicationContext());
+        recyclerView.setAdapter(adapter);
+
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.smoothScrollToPosition(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+
+
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,38 +69,30 @@ public class MonthlyMenuActivity extends AppCompatActivity {
             }
         });
 
-        RecyclerView recyclerView = findViewById(R.id.menuList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        final ArrayList<String> menuList = new ArrayList<>();
+    }
+    private void dbCheck(){
+        final Calendar c = Calendar.getInstance();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference ref = database.getReference().child("food").child("refectory");
+        ref.addValueEventListener(new ValueEventListener() {
 
-        try {
-            Calendar c = Calendar.getInstance();
-            Scanner scan = new Scanner(new File(getFilesDir(),"monthlyMenu.json"));
-            scan.useDelimiter("\\Z");
-            String content = scan.next();
-            JSONObject reader = new JSONObject(content);
-            JSONArray monthly  = reader.getJSONArray("refectory");
-            for (int i = 1; i < c.getMaximum(Calendar.DAY_OF_MONTH); i++) {
-                String menu = monthly.getString(i);
-                if(menu.equals("No Menu\n")){
-                    menuList.add(getString(R.string.menu_yok));
-                }else {
-                    menuList.add(menu);
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (int i = 1; i < c.getMaximum(Calendar.DAY_OF_MONTH); i++) {
+                    menuList.add(dataSnapshot.child(Integer.toString(i)).getValue(String.class));
+                    adapter.notifyItemInserted(i);
                 }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
-
-        MonthlyMenuCustomAdapter adapter = new MonthlyMenuCustomAdapter(menuList,getApplicationContext());
-        recyclerView.setAdapter(adapter);
-        recyclerView.smoothScrollToPosition(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
 
     }
+
+
+
 
 }

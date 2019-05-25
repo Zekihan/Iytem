@@ -40,6 +40,7 @@ public class FoodActivity extends AppCompatActivity {
         setContentView(R.layout.activity_food);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.food);
         setSupportActionBar(toolbar);

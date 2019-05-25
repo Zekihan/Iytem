@@ -13,7 +13,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class MonthlyMenuCustomAdapter extends RecyclerView.Adapter<MonthlyMenuCustomAdapter.MyViewHolder> {
-    private final List<String> menus;
+    private List<String> menus;
 
     public MonthlyMenuCustomAdapter(List<String> menus, Context context) {
         this.menus = menus;
@@ -56,5 +56,9 @@ public class MonthlyMenuCustomAdapter extends RecyclerView.Adapter<MonthlyMenuCu
             date = view.findViewById(R.id.date);
 
         }
+    }
+
+    public List<String> getMenus() {
+        return menus;
     }
 }
