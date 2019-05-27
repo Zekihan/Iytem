@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.Button;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -145,28 +152,23 @@ public class TenekeActivity extends AppCompatActivity implements BlankFragment.O
     }
 
     private ArrayList<String> getTimeTable(Week week, Direction direction){
-        final ArrayList<String> timeTable = new ArrayList<>();
-        try {
-            Scanner scan = new Scanner(new File(getFilesDir(),"transportation.json"));
-            scan.useDelimiter("\\Z");
-            String content = scan.next();
-            JSONObject reader = new JSONObject(content);
-            JSONObject bus  = reader.getJSONObject("teneke");
-            JSONObject weekly  = bus.getJSONObject(week.toString());
-            JSONArray table = weekly.getJSONArray(direction.toString());
-            int i = 0;
-            String item = table.getString(i);
-            while (item != null){
-                item = table.getString(i);
-                timeTable.add(item);
-                i++;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
+        final ArrayList<String> timeTable = new ArrayList<>();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference ref = database.getReference().child("transportation").child("teneke").child(week.name()).child(direction.name());
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot ds) {
+                for(DataSnapshot child: ds.getChildren()){
+                    timeTable.add(child.getValue(String.class));
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
         return timeTable;
     }
 

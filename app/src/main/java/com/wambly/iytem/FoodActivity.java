@@ -116,7 +116,6 @@ public class FoodActivity extends AppCompatActivity {
 
         Calendar c = Calendar.getInstance();
         final String dayOfMonth = Integer.toString(c.get(Calendar.DAY_OF_MONTH));
-        System.out.println(dayOfMonth);
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference ref = database.getReference().child("food").child("refectory").child(dayOfMonth);

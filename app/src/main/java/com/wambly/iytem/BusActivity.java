@@ -4,6 +4,8 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +20,13 @@ import android.view.View;
 
 import android.widget.Button;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,7 +39,7 @@ import java.util.Scanner;
 
 public class BusActivity extends AppCompatActivity implements BlankFragment.OnFragmentInteractionListener {
 
-    private boolean[] direction = {false};//iyte-izmir
+    private boolean direction = false;//iyte-izmir
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +61,6 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             }
         });
 
-        // Set up the ViewPager with the sections adapter.
         ViewPager mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
@@ -63,37 +71,32 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("direction", direction[0]);
+        editor.putBoolean("direction", direction);
         editor.apply();
         Button b = findViewById(R.id.direction);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(direction[0]){
-                    direction[0] = false;
+                if(direction){
+                    direction = false;
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putBoolean("direction", direction[0]);
+                    editor.putBoolean("direction", direction);
                     editor.apply();
                 }else{
-                    direction[0] = true;
+                    direction = true;
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putBoolean("direction", direction[0]);
+                    editor.putBoolean("direction", direction);
                     editor.apply();
                 }
             }
         });
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -139,34 +142,43 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         }
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return 4;
         }
     }
 
-    private ArrayList<String> getTimeTable( BusActivity.Week week, BusActivity.Direction direction){
-        final ArrayList<String> timeTable = new ArrayList<>();
-        try {
-            Scanner scan = new Scanner(new File(getFilesDir(),"transportation.json"));
-            scan.useDelimiter("\\Z");
-            String content = scan.next();
-            JSONObject reader = new JSONObject(content);
-            JSONObject bus  = reader.getJSONObject("eshot");
-            JSONObject weekly  = bus.getJSONObject(week.toString());
-            JSONArray table = weekly.getJSONArray(direction.toString());
-            int i = 0;
-            String item = table.getString(i);
-            while (item != null){
-                item = table.getString(i);
-                timeTable.add(item);
-                i++;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    private ArrayList<String> getTimeTable(Week week, Direction direction){
 
+        final ArrayList<String> timeTable = new ArrayList<>();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference ref = database.getReference().child("transportation").child("eshot").child(week.name()).child(direction.name());
+
+        ref.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                timeTable.add(dataSnapshot.getValue(String.class));
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
         return timeTable;
     }
 
