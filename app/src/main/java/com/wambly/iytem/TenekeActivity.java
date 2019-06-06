@@ -37,7 +37,7 @@ import java.util.Scanner;
 
 public class TenekeActivity extends AppCompatActivity implements BlankFragment.OnFragmentInteractionListener{
 
-	private boolean[] direction = {false};//iyte-izmir
+	private boolean direction = false;//iyte-izmir
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class TenekeActivity extends AppCompatActivity implements BlankFragment.O
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(R.string.bus);
+        toolbar.setTitle(R.string.teneke);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -70,21 +70,21 @@ public class TenekeActivity extends AppCompatActivity implements BlankFragment.O
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("direction", direction[0]);
+        editor.putBoolean("direction", direction);
         editor.apply();
         Button b = findViewById(R.id.direction);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(direction[0]){
-                    direction[0] = false;
+                if(direction){
+                    direction = false;
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putBoolean("direction", direction[0]);
+                    editor.putBoolean("direction", direction);
                     editor.apply();
                 }else{
-                    direction[0] = true;
+                    direction = true;
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putBoolean("direction", direction[0]);
+                    editor.putBoolean("direction", direction);
                     editor.apply();
                 }
             }
@@ -152,23 +152,28 @@ public class TenekeActivity extends AppCompatActivity implements BlankFragment.O
     }
 
     private ArrayList<String> getTimeTable(Week week, Direction direction){
-
         final ArrayList<String> timeTable = new ArrayList<>();
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference ref = database.getReference().child("transportation").child("teneke").child(week.name()).child(direction.name());
+        try {
+            Scanner scan = new Scanner(new File(getFilesDir(),"transportation.json"));
+            scan.useDelimiter("\\Z");
+            String content = scan.next();
+            JSONObject reader = new JSONObject(content);
+            JSONObject bus  = reader.getJSONObject("teneke");
+            JSONObject weekly  = bus.getJSONObject(week.toString());
+            JSONArray table = weekly.getJSONArray(direction.toString());
+            int i = 0;
+            String item = table.getString(i);
+            while (item != null){
+                item = table.getString(i);
+                timeTable.add(item);
+                i++;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot ds) {
-                for(DataSnapshot child: ds.getChildren()){
-                    timeTable.add(child.getValue(String.class));
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
         return timeTable;
     }
 

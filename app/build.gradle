@@ -7,8 +7,8 @@ android {
         applicationId "com.wambly.iytem"
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 3
-        versionName "1.02"
+        versionCode 4
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -37,4 +37,5 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:gridlayout-v7:28.0.0'
     implementation 'com.intuit.ssp:ssp-android:1.0.6'
+
 }

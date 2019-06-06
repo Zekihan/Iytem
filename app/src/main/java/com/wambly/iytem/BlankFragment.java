@@ -198,7 +198,7 @@ public class BlankFragment extends Fragment {
         return hourOfDay+":"+minuteOfDay;
     }
 
-    private List<String> filterByTime(List<String> list,String time){
+    private List<String> filterByTime(List<String> list, String time){
         List<String> result = new ArrayList<>();
 
         for (int i = 0; i < list.size(); i++) {
@@ -218,7 +218,7 @@ public class BlankFragment extends Fragment {
 
         }
         if(result.isEmpty()){
-            result.add(getString(R.string.sefer_yok));
+            result.add("Sefer Yok - No Service");
         }
         return result;
     }

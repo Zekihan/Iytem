@@ -147,38 +147,28 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
     }
 
     private ArrayList<String> getTimeTable(Week week, Direction direction){
-
         final ArrayList<String> timeTable = new ArrayList<>();
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference ref = database.getReference().child("transportation").child("eshot").child(week.name()).child(direction.name());
-
-        ref.addChildEventListener(new ChildEventListener() {
-
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                timeTable.add(dataSnapshot.getValue(String.class));
+        try {
+            Scanner scan = new Scanner(new File(getFilesDir(),"transportation.json"));
+            scan.useDelimiter("\\Z");
+            String content = scan.next();
+            JSONObject reader = new JSONObject(content);
+            JSONObject bus  = reader.getJSONObject("eshot");
+            JSONObject weekly  = bus.getJSONObject(week.toString());
+            JSONArray table = weekly.getJSONArray(direction.toString());
+            int i = 0;
+            String item = table.getString(i);
+            while (item != null){
+                item = table.getString(i);
+                timeTable.add(item);
+                i++;
             }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
         return timeTable;
     }
 

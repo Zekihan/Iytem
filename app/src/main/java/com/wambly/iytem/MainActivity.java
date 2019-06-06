@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         saveContacts();
+        saveTransportation();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -74,14 +75,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
+*/
     public static String getHtml(String url) throws IOException {
         // Build and set timeout values for the request.
         URLConnection connection = (new URL(url)).openConnection();
@@ -158,6 +159,54 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putInt("MonthlyMenuVCS", -1);
                 editor.apply();
+            }
+        });
+    }
+
+    private void saveTransportation(){
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = mDatabase.getReference().child("transportation").child("vcs");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final Integer vcs = dataSnapshot.getValue(Integer.class);
+                if (prefs.getInt("TransportationVCS",-1)< vcs){
+                    final String s = "https://iytem-e266d.firebaseio.com/transportation.json";
+                    final FileOutputStream[] outputStream = new FileOutputStream[1];
+                    try {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String x;
+                                try {
+                                    x = getHtml(s);
+                                    try {
+                                        outputStream[0] = openFileOutput("transportation.json", Context.MODE_PRIVATE);
+                                        outputStream[0].write(x.getBytes());
+                                        outputStream[0].close();
+                                        SharedPreferences.Editor editor = prefs.edit();
+                                        editor.putInt("TransportationVCS", vcs);
+                                        editor.apply();
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+                    }catch (Exception e) {
+                        Log.e("Main",""+e.toString());
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }

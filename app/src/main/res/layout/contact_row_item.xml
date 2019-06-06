@@ -15,6 +15,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/open_sans"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textSize="@dimen/_14ssp" />
 
 </RelativeLayout>
