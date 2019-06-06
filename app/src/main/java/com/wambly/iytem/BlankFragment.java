@@ -3,9 +3,11 @@ package com.wambly.iytem;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,6 +74,11 @@ public class BlankFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        if (Build.VERSION.SDK_INT >= 26) {
+            ft.setReorderingAllowed(false);
+        }
+        ft.detach(this).attach(this).commit();
 
 
     }
@@ -129,8 +136,10 @@ public class BlankFragment extends Fragment {
                         adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
                         listView.setAdapter(adapter);
                     }
+
                 }
             });
+
         }else{
             final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
             final ListView listView = rootView.findViewById(R.id.timeList);
@@ -169,9 +178,6 @@ public class BlankFragment extends Fragment {
                 }
             });
         }
-
-
-
 
         return rootView;
     }
@@ -216,6 +222,16 @@ public class BlankFragment extends Fragment {
         }
         return result;
     }
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            if (Build.VERSION.SDK_INT >= 26) {
+                ft.setReorderingAllowed(false);
+            }
+            ft.detach(this).attach(this).commit();
+        }
+    }
 
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -234,6 +250,7 @@ public class BlankFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
     }
 
     @Override
