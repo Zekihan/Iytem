@@ -39,7 +39,6 @@ public class MonthlyMenuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        dbCheck();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monthly_menu);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -50,17 +49,31 @@ public class MonthlyMenuActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        try {
+            Calendar c = Calendar.getInstance();
+            Scanner scan = new Scanner(new File(getFilesDir(),"monthlyMenu.json"));
+            scan.useDelimiter("\\Z");
+            String content = scan.next();
+            JSONObject reader = new JSONObject(content);
+            JSONArray monthly  = reader.getJSONArray("refectory");
+            for (int i = 1; i < c.getMaximum(Calendar.DAY_OF_MONTH); i++) {
+                String menu = monthly.getString(i);
+                menuList.add(menu);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         RecyclerView recyclerView = findViewById(R.id.menulist);
         adapter = new MonthlyMenuCustomAdapter(menuList,getApplicationContext());
         recyclerView.setAdapter(adapter);
-
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.smoothScrollToPosition(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-
-
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,29 +83,5 @@ public class MonthlyMenuActivity extends AppCompatActivity {
         });
 
     }
-    private void dbCheck(){
-        final Calendar c = Calendar.getInstance();
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference ref = database.getReference().child("food").child("refectory");
-        ref.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (int i = 1; i < c.getMaximum(Calendar.DAY_OF_MONTH); i++) {
-                    menuList.add(dataSnapshot.child(Integer.toString(i)).getValue(String.class));
-                    adapter.notifyItemInserted(i);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
-
-    }
-
-
-
 
 }

@@ -27,7 +27,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Calendar;
+import java.util.Scanner;
 
 public class FoodActivity extends AppCompatActivity {
     private CustomTabsIntent.Builder intentBuilder;
@@ -113,24 +120,33 @@ public class FoodActivity extends AppCompatActivity {
     }
 
     private void showMenu() {
+        try {
+            Calendar c = Calendar.getInstance();
+            int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+            Scanner scan = new Scanner(new File(getFilesDir(),"monthlyMenu.json"));
+            scan.useDelimiter("\\Z");
+            String content = scan.next();
+            JSONObject reader = new JSONObject(content);
+            JSONArray monthly  = reader.getJSONArray("refectory");
+            String menu = monthly.getString(dayOfMonth);
 
-        Calendar c = Calendar.getInstance();
-        final String dayOfMonth = Integer.toString(c.get(Calendar.DAY_OF_MONTH));
-
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference ref = database.getReference().child("food").child("refectory").child(dayOfMonth);
-
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot ds) {
-                setMenuText(ds.getValue(String.class));
-
+            String[] menuList = menu.split("\n");
+            menu = "";
+            for(String m : menuList){
+                if(m.contains("(")){
+                    menu += m.substring(0, m.indexOf("(") ) + "\n";
+                }else{
+                    menu += m;
+                }
             }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
+            setMenuText(menu);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void chromeTab(){

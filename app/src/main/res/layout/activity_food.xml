@@ -165,7 +165,7 @@
                 android:layout_marginTop="@dimen/_36ssp"
                 android:fontFamily="@font/roboto"
                 android:lineSpacingExtra="@dimen/_18ssp"
-                android:text="TextView"
+                android:text="@string/menu_yok"
                 android:textAlignment="center"
                 android:textSize="@dimen/_18ssp" />
 
