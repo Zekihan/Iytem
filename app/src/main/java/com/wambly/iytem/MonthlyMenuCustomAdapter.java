@@ -36,7 +36,7 @@ public class MonthlyMenuCustomAdapter extends RecyclerView.Adapter<MonthlyMenuCu
     }
 
     private String getDate(int day){
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("d MMMM EEEE");
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_MONTH,day);
         return format.format(c.getTime());
