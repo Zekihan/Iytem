@@ -58,7 +58,12 @@ public class MonthlyMenuActivity extends AppCompatActivity {
             JSONArray monthly  = reader.getJSONArray("refectory");
             for (int i = 1; i < c.getMaximum(Calendar.DAY_OF_MONTH); i++) {
                 String menu = monthly.getString(i);
-                menuList.add(menu);
+                if(menu.equals("No Menu\n")){
+                    menuList.add(getString(R.string.menu_yok));
+                }else{
+                    menuList.add(menu);
+                }
+
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
