@@ -130,15 +130,6 @@ public class FoodActivity extends AppCompatActivity {
             JSONArray monthly  = reader.getJSONArray("refectory");
             String menu = monthly.getString(dayOfMonth);
 
-            String[] menuList = menu.split("\n");
-            menu = "";
-            for(String m : menuList){
-                if(m.contains("(")){
-                    menu += m.substring(0, m.indexOf("(") ) + "\n";
-                }else{
-                    menu += m;
-                }
-            }
             setMenuText(menu);
 
         } catch (FileNotFoundException e) {
