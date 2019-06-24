@@ -39,6 +39,8 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
     public void onBindViewHolder(@NonNull ContactsCustomAdapter.MyViewHolder myViewHolder, int i) {
         Contact contact = mDisplayedValues.get(i);
         myViewHolder.name.setText(contact.getName());
+        myViewHolder.department.setText(contact.getDepartment());
+
     }
 
     @Override
@@ -61,10 +63,8 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
                 } else {
                     List<Contact> filteredList = new ArrayList<>();
                     for (Contact row : contacts) {
-
-                        // name match condition. this might differ depending on your requirement
-                        // here we are looking for name or phone number match
-                        if (row.getName().toLowerCase().contains(charString.toLowerCase()) || row.getPhone().contains(charSequence)) {
+                        if (row.getName().toLowerCase().contains(charString.toLowerCase()) ||
+                                row.getDepartment().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }
                     }
@@ -90,9 +90,12 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name;
+        TextView department;
+
         MyViewHolder(@NonNull View view) {
             super(view);
             name = view.findViewById(R.id.name);
+            department = view.findViewById(R.id.department);
         }
     }
 }
