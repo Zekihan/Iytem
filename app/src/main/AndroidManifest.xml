@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme"
         android:name="com.wambly.iytem.FirebaseApp"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".TenekeActivity"></activity>
+        <activity android:name=".TenekeActivity" />
         <activity android:name=".MonthlyMenuActivity" />
         <activity
             android:name=".BusActivity"
