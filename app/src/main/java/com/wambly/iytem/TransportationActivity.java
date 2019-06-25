@@ -36,6 +36,14 @@ public class TransportationActivity extends AppCompatActivity {
                         .putExtra("type", TransportationType.bus_982));
             }
         });
+        View bus1 = findViewById(R.id.bus2Card);
+        bus1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), BusActivity.class)
+                        .putExtra("type", TransportationType.bus_882));
+            }
+        });
         View teneke = findViewById(R.id.tenekeCard);
         teneke.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -115,11 +116,12 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             Fragment fragment = null;
             switch (position){
                 case 0:
-                    Calendar c = Calendar.getInstance();
+                    Calendar c = Calendar.getInstance();;
                     if(c.get(Calendar.DAY_OF_WEEK)== Calendar.SUNDAY){
                         fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, 0),getTimeTable(Week.sunday, 1),true,type);
                     }else if(c.get(Calendar.DAY_OF_WEEK)== Calendar.SATURDAY){
                         fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, 0),getTimeTable(Week.saturday, 1),true,type);
+
                     }else{
                         fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, 0),getTimeTable(Week.weekday, 1),true,type);
                     }
@@ -154,14 +156,14 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             JSONArray table;
 
             if(direction == 0){
-                table = weekly.getJSONArray(type.getDirection0());
-            }else{
                 table = weekly.getJSONArray(type.getDirection1());
+            }else{
+                table = weekly.getJSONArray(type.getDirection0());
             }
 
             int i = 0;
-            String item = table.getString(i);
-            while (item != null){
+            String item;
+            while (i < table.length()){
                 item = table.getString(i);
                 timeTable.add(item);
                 i++;
