@@ -1,6 +1,7 @@
 package com.wambly.iytem;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.preference.PreferenceManager;
@@ -12,6 +13,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.tasks.OnSuccessListener;
+import com.google.android.play.core.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +37,9 @@ import java.net.URLConnection;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int MY_REQUEST_CODE = 17300;
+    AppUpdateManager appUpdateManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        checkUpdate(this);
 
         View transportation = findViewById(R.id.transportation);
         transportation.setOnClickListener(new View.OnClickListener() {
@@ -260,6 +273,59 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void checkUpdate(Context context) {
+        // Creates instance of the manager.
+        appUpdateManager = AppUpdateManagerFactory.create(context);
+
+        // Returns an intent object that you use to check for an update.
+        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+
+        // Checks that the platform will allow the specified type of update.
+        appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
+            @Override
+            public void onSuccess(AppUpdateInfo appUpdateInfo) {
+                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+
+                    Log.d("Support in-app-update", "UPDATE_AVAILABLE");
+
+                    if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                        requestUpdate(appUpdateInfo, AppUpdateType.IMMEDIATE);
+                    } else { //AppUpdateType.FLEXIBLE
+                        requestUpdate(appUpdateInfo, AppUpdateType.FLEXIBLE);
+                    }
+
+                } else {
+                    Log.d("Support in-app-update", "UPDATE_NOT_AVAILABLE");
+                }
+            }
+        });
+    }
+
+    private void requestUpdate(AppUpdateInfo appUpdateInfo, int flow_type) {
+        try {
+            appUpdateManager.startUpdateFlowForResult(appUpdateInfo,
+                    flow_type,
+                    this,
+                    MY_REQUEST_CODE);
+
+        } catch (IntentSender.SendIntentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == MY_REQUEST_CODE) {
+            if (resultCode != RESULT_OK) {
+                Log.w("Update flow failed! ", "Result code: " + resultCode);
+                // If the update is cancelled or fails,
+                // you can request to start the update again.
+            }
+        }
     }
 
     public void onBackPressed() {
