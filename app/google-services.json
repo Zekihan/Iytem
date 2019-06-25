@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "776374275259-8saf8ecfibqpas6t9160bgutuipoktlt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wambly.iytem",
+            "certificate_hash": "db37710788ad9f95b752543669c6ca29e4d25217"
+          }
+        },
+        {
           "client_id": "776374275259-da5a8idr2usn2m3ravsdotrgq0gai988.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -33,20 +41,50 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "776374275259-bb5venikceftdgboio2h3c2nstapbtlf.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776374275259:android:2abd8d870d0bdffe",
+        "android_client_info": {
+          "package_name": "com.wambly.iytemadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "776374275259-bksdrvftpfpshlv19c6ue4qtc8etaq2g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wambly.iytemadmin",
+            "certificate_hash": "450c257cc6877b13bfde6bd9ee6b8de077a0d609"
+          }
         },
-        "ads_service": {
-          "status": 2
+        {
+          "client_id": "776374275259-bb5venikceftdgboio2h3c2nstapbtlf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMn4-ZC-uJYRYg3vZJbcorygK7w6xOPnw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "776374275259-bb5venikceftdgboio2h3c2nstapbtlf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
