@@ -32,14 +32,16 @@ public class TransportationActivity extends AppCompatActivity {
         bus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), BusActivity.class));
+                startActivity(new Intent(getApplicationContext(), BusActivity.class)
+                        .putExtra("type", TransportationType.bus_982));
             }
         });
         View teneke = findViewById(R.id.tenekeCard);
         teneke.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), TenekeActivity.class));
+                startActivity(new Intent(getApplicationContext(), BusActivity.class)
+                        .putExtra("type", TransportationType.teneke));
             }
         });
 

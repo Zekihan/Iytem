@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -40,7 +41,7 @@ public class BlankFragment extends Fragment {
 
     private boolean today = false;
 
-    private String type = "";
+    private TransportationType type;
     private String direction1 = "";
     private String direction2 = "";
 
@@ -60,13 +61,13 @@ public class BlankFragment extends Fragment {
      * @return A new instance of fragment BlankFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BlankFragment newInstance(ArrayList<String> param1,ArrayList<String> param2,boolean today,String type) {
+    public static BlankFragment newInstance(ArrayList<String> param1, ArrayList<String> param2, boolean today, Serializable type) {
         BlankFragment fragment = new BlankFragment();
         Bundle args = new Bundle();
         args.putStringArrayList(ARG_CONTENT1, param1);
         args.putStringArrayList(ARG_CONTENT2, param2);
         args.putBoolean("today",today);
-        args.putString("type",type);
+        args.putSerializable("type",type);
         fragment.setArguments(args);
         return fragment;
     }
@@ -86,21 +87,16 @@ public class BlankFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
         if (getArguments() != null) {
             content1 = getArguments().getStringArrayList(ARG_CONTENT1);
             content2 = getArguments().getStringArrayList(ARG_CONTENT2);
             today = getArguments().getBoolean("today");
-            type = getArguments().getString("type");
+            type = (TransportationType) getArguments().getSerializable("type");
         }
-        if (type.equals("bus")){
-            direction1 = "İZMİR --> İYTE";
-            direction2 = "İYTE --> İZMİR";
-        }else if (type.equals("teneke")){
-            direction1 = "URLA --> İYTE";
-            direction2 = "İYTE --> URLA";
-        }
+        direction1 = type.getStrDirection0();
+        direction2 = type.getStrDirection1();
+
         if(today){
             final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
             final ListView listView = rootView.findViewById(R.id.timeList);

@@ -25,7 +25,6 @@
     <string name="sunday">Pazar</string>
     <string name="action_settings">Ayarlar</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="bus">Otobüs - 982</string>
     <string name="search">Ara</string>
     <string name="bus_982">Otobüs - 982</string>
     <string name="minibus">Dolmuş</string>
@@ -39,6 +38,7 @@
     <string name="department">Bölüm</string>
     <string name="sefer_yok">Sefer Yok</string>
     <string name="menu_yok">Menü yok</string>
+    <string name="bus_882">Otobüs - 882</string>
 
 
 </resources>
