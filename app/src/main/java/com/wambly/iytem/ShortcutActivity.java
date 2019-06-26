@@ -30,7 +30,12 @@ public class ShortcutActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         tabsConnection = new CustomTabsServiceConnection() {
             @Override
@@ -52,13 +57,6 @@ public class ShortcutActivity extends AppCompatActivity {
         intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left,
                 android.R.anim.slide_out_right);
         intentBuilder.setToolbarColor(Color.parseColor("#3949AB"));
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         View obs = findViewById(R.id.obs);
         obs.setOnClickListener(new View.OnClickListener() {

@@ -1,5 +1,6 @@
 package com.wambly.iytem;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -44,6 +45,8 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(type.getTitleVal());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -55,14 +58,9 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
 
         ViewPager mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
         TabLayout tabLayout = findViewById(R.id.tabs);
-
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = prefs.edit();
@@ -116,7 +114,7 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
                 case 0:
                     Calendar c = Calendar.getInstance();;
                     if(c.get(Calendar.DAY_OF_WEEK)== Calendar.SUNDAY){
-                        fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, 0),getTimeTable(Week.sunday, 1),true,type);
+                        fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, 0), getTimeTable(Week.sunday, 1),true,type);
                     }else if(c.get(Calendar.DAY_OF_WEEK)== Calendar.SATURDAY){
                         fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, 0),getTimeTable(Week.saturday, 1),true,type);
 
@@ -178,6 +176,5 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
     public enum Week{
         weekday,saturday,sunday
     }
-
 
 }
