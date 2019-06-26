@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +7,7 @@
     android:background="@color/bgColor"
     tools:context=".TransportationActivity">
 
-    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <GridLayout
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/bus2Card"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -58,9 +58,9 @@
                 android:fontFamily="@font/roboto_bold"
                 android:text="@string/bus_882"
                 android:textSize="@dimen/_20ssp" />
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/tenekeCard"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -81,9 +81,9 @@
                 android:fontFamily="@font/roboto_bold"
                 android:text="@string/teneke"
                 android:textSize="@dimen/_20ssp" />
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/busCard"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -103,8 +103,8 @@
                 android:fontFamily="@font/roboto_bold"
                 android:text="@string/bus_982"
                 android:textSize="@dimen/_20ssp" />
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
     </GridLayout>
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,8 +6,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -201,9 +201,15 @@ public class BlankFragment extends Fragment {
             Log.e("Blank", list.size()+"");
             String s = list.get(i);
             if(s.contains(":")&&time.contains(":")){
+                if(s.equals("00:00")){
+                    s = "24:00";
+                }
                 String[] ss = s.split(":");
                 String[] time2 = time.split(":");
                 if(Integer.parseInt(ss[0])>Integer.parseInt(time2[0])){
+                    if(s.equals("24:00")){
+                        s = "00:00";
+                    }
                     result.add(s);
                 }else if(Integer.parseInt(ss[0]) == Integer.parseInt(time2[0])){
                     if(Integer.parseInt(ss[1])>Integer.parseInt(time2[1])){
