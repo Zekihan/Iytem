@@ -64,8 +64,7 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
                     List<Contact> filteredList = new ArrayList<>();
                     for (Contact row : contacts) {
                         if (row.getName().toLowerCase().contains(charString.toLowerCase()) ||
-                                row.getDepartment().toLowerCase().contains(charString.toLowerCase()) ||
-                                row.getTitle().toLowerCase().contains(charString.toLowerCase())) {
+                                row.getDepartment().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }
                     }
