@@ -164,7 +164,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_36ssp"
+                android:layout_marginTop="@dimen/_30ssp"
                 android:fontFamily="@font/roboto"
                 android:lineSpacingExtra="@dimen/_20ssp"
                 android:text="@string/menu_yok"

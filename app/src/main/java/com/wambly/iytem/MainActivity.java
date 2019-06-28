@@ -12,6 +12,9 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.play.core.appupdate.AppUpdateInfo;
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int MY_REQUEST_CODE = 17300;
     AppUpdateManager appUpdateManager;
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +60,14 @@ public class MainActivity extends AppCompatActivity {
         updateTransportation();
         updateMonthlyMenu();
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+        if(prefs.getBoolean("darkTheme",false)){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
 
         View transportation = findViewById(R.id.transportation);
         transportation.setOnClickListener(new View.OnClickListener() {
@@ -88,15 +99,33 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),ContactsActivity.class));
             }
         });
+
+
     }
-/*
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-*/
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.theme_switch:
+                boolean darkTheme = prefs.getBoolean("darkTheme",false);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("darkTheme",!darkTheme);
+                editor.apply();
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void updateContacts(){
         updateJson("https://iytem-e266d.firebaseio.com/contacts.json", "contacts");
     }
