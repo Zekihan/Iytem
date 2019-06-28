@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bgColor"
+    android:background="?android:attr/colorBackground"
     tools:context=".ShortcutActivity">
 
 
@@ -64,7 +64,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/obs" />
+                    android:padding="10dp"
+                    android:src="@drawable/obs"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -72,7 +73,6 @@
                     android:fontFamily="@font/roboto"
                     android:text="@string/obs"
                     android:textAlignment="center"
-                    android:textColor="@android:color/black"
                     android:layout_marginTop="@dimen/_8ssp"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
@@ -104,6 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
+                    android:padding="10dp"
                     android:src="@drawable/iyte" />
 
                 <TextView
@@ -112,7 +113,6 @@
                     android:fontFamily="@font/roboto"
                     android:text="@string/iztech"
                     android:textAlignment="center"
-                    android:textColor="@android:color/black"
                     android:layout_marginTop="@dimen/_8ssp"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
@@ -147,7 +147,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/library" />
+                    android:src="@drawable/ic_library"
+                    android:tint="?attr/colorControlNormal"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -155,7 +156,6 @@
                     android:fontFamily="@font/roboto"
                     android:text="@string/library"
                     android:textAlignment="center"
-                    android:textColor="@android:color/black"
                     android:layout_marginTop="@dimen/_8ssp"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
@@ -187,7 +187,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/cms" />
+                    android:src="@drawable/cms"
+                    android:tint="?attr/colorControlNormal"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -195,7 +196,6 @@
                     android:fontFamily="@font/roboto"
                     android:text="@string/cms"
                     android:textAlignment="center"
-                    android:textColor="@android:color/black"
                     android:layout_marginTop="@dimen/_8ssp"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
@@ -226,7 +226,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ydyo" />
+                    android:src="@drawable/ic_language"
+                    android:tint="?attr/colorControlNormal"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -234,7 +235,6 @@
                     android:fontFamily="@font/roboto"
                     android:text="@string/ydyo"
                     android:textAlignment="center"
-                    android:textColor="@android:color/black"
                     android:layout_marginTop="@dimen/_8ssp"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
@@ -266,7 +266,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/mail" />
+                    android:src="@drawable/ic_email"
+                    android:tint="?attr/colorControlNormal"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -274,7 +275,6 @@
                     android:fontFamily="@font/roboto"
                     android:text="@string/webmail"
                     android:textAlignment="center"
-                    android:textColor="@android:color/black"
                     android:layout_marginTop="@dimen/_8ssp"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />

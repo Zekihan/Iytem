@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.net.Uri;
-import androidx.annotation.NonNull;
 import androidx.browser.customtabs.CustomTabsCallback;
 import androidx.browser.customtabs.CustomTabsClient;
 import androidx.browser.customtabs.CustomTabsIntent;
@@ -116,7 +115,7 @@ public class FoodActivity extends AppCompatActivity {
         try {
             Calendar c = Calendar.getInstance();
             int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
-            Scanner scan = new Scanner(new File(getFilesDir(),"monthlyMenu.json"));
+            Scanner scan = new Scanner(new File(getFilesDir(),"food.json"));
             scan.useDelimiter("\\Z");
             String content = scan.next();
             JSONObject reader = new JSONObject(content);

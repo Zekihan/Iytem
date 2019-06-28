@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bgColor"
+    android:background="?android:attr/colorBackground"
     tools:context=".MainActivity">
 
 
@@ -63,8 +63,9 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:src="@drawable/ulasim" />
+                    android:padding="6dp"
+                    android:src="@drawable/ic_bus"
+                    android:tint="?attr/colorControlNormal" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -116,8 +117,9 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:src="@drawable/yemek" />
+                    android:padding="4dp"
+                    android:src="@drawable/ic_food"
+                    android:tint="?attr/colorControlNormal"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -172,8 +174,9 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:src="@drawable/shortcuts" />
+                    android:padding="4dp"
+                    android:src="@drawable/ic_web"
+                    android:tint="?attr/colorControlNormal"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -226,8 +229,9 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:src="@drawable/contact" />
+                    android:padding="4dp"
+                    android:src="@drawable/ic_contact_mail"
+                    android:tint="?attr/colorControlNormal"/>
 
                 <TextView
                     android:layout_width="wrap_content"

@@ -44,7 +44,7 @@ public class MonthlyMenuActivity extends AppCompatActivity {
 
         try {
             Calendar c = Calendar.getInstance();
-            Scanner scan = new Scanner(new File(getFilesDir(),"monthlyMenu.json"));
+            Scanner scan = new Scanner(new File(getFilesDir(),"food.json"));
             scan.useDelimiter("\\Z");
             String content = scan.next();
             JSONObject reader = new JSONObject(content);

@@ -114,22 +114,28 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
                 case 0:
                     Calendar c = Calendar.getInstance();;
                     if(c.get(Calendar.DAY_OF_WEEK)== Calendar.SUNDAY){
-                        fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, 0), getTimeTable(Week.sunday, 1),true,type);
+                        fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, 0)
+                                , getTimeTable(Week.sunday, 1),true,type);
                     }else if(c.get(Calendar.DAY_OF_WEEK)== Calendar.SATURDAY){
-                        fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, 0),getTimeTable(Week.saturday, 1),true,type);
+                        fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, 0)
+                                ,getTimeTable(Week.saturday, 1),true,type);
 
                     }else{
-                        fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, 0),getTimeTable(Week.weekday, 1),true,type);
+                        fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, 0)
+                                ,getTimeTable(Week.weekday, 1),true,type);
                     }
                     break;
                 case 1:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, 0),getTimeTable(Week.weekday, 1),false,type);
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, 0)
+                            ,getTimeTable(Week.weekday, 1),false,type);
                     break;
                 case 2:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, 0),getTimeTable(Week.saturday, 1),false,type);
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, 0)
+                            ,getTimeTable(Week.saturday, 1),false,type);
                     break;
                 case 3:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, 0),getTimeTable(Week.sunday, 1),false,type);
+                    fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, 0)
+                            ,getTimeTable(Week.sunday, 1),false,type);
                     break;
             }
             return fragment;
