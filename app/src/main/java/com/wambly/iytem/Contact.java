@@ -10,9 +10,6 @@ public class Contact implements Parcelable{
     private String department;
     private String title;
 
-    public Contact() {
-    }
-
     public Contact(String name, String email, String phone, String department, String title) {
         this.name = name;
         this.email = email;

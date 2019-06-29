@@ -42,6 +42,11 @@ public class MonthlyMenuActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        JsonUpdater jsonUpdater = new JsonUpdater();
+        jsonUpdater.updateContacts(this);
+        jsonUpdater.updateTransportation(this);
+        jsonUpdater.updateMonthlyMenu(this);
+
         try {
             Calendar c = Calendar.getInstance();
             Scanner scan = new Scanner(new File(getFilesDir(),"food.json"));

@@ -45,6 +45,11 @@ public class ContactsActivity extends AppCompatActivity {
             }
         });
 
+        JsonUpdater jsonUpdater = new JsonUpdater();
+        jsonUpdater.updateContacts(this);
+        jsonUpdater.updateTransportation(this);
+        jsonUpdater.updateMonthlyMenu(this);
+
         EditText etSearch = findViewById(R.id.editText);
 
         final RecyclerView recyclerView = findViewById(R.id.RC);
