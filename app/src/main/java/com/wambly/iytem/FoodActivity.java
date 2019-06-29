@@ -4,7 +4,6 @@ package com.wambly.iytem;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.net.Uri;
 import androidx.browser.customtabs.CustomTabsCallback;
 import androidx.browser.customtabs.CustomTabsClient;
@@ -73,7 +72,7 @@ public class FoodActivity extends AppCompatActivity {
         intentBuilder.setStartAnimations(this,R.anim.slide_in_right , R.anim.slide_out_left);
         intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left,
                 android.R.anim.slide_out_right);
-        intentBuilder.setToolbarColor(Color.parseColor("#3949AB"));
+        intentBuilder.setToolbarColor(getResources().getColor(R.color.colorPrimary));
 
         View food = findViewById(R.id.addMoney);
         food.setOnClickListener(new View.OnClickListener() {

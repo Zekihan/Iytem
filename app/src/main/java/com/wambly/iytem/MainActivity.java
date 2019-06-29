@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-
         if(prefs.getBoolean("darkTheme",false)){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }else{
@@ -99,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),ContactsActivity.class));
             }
         });
-
 
     }
 
@@ -204,13 +202,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkUpdate(Context context) {
-        // Creates instance of the manager.
+
         appUpdateManager = AppUpdateManagerFactory.create(context);
 
-        // Returns an intent object that you use to check for an update.
         Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
-
-        // Checks that the platform will allow the specified type of update.
+        
         appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
             @Override
             public void onSuccess(AppUpdateInfo appUpdateInfo) {
