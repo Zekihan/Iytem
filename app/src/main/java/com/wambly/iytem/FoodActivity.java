@@ -76,7 +76,7 @@ public class FoodActivity extends AppCompatActivity {
         intentBuilder.setStartAnimations(this,R.anim.slide_in_right , R.anim.slide_out_left);
         intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left,
                 android.R.anim.slide_out_right);
-        intentBuilder.setToolbarColor(getResources().getColor(R.color.colorPrimary));
+        intentBuilder.setToolbarColor(getResources().getColor(R.color.bgColor));
 
         View food = findViewById(R.id.addMoney);
         food.setOnClickListener(new View.OnClickListener() {

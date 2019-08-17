@@ -14,11 +14,22 @@
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ToolbarTheme"
+        android:background="@color/bgColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/open_sans_bold"
+            android:text="iytem"
+            android:textColor="@color/colorPrimary"
+            android:textSize="30sp"
+            tools:layout_editor_absoluteX="166dp"
+            tools:layout_editor_absoluteY="18dp" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -26,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:layout_weight="8"
         android:alignmentMode="alignMargins"
         android:columnCount="2"
@@ -49,6 +60,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="16dp"
+            android:layout_marginTop="4dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp">
 
@@ -103,6 +115,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
+            android:layout_marginTop="4dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp">
 
@@ -159,7 +172,7 @@
             android:layout_columnWeight="1"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="8dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="22dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp">
 
@@ -214,7 +227,7 @@
             android:layout_columnWeight="1"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="22dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp">
 

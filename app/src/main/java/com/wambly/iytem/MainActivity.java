@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
         checkUpdate(this);
@@ -107,23 +108,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.theme_switch:
-                boolean darkTheme = prefs.getBoolean("darkTheme",false);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean("darkTheme",!darkTheme);
-                editor.apply();
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     private void checkUpdate(Context context) {
