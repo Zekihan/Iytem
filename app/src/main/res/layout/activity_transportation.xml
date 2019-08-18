@@ -47,7 +47,8 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="4dp"
-            app:cardElevation="4dp">
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/cardBg">
 
             <TextView
                 android:id="@+id/bus1Text"
@@ -66,11 +67,11 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_marginStart="16dp"
-
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="4dp"
-            app:cardElevation="4dp">
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/cardBg">
 
             <TextView
                 android:id="@+id/tenekeText"
@@ -92,7 +93,8 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="4dp"
-            app:cardElevation="4dp">
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/cardBg">
 
             <TextView
                 android:id="@+id/busText"
