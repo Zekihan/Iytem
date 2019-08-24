@@ -21,22 +21,22 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <GridLayout
+    <androidx.gridlayout.widget.GridLayout
         android:id="@+id/gridLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_weight="8"
-        android:alignmentMode="alignMargins"
-        android:columnCount="2"
-        android:columnOrderPreserved="false"
         android:padding="14dp"
-        android:rowCount="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:alignmentMode="alignMargins"
+        app:columnCount="2"
+        app:columnOrderPreserved="false"
+        app:rowCount="3">
         <!-- Row 1 -->
 
         <!-- Column 1 -->
@@ -44,15 +44,15 @@
             android:id="@+id/obs"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/cardBg">
+            app:cardBackgroundColor="@color/cardBg"
+            app:layout_rowWeight="1"
+            app:layout_columnWeight="1">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -86,15 +86,15 @@
             android:id="@+id/mainpage"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/cardBg">
+            app:cardBackgroundColor="@color/cardBg"
+            app:layout_rowWeight="1"
+            app:layout_columnWeight="1">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -131,15 +131,15 @@
             android:id="@+id/library"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/cardBg">
+            app:cardBackgroundColor="@color/cardBg"
+            app:layout_rowWeight="1"
+            app:layout_columnWeight="1">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -173,15 +173,15 @@
             android:id="@+id/cms"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/cardBg">
+            app:cardBackgroundColor="@color/cardBg"
+            app:layout_rowWeight="1"
+            app:layout_columnWeight="1">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -214,15 +214,15 @@
             android:id="@+id/ydyo"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/cardBg">
+            app:cardBackgroundColor="@color/cardBg"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -256,15 +256,15 @@
             android:id="@+id/webmail"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/cardBg">
+            app:cardBackgroundColor="@color/cardBg"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -293,6 +293,6 @@
 
         </androidx.cardview.widget.CardView>
 
-    </GridLayout>
+    </androidx.gridlayout.widget.GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
