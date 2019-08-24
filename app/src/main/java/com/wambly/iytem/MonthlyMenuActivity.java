@@ -9,6 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 import android.view.View;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,10 +51,11 @@ public class MonthlyMenuActivity extends AppCompatActivity {
             Scanner scan = new Scanner(new File(getFilesDir(),"food.json"));
             scan.useDelimiter("\\Z");
             String content = scan.next();
-            JSONObject reader = new JSONObject(content);
-            JSONArray monthly  = reader.getJSONArray("refectory");
+            Gson gson = new Gson();
+            JsonObject reader = gson.fromJson(content, JsonObject.class);
+            JsonArray monthly  = reader.getAsJsonArray("refectory");
             for (int i = 1; i < c.getMaximum(Calendar.DAY_OF_MONTH); i++) {
-                String menu = monthly.getString(i);
+                String menu = monthly.get(i).getAsString();
                 if(menu.equals("No Menu\n")){
                     menuList.add(getString(R.string.menu_yok));
                 }else{
@@ -59,7 +65,7 @@ public class MonthlyMenuActivity extends AppCompatActivity {
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

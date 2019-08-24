@@ -19,12 +19,18 @@ import android.view.View;
 import android.widget.TextView;
 
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Calendar;
 import java.util.Scanner;
 
@@ -120,15 +126,17 @@ public class FoodActivity extends AppCompatActivity {
             Scanner scan = new Scanner(new File(getFilesDir(),"food.json"));
             scan.useDelimiter("\\Z");
             String content = scan.next();
-            JSONObject reader = new JSONObject(content);
-            JSONArray monthly  = reader.getJSONArray("refectory");
-            String menu = monthly.getString(dayOfMonth);
+            Gson gson = new Gson();
+            JsonObject reader = gson.fromJson(content, JsonObject.class);
+            JsonArray monthly  = reader.getAsJsonArray("refectory");
+            String menu = monthly.get(dayOfMonth).getAsString();
 
             setMenuText(menu);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
+            Log.e("tag",e.toString(),e);
             e.printStackTrace();
         }
 
