@@ -9,8 +9,7 @@
     tools:context=".MainActivity">
 
 
-    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
@@ -33,37 +32,36 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <GridLayout
+    <androidx.gridlayout.widget.GridLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="4dp"
         android:layout_weight="8"
-        android:alignmentMode="alignMargins"
-        android:columnCount="2"
-        android:columnOrderPreserved="false"
         android:padding="14dp"
-        android:rowCount="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.0"
+        app:alignmentMode="alignMargins"
+        app:columnCount="2"
+        app:columnOrderPreserved="false"
+        app:rowCount="2">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/transportation"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
             android:elevation="4dp"
             app:cardBackgroundColor="@color/cardBg"
-            >
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -111,15 +109,15 @@
             android:id="@+id/food"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/cardBg">
+            app:cardBackgroundColor="@color/cardBg"
+            app:layout_rowWeight="1"
+            app:layout_columnWeight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -170,14 +168,14 @@
             android:id="@+id/shortcuts"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="22dp"
             app:cardCornerRadius="4dp"
             android:elevation="4dp"
-            app:cardBackgroundColor="@color/cardBg">
+            app:cardBackgroundColor="@color/cardBg"
+            app:layout_rowWeight="1"
+            app:layout_columnWeight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -226,14 +224,14 @@
             android:id="@+id/contacts"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="22dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/cardBg">
+            app:cardBackgroundColor="@color/cardBg"
+            app:layout_rowWeight="1"
+            app:layout_columnWeight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -276,7 +274,7 @@
 
         </androidx.cardview.widget.CardView>
 
-    </GridLayout>
+    </androidx.gridlayout.widget.GridLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -65,12 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if(prefs.getBoolean("darkTheme",false)){
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }else{
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-
         View transportation = findViewById(R.id.transportation);
         transportation.setOnClickListener(new View.OnClickListener() {
             @Override

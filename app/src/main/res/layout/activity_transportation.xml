@@ -19,36 +19,36 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <GridLayout
+    <androidx.gridlayout.widget.GridLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/_100ssp"
         android:layout_marginBottom="8dp"
         android:layout_weight="8"
-        android:alignmentMode="alignMargins"
-        android:columnCount="1"
-        android:columnOrderPreserved="false"
         android:padding="14dp"
-        android:rowCount="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:alignmentMode="alignMargins"
+        app:columnCount="1"
+        app:columnOrderPreserved="false"
+        app:rowCount="2">>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/bus2Card"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_marginStart="16dp"
             android:layout_marginTop="@dimen/_80ssp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/cardBg">
+            app:cardBackgroundColor="@color/cardBg"
+            app:layout_rowWeight="1"
+            app:layout_columnWeight="1">
 
             <TextView
                 android:id="@+id/bus1Text"
@@ -64,14 +64,14 @@
             android:id="@+id/tenekeCard"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/cardBg">
+            app:cardBackgroundColor="@color/cardBg"
+            app:layout_rowWeight="1"
+            app:layout_columnWeight="1">
 
             <TextView
                 android:id="@+id/tenekeText"
@@ -87,14 +87,14 @@
             android:id="@+id/busCard"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/cardBg">
+            app:cardBackgroundColor="@color/cardBg"
+            app:layout_rowWeight="1"
+            app:layout_columnWeight="1">
 
             <TextView
                 android:id="@+id/busText"
@@ -105,7 +105,7 @@
                 android:text="@string/bus_982"
                 android:textSize="@dimen/_20ssp" />
         </androidx.cardview.widget.CardView>
-    </GridLayout>
+    </androidx.gridlayout.widget.GridLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -45,8 +46,6 @@ public class FoodActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         JsonUpdater jsonUpdater = new JsonUpdater();
-        jsonUpdater.updateContacts(this);
-        jsonUpdater.updateTransportation(this);
         jsonUpdater.updateMonthlyMenu(this);
 
         showMenu();

@@ -21,7 +21,7 @@
         <activity android:name=".ContactsDetailsActivity" />
         <activity android:name=".TransportationActivity" />
         <activity android:name=".FoodActivity" />
-        <activity android:name=".ContactsActivity" />
+        <activity android:name=".ContactsActivity"/>
         <activity android:name=".ShortcutActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -30,6 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
 
         <meta-data
             android:name="preloaded_fonts"
