@@ -14,12 +14,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Scanner;
 
 public class MonthlyMenuActivity extends AppCompatActivity {
 
@@ -43,14 +45,23 @@ public class MonthlyMenuActivity extends AppCompatActivity {
         jsonUpdater.updateTransportation(this);
         jsonUpdater.updateMonthlyMenu(this);
 
-        try {
-            Calendar c = Calendar.getInstance();
-            Scanner scan = new Scanner(new File(getFilesDir(),"food.json"));
-            scan.useDelimiter("\\Z");
-            String content = scan.next();
-            while(scan.hasNext()){
-                content+=scan.next();
+
+        Calendar c = Calendar.getInstance();
+
+
+        try{
+            File file = new File(getFilesDir(),"food.json");
+            InputStreamReader instream = new InputStreamReader(new FileInputStream(file));
+            BufferedReader buffer = new BufferedReader(instream);
+
+            String content = "";
+            StringBuilder stringBuilder = new StringBuilder(content);
+            String line;
+            while ((line = buffer.readLine()) != null) {
+                stringBuilder.append(line);
             }
+            buffer.close();
+            content = stringBuilder.toString();
             Gson gson = new Gson();
             JsonObject reader = gson.fromJson(content, JsonObject.class);
             JsonArray monthly  = reader.getAsJsonArray("refectory");
@@ -63,8 +74,6 @@ public class MonthlyMenuActivity extends AppCompatActivity {
                 }
 
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

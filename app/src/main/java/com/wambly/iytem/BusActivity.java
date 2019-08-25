@@ -1,6 +1,5 @@
 package com.wambly.iytem;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -22,11 +21,13 @@ import android.view.View;
 
 import android.widget.Button;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Scanner;
 
 public class BusActivity extends AppCompatActivity implements BlankFragment.OnFragmentInteractionListener {
 
@@ -141,13 +142,17 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
 
     private ArrayList<String> getTimeTable(Week week, int direction){
         final ArrayList<String> timeTable = new ArrayList<>();
-        try {
-            Scanner scan = new Scanner(new File(getFilesDir(),"transportation.json"));
-            scan.useDelimiter("\\Z");
-            String content = scan.next();
-            while(scan.hasNext()){
-                content+=scan.next();
+        try{
+            File file = new File(getFilesDir(),"transportation.json");
+            InputStreamReader instream = new InputStreamReader(new FileInputStream(file));
+            BufferedReader buffer = new BufferedReader(instream);
+
+            String content = "";
+            String line;
+            while ((line = buffer.readLine()) != null) {
+                content += line;
             }
+            buffer.close();
             Gson gson = new Gson();
             JsonObject reader = gson.fromJson(content, JsonObject.class);
             JsonObject bus  = reader.get(type.toString()).getAsJsonObject();

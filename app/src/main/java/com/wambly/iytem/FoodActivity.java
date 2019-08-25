@@ -14,21 +14,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 
+import java.io.InputStreamReader;
 import java.util.Calendar;
-import java.util.Scanner;
+
 
 public class FoodActivity extends AppCompatActivity {
     private CustomTabsIntent.Builder intentBuilder;
@@ -75,8 +74,7 @@ public class FoodActivity extends AppCompatActivity {
         CustomTabsClient.bindCustomTabsService(this,"custom.tabs", tabsConnection);
         intentBuilder = new CustomTabsIntent.Builder();
         intentBuilder.setStartAnimations(this,R.anim.slide_in_right , R.anim.slide_out_left);
-        intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left,
-                android.R.anim.slide_out_right);
+        intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         intentBuilder.setToolbarColor(getResources().getColor(R.color.bgColor));
 
         View food = findViewById(R.id.addMoney);
@@ -98,7 +96,6 @@ public class FoodActivity extends AppCompatActivity {
 
     private void setMenuText(String str){
         TextView tv = findViewById(R.id.menu);
-
         String[] menuList = str.split("\n");
         String menuOut = "";
         for (String m : menuList) {
@@ -116,15 +113,21 @@ public class FoodActivity extends AppCompatActivity {
     }
 
     private void showMenu() {
-        try {
-            Calendar c = Calendar.getInstance();
-            int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
-            Scanner scan = new Scanner(new File(getFilesDir(),"food.json"));
-            scan.useDelimiter("\\Z");
-            String content = scan.next();
-            while(scan.hasNext()){
-                content+=scan.next();
+        Calendar c = Calendar.getInstance();
+        int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+
+        try{
+            File file = new File(getFilesDir(),"food.json");
+            InputStreamReader instream = new InputStreamReader(new FileInputStream(file));
+            BufferedReader buffer = new BufferedReader(instream);
+
+            String content = "";
+            String line;
+            while ((line = buffer.readLine()) != null) {
+                content += line;
             }
+            buffer.close();
+
             Gson gson = new Gson();
             JsonObject reader = gson.fromJson(content, JsonObject.class);
             JsonArray monthly  = reader.getAsJsonArray("refectory");
@@ -132,10 +135,7 @@ public class FoodActivity extends AppCompatActivity {
 
             setMenuText(menu);
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (Exception e) {
-            Log.e("tag",e.toString(),e);
             e.printStackTrace();
         }
 

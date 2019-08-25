@@ -18,11 +18,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class ContactsActivity extends AppCompatActivity {
 
@@ -77,14 +79,15 @@ public class ContactsActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
+
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(),
+                recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 Intent reader = new Intent(getApplicationContext(), ContactsDetailsActivity.class);
                 reader.putExtra("contact", contactsCustomAdapter.getmDisplayedValues().get(position));
                 startActivity(reader);
             }
-
             @Override
             public void onLongClick(View view, int position) {
 
@@ -93,13 +96,18 @@ public class ContactsActivity extends AppCompatActivity {
     }
     private ArrayList<Contact> getContacts(){
         final ArrayList<Contact> contacts = new ArrayList<>();
-        try {
-            Scanner scan = new Scanner(new File(getFilesDir(),"contacts.json"));
-            scan.useDelimiter("\\Z");
-            String content = scan.next();
-            while(scan.hasNext()){
-                content+=scan.next();
+        try{
+            File file = new File(getFilesDir(),"contacts.json");
+            InputStreamReader instream = new InputStreamReader(new FileInputStream(file));
+            BufferedReader buffer = new BufferedReader(instream);
+
+            String content = "";
+            String line;
+            while ((line = buffer.readLine()) != null) {
+                content += line;
             }
+            buffer.close();
+
             Gson gson = new Gson();
             JsonObject reader = gson.fromJson(content, JsonObject.class);
             JsonArray contactList  = reader.getAsJsonArray("contactsList");
@@ -107,11 +115,11 @@ public class ContactsActivity extends AppCompatActivity {
             JsonObject item = contactList.get(i).getAsJsonObject();
             while (item != null){
                 item = contactList.get(i).getAsJsonObject();
-                contacts.add(new Contact(item.get("name").getAsString(),item.get("email").getAsString(), item.get("phone").getAsString() , item.get("department").getAsString() , item.get("title").getAsString() ));
+                contacts.add(new Contact(item.get("name").getAsString(),item.get("email").getAsString(),
+                        item.get("phone").getAsString() , item.get("department").getAsString() ,
+                        item.get("title").getAsString() ));
                 i++;
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
