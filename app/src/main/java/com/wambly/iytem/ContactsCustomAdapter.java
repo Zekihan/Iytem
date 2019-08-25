@@ -40,6 +40,9 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
         Contact contact = mDisplayedValues.get(i);
         myViewHolder.name.setText(contact.getName());
         myViewHolder.department.setText(contact.getDepartment());
+        myViewHolder.title.setText(contact.getTitle());
+
+
 
     }
 
@@ -91,11 +94,13 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView department;
+        TextView title;
 
         MyViewHolder(@NonNull View view) {
             super(view);
             name = view.findViewById(R.id.name);
             department = view.findViewById(R.id.department);
+            title = view.findViewById(R.id.title);
         }
     }
 }
