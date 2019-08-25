@@ -49,9 +49,7 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         JsonUpdater jsonUpdater = new JsonUpdater();
-        jsonUpdater.updateContacts(this);
         jsonUpdater.updateTransportation(this);
-        jsonUpdater.updateMonthlyMenu(this);
 
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

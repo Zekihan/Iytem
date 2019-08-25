@@ -1,6 +1,5 @@
 package com.wambly.iytem;
 
-
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -113,8 +112,8 @@ public class FoodActivity extends AppCompatActivity {
     }
 
     private void showMenu() {
-        Calendar c = Calendar.getInstance();
-        int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+        Calendar calendar = Calendar.getInstance();
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
         try{
             File file = new File(getFilesDir(),"food.json");

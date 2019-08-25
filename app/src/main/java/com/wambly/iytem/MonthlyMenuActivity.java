@@ -41,13 +41,9 @@ public class MonthlyMenuActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         JsonUpdater jsonUpdater = new JsonUpdater();
-        jsonUpdater.updateContacts(this);
-        jsonUpdater.updateTransportation(this);
         jsonUpdater.updateMonthlyMenu(this);
 
-
-        Calendar c = Calendar.getInstance();
-
+        Calendar calendar = Calendar.getInstance();
 
         try{
             File file = new File(getFilesDir(),"food.json");
@@ -65,7 +61,7 @@ public class MonthlyMenuActivity extends AppCompatActivity {
             Gson gson = new Gson();
             JsonObject reader = gson.fromJson(content, JsonObject.class);
             JsonArray monthly  = reader.getAsJsonArray("refectory");
-            for (int i = 1; i < c.getMaximum(Calendar.DAY_OF_MONTH); i++) {
+            for (int i = 1; i < calendar.getMaximum(Calendar.DAY_OF_MONTH); i++) {
                 String menu = monthly.get(i).getAsString();
                 if(menu.equals("No Menu\n")){
                     menuList.add(getString(R.string.menu_yok));
