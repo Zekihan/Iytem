@@ -51,6 +51,9 @@ public class MonthlyMenuActivity extends AppCompatActivity {
             Scanner scan = new Scanner(new File(getFilesDir(),"food.json"));
             scan.useDelimiter("\\Z");
             String content = scan.next();
+            while(scan.hasNext()){
+                content+=scan.next();
+            }
             Gson gson = new Gson();
             JsonObject reader = gson.fromJson(content, JsonObject.class);
             JsonArray monthly  = reader.getAsJsonArray("refectory");

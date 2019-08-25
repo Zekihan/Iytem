@@ -146,6 +146,9 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             Scanner scan = new Scanner(new File(getFilesDir(),"transportation.json"));
             scan.useDelimiter("\\Z");
             String content = scan.next();
+            while(scan.hasNext()){
+                content+=scan.next();
+            }
             JSONObject reader = new JSONObject(content);
             JSONObject bus  = reader.getJSONObject(type.toString());
             JSONObject weekly  = bus.getJSONObject(week.toString());

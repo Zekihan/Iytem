@@ -23,14 +23,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+
 import java.util.Calendar;
 import java.util.Scanner;
 
@@ -126,6 +122,9 @@ public class FoodActivity extends AppCompatActivity {
             Scanner scan = new Scanner(new File(getFilesDir(),"food.json"));
             scan.useDelimiter("\\Z");
             String content = scan.next();
+            while(scan.hasNext()){
+                content+=scan.next();
+            }
             Gson gson = new Gson();
             JsonObject reader = gson.fromJson(content, JsonObject.class);
             JsonArray monthly  = reader.getAsJsonArray("refectory");

@@ -97,6 +97,9 @@ public class ContactsActivity extends AppCompatActivity {
             Scanner scan = new Scanner(new File(getFilesDir(),"contacts.json"));
             scan.useDelimiter("\\Z");
             String content = scan.next();
+            while(scan.hasNext()){
+                content+=scan.next();
+            }
             JSONObject reader = new JSONObject(content);
             JSONArray contactList  = reader.getJSONArray("contactsList");
             int i = 0;
