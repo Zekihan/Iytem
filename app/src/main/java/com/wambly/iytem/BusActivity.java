@@ -6,6 +6,10 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -14,14 +18,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.Button;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -149,27 +148,28 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             while(scan.hasNext()){
                 content+=scan.next();
             }
-            JSONObject reader = new JSONObject(content);
-            JSONObject bus  = reader.getJSONObject(type.toString());
-            JSONObject weekly  = bus.getJSONObject(week.toString());
-            JSONArray table;
+            Gson gson = new Gson();
+            JsonObject reader = gson.fromJson(content, JsonObject.class);
+            JsonObject bus  = reader.get(type.toString()).getAsJsonObject();
+            JsonObject weekly  = bus.get(week.toString()).getAsJsonObject();
+            JsonArray table;
 
             if(direction == 0){
-                table = weekly.getJSONArray(type.getDirection1());
+                table = weekly.getAsJsonArray(type.getDirection1());
             }else{
-                table = weekly.getJSONArray(type.getDirection0());
+                table = weekly.getAsJsonArray(type.getDirection0());
             }
 
             int i = 0;
             String item;
-            while (i < table.length()){
-                item = table.getString(i);
+            while (i < table.size()){
+                item = table.get(i).getAsString();
                 timeTable.add(item);
                 i++;
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

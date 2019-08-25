@@ -14,9 +14,9 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -100,18 +100,19 @@ public class ContactsActivity extends AppCompatActivity {
             while(scan.hasNext()){
                 content+=scan.next();
             }
-            JSONObject reader = new JSONObject(content);
-            JSONArray contactList  = reader.getJSONArray("contactsList");
+            Gson gson = new Gson();
+            JsonObject reader = gson.fromJson(content, JsonObject.class);
+            JsonArray contactList  = reader.getAsJsonArray("contactsList");
             int i = 0;
-            JSONObject item = contactList.getJSONObject(i);
+            JsonObject item = contactList.get(i).getAsJsonObject();
             while (item != null){
-                item = contactList.getJSONObject(i);
-                contacts.add(new Contact(item.getString("name"),item.getString("email"), item.getString("phone") , item.getString("department") , item.getString("title") ));
+                item = contactList.get(i).getAsJsonObject();
+                contacts.add(new Contact(item.get("name").getAsString(),item.get("email").getAsString(), item.get("phone").getAsString() , item.get("department").getAsString() , item.get("title").getAsString() ));
                 i++;
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
