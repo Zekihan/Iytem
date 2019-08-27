@@ -63,15 +63,16 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
                 String charString = charSequence.toString();
                 if (charString.isEmpty()) {
                     mDisplayedValues = contacts;
-                } else {
+                }else {
                     List<Contact> filteredList = new ArrayList<>();
                     for (Contact row : contacts) {
                         if (row.getName().toLowerCase().contains(charString.toLowerCase()) ||
-                                row.getDepartment().toLowerCase().contains(charString.toLowerCase())) {
+                                row.getDepartment().toLowerCase().contains(charString.toLowerCase()) ||
+                                row.getTitle().toLowerCase().contains(charString.toLowerCase()) ||
+                                row.getPhone().contains(charString)) {
                             filteredList.add(row);
                         }
                     }
-
                     mDisplayedValues = filteredList;
                 }
 

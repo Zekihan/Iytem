@@ -63,11 +63,18 @@ public class ContactsDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String phoneStr = contact.getPhone();
+                phoneStr.replace("(" , " ");
+                phoneStr.replace(")" , " ");
                 if(phoneStr.replaceAll("\\D", "").length() >= 7) {
                     phoneStr = phoneStr.split(":")[1];
-                    if ((!phoneStr.contains("232")) && ((phoneStr.charAt(0) != '5') ||
-                            ((phoneStr.charAt(0) != '0') && (phoneStr.charAt(1) != '5')))) {
+                    if ((!phoneStr.contains("232")) && (phoneStr.charAt(0) != '5') &&
+                    (((phoneStr.charAt(0) != '0') && (phoneStr.charAt(1) != '5')))) {
                         dialNum("0232" + phoneStr);
+                    }else if((phoneStr.charAt(0) != '0')){
+                        dialNum("0" + phoneStr);
+                    }
+                    else{
+                        dialNum(phoneStr);
                     }
                 }
             }
@@ -89,4 +96,5 @@ public class ContactsDetailsActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
 }
