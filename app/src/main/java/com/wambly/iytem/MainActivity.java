@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int MY_REQUEST_CODE = 17300;
     AppUpdateManager appUpdateManager;
     SharedPreferences prefs;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +88,16 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.feedback:
+                sendFeedback();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void checkUpdate(Context context) {
 
         appUpdateManager = AppUpdateManagerFactory.create(context);
@@ -136,15 +146,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendFeedback() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        Uri data = Uri.parse("mailto:wamblywambly@gmail.com?subject=" + "Feedback for [Iytem] app" + "&body=" + System.lineSeparator()
-                + System.lineSeparator() + System.lineSeparator() + System.lineSeparator() + System.lineSeparator()
-                + "Don't touch the lines below,they are required for us to make faster and more accurate fixes" + System.lineSeparator()
-                + "SDK :" + Build.VERSION.SDK_INT + System.lineSeparator()
-                + "Device :" + android.os.Build.DEVICE + System.lineSeparator()
-                + "Model :" + android.os.Build.MODEL + System.lineSeparator()
-                + "BRAND :" + Build.BRAND + System.lineSeparator()
-                + "Version Code :" + BuildConfig.VERSION_CODE + System.lineSeparator()
-                + "Version Name :" + BuildConfig.VERSION_NAME + System.lineSeparator()
+        Uri data = Uri.parse("mailto:wamblywambly@gmail.com?subject=" + "Feedback for [Iytem] app" + "&body="
+                + "\n"+ "\n"+ "\n"+ "\n"+ "\n"+ "\n"+ "\n"+ "\n"
+                + "--------------------------------------" + System.lineSeparator()
+                + "Android API Level: " + Build.VERSION.SDK_INT + System.lineSeparator()
+                + "Brand and Model: " + Build.BRAND + " " + android.os.Build.MODEL +  System.lineSeparator()
+                + "App Version and Code: " + BuildConfig.VERSION_NAME + " / " + BuildConfig.VERSION_CODE + System.lineSeparator()
+                + "--------------------------------------"
         );
         intent.setData(data);
         startActivity(intent);

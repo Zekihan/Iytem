@@ -41,6 +41,8 @@
     <string name="bus_882">Otobüs - 882</string>
     <string name="theme_switch">Tema Değiştir</string>
     <string name="contact">Kişi</string>
+    <string name="feedback">Geri Bildirim</string>
+    <string name="hi">Merhaba</string>
 
 
 </resources>
