@@ -68,7 +68,7 @@ public class ContactsDetailsActivity extends AppCompatActivity {
                 if(phoneStr.replaceAll("\\D", "").length() >= 7) {
                     phoneStr = phoneStr.split(":")[1];
                     if ((!phoneStr.contains("232")) && (phoneStr.charAt(0) != '5') &&
-                    (((phoneStr.charAt(0) != '0') && (phoneStr.charAt(1) != '5')))) {
+                    (!((phoneStr.charAt(0) == '0') && (phoneStr.charAt(1) == '5')))) {
                         dialNum("0232" + phoneStr);
                     }else if((phoneStr.charAt(0) != '0')){
                         dialNum("0" + phoneStr);

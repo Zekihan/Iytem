@@ -108,10 +108,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(AppUpdateInfo appUpdateInfo) {
                 if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                        && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                        && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
 
                     Log.d("Support in-app-update", "UPDATE_AVAILABLE");
-                    requestUpdate(appUpdateInfo, AppUpdateType.IMMEDIATE);
+                    requestUpdate(appUpdateInfo, AppUpdateType.FLEXIBLE);
                 } else {
                     Log.d("Support in-app-update", "UPDATE_NOT_AVAILABLE");
                 }
