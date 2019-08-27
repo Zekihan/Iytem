@@ -4,18 +4,16 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
@@ -24,20 +22,6 @@ import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.OnSuccessListener;
 import com.google.android.play.core.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -148,6 +132,22 @@ public class MainActivity extends AppCompatActivity {
 
     public void onBackPressed() {
         moveTaskToBack(true);
+    }
+
+    private void sendFeedback() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri data = Uri.parse("mailto:wamblywambly@gmail.com?subject=" + "Feedback for [Iytem] app" + "&body=" + System.lineSeparator()
+                + System.lineSeparator() + System.lineSeparator() + System.lineSeparator() + System.lineSeparator()
+                + "Don't touch the lines below,they are required for us to make faster and more accurate fixes" + System.lineSeparator()
+                + "SDK :" + Build.VERSION.SDK_INT + System.lineSeparator()
+                + "Device :" + android.os.Build.DEVICE + System.lineSeparator()
+                + "Model :" + android.os.Build.MODEL + System.lineSeparator()
+                + "BRAND :" + Build.BRAND + System.lineSeparator()
+                + "Version Code :" + BuildConfig.VERSION_CODE + System.lineSeparator()
+                + "Version Name :" + BuildConfig.VERSION_NAME + System.lineSeparator()
+        );
+        intent.setData(data);
+        startActivity(intent);
     }
 
 }
