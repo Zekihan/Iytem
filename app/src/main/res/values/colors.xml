@@ -6,5 +6,5 @@
     <color name="bgColor">#FFFFFF</color>
     <color name="lightgray">#ededed</color>
     <color name="black">#000000</color>
-    <color name="cardBg">#FFFFFF</color>
+    <color name="cardBg">#F7F7FC</color>
 </resources>
