@@ -17,7 +17,6 @@ import com.google.gson.JsonObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,8 +24,7 @@ import java.util.List;
 
 public class MonthlyMenuActivity extends AppCompatActivity {
 
-    final List<String> menuList = new ArrayList<>();
-    MonthlyMenuCustomAdapter adapter;
+    private final List<String> menuList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +73,7 @@ public class MonthlyMenuActivity extends AppCompatActivity {
         }
 
         RecyclerView recyclerView = findViewById(R.id.menulist);
-        adapter = new MonthlyMenuCustomAdapter(menuList,getApplicationContext());
+        MonthlyMenuCustomAdapter adapter = new MonthlyMenuCustomAdapter(menuList);
         recyclerView.setAdapter(adapter);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));

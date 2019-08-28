@@ -13,17 +13,13 @@
     <string name="menuTitle">Günün Menüsü</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_bus">BusActivity</string>
     <string name="today">Bugün</string>
     <string name="week_day">Hafta içi</string>
     <string name="saturday">C.tesi</string>
     <string name="sunday">Pazar</string>
-    <string name="action_settings">Ayarlar</string>
-    <string name="section_format">Hello World from section: %1$d</string>
     <string name="search">Rehberde ara</string>
     <string name="bus_982">Otobüs - 982</string>
-    <string name="minibus">Dolmuş</string>
     <string name="teneke">Teneke</string>
     <string name="change_direction">yön değiştir</string>
     <string name="monthly_menu">Aylık Menü</string>
@@ -34,15 +30,13 @@
     <string name="department">Bölüm</string>
     <string name="contacts_des">Okul personeli iletişim bilgileri</string>
     <string name="food_des">Yemekhane menüsü \n Bakiye yükleme</string>
-    <string name="sefer_yok">Sefer Yok</string>
     <string name="shortcut_des">En gerekli siteler</string>
     <string name="transportation_des">İYTE\'ye ulaşım saatleri</string>
     <string name="menu_yok">Menü yok</string>
     <string name="bus_882">Otobüs - 882</string>
-    <string name="theme_switch">Tema Değiştir</string>
     <string name="contact">Kişi</string>
     <string name="feedback">Öneri/Hata Bildir</string>
-    <string name="hi">Merhaba</string>
+    <string name="iytem">iytem</string>
 
 
 </resources>

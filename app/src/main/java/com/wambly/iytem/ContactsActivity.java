@@ -22,7 +22,6 @@ import com.google.gson.JsonObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,15 +99,15 @@ public class ContactsActivity extends AppCompatActivity {
             InputStreamReader instream = new InputStreamReader(new FileInputStream(file));
             BufferedReader buffer = new BufferedReader(instream);
 
-            String content = "";
+            StringBuilder content = new StringBuilder();
             String line;
             while ((line = buffer.readLine()) != null) {
-                content += line;
+                content.append(line);
             }
             buffer.close();
 
             Gson gson = new Gson();
-            JsonObject reader = gson.fromJson(content, JsonObject.class);
+            JsonObject reader = gson.fromJson(content.toString(), JsonObject.class);
             JsonArray contactList  = reader.getAsJsonArray("contactsList");
             int i = 0;
             JsonObject item;

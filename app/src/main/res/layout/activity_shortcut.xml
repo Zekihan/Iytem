@@ -5,12 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?android:attr/colorBackground"
     tools:context=".ShortcutActivity">
 
 
-    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
@@ -22,7 +20,6 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/gridLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
@@ -44,8 +41,8 @@
             android:id="@+id/obs"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="4dp"
@@ -59,7 +56,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_margin="16dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -67,7 +65,8 @@
                     android:layout_gravity="center_horizontal"
                     android:padding="10dp"
                     android:src="@drawable/ic_school"
-                    android:tint="?attr/colorControlNormal"/>
+                    android:tint="?attr/colorControlNormal"
+                    android:contentDescription="@string/dummy" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -86,8 +85,8 @@
             android:id="@+id/mainpage"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="4dp"
@@ -101,7 +100,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_margin="16dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -109,7 +109,8 @@
                     android:layout_gravity="center_horizontal"
                     android:padding="10dp"
                     android:src="@drawable/ic_home"
-                    android:tint="?attr/colorControlNormal"/>
+                    android:tint="?attr/colorControlNormal"
+                    android:contentDescription="@string/dummy" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -131,8 +132,8 @@
             android:id="@+id/library"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="4dp"
@@ -146,14 +147,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_margin="16dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/ic_library"
-                    android:tint="?attr/colorControlNormal"/>
+                    android:tint="?attr/colorControlNormal"
+                    android:contentDescription="@string/dummy" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -172,8 +175,8 @@
             android:id="@+id/cms"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="4dp"
@@ -187,14 +190,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_margin="16dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/cms"
-                    android:tint="?attr/colorControlNormal"/>
+                    android:tint="?attr/colorControlNormal"
+                    android:contentDescription="@string/dummy" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -212,8 +217,8 @@
             android:id="@+id/ydyo"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="4dp"
@@ -227,14 +232,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_margin="16dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/ic_language"
-                    android:tint="?attr/colorControlNormal"/>
+                    android:tint="?attr/colorControlNormal"
+                    android:contentDescription="@string/dummy" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -253,8 +260,8 @@
             android:id="@+id/webmail"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="4dp"
@@ -268,14 +275,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_margin="16dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/ic_email"
-                    android:tint="?attr/colorControlNormal"/>
+                    android:tint="?attr/colorControlNormal"
+                    android:contentDescription="@string/dummy" />
 
                 <TextView
                     android:layout_width="match_parent"

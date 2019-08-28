@@ -30,7 +30,8 @@
             android:inputType="textPersonName"
             android:textAlignment="center"
             android:textColorHint="@color/black"
-            android:theme="@style/Widget.AppCompat.SearchView" />
+            android:theme="@style/Widget.AppCompat.SearchView"
+            tools:targetApi="o" />
 
     </androidx.appcompat.widget.Toolbar>
 

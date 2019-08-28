@@ -4,11 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/colorBackground"
     tools:context=".TransportationActivity">
 
-    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
@@ -34,7 +32,7 @@
         app:alignmentMode="alignMargins"
         app:columnCount="1"
         app:columnOrderPreserved="false"
-        app:rowCount="2">>
+        app:rowCount="2">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/bus2Card"
@@ -51,7 +49,6 @@
             app:layout_columnWeight="1">
 
             <TextView
-                android:id="@+id/bus1Text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -74,7 +71,6 @@
             app:layout_columnWeight="1">
 
             <TextView
-                android:id="@+id/tenekeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -97,7 +93,6 @@
             app:layout_columnWeight="1">
 
             <TextView
-                android:id="@+id/busText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

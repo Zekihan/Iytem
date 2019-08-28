@@ -5,7 +5,6 @@ import android.content.pm.ActivityInfo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import android.view.View;
@@ -63,8 +62,8 @@ public class ContactsDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String phoneStr = contact.getPhone();
-                phoneStr.replace("(" , " ");
-                phoneStr.replace(")" , " ");
+                phoneStr = phoneStr.replace("(" , " ");
+                phoneStr = phoneStr.replace(")" , " ");
                 if(phoneStr.replaceAll("\\D", "").length() >= 7) {
                     phoneStr = phoneStr.split(":")[1];
                     if ((!phoneStr.contains("232")) && (phoneStr.charAt(0) != '5') &&

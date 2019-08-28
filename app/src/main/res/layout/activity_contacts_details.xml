@@ -17,7 +17,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="0dp"
         android:fontFamily="@font/open_sans"
-        android:text="TextView"
+        android:text="@string/textview"
         android:textSize="@dimen/_15ssp"
         android:textIsSelectable="true"/>
 
@@ -32,7 +32,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="0dp"
         android:fontFamily="@font/open_sans"
-        android:text="TextView"
+        android:text="@string/textview"
         android:textSize="@dimen/_15ssp"
         android:textIsSelectable="true" />
 
@@ -47,12 +47,11 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="0dp"
         android:fontFamily="@font/open_sans"
-        android:text="TextView"
+        android:text="@string/textview"
         android:textSize="@dimen/_15ssp"
         android:textIsSelectable="true"/>
 
-    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -74,7 +73,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="0dp"
         android:fontFamily="@font/open_sans_bold"
-        android:text="TextView"
+        android:text="@string/textview"
         android:textIsSelectable="true"
         android:textSize="@dimen/_20ssp" />
 
@@ -89,7 +88,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="0dp"
         android:fontFamily="@font/open_sans"
-        android:text="TextView"
+        android:text="@string/textview"
         android:textSize="@dimen/_15ssp"
         android:textIsSelectable="true"/>
 
@@ -106,12 +105,12 @@
         app:cardBackgroundColor="@color/cardBg">
 
         <ImageView
-            android:id="@+id/imageView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:tint="?attr/colorControlNormal"
-            app:srcCompat="@drawable/ic_phone" />
+            app:srcCompat="@drawable/ic_phone"
+            android:contentDescription="@string/dummy" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -126,12 +125,12 @@
         android:elevation="4dp">
 
         <ImageView
-            android:id="@+id/imageView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_email"
             android:layout_gravity="center"
-            android:tint="?attr/colorControlNormal"/>
+            android:tint="?attr/colorControlNormal"
+            android:contentDescription="@string/dummy" />
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

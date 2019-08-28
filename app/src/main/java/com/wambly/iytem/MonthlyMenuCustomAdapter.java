@@ -1,6 +1,7 @@
 package com.wambly.iytem;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,9 +16,8 @@ import java.util.List;
 public class MonthlyMenuCustomAdapter extends RecyclerView.Adapter<MonthlyMenuCustomAdapter.MyViewHolder> {
     private List<String> menus;
 
-    public MonthlyMenuCustomAdapter(List<String> menus, Context context) {
+    public MonthlyMenuCustomAdapter(List<String> menus) {
         this.menus = menus;
-        Context context1 = context;
     }
 
     @NonNull
@@ -36,7 +36,7 @@ public class MonthlyMenuCustomAdapter extends RecyclerView.Adapter<MonthlyMenuCu
     }
 
     private String getDate(int day){
-        SimpleDateFormat format = new SimpleDateFormat("d MMMM EEEE");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("d MMMM EEEE");
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_MONTH,day);
         return format.format(c.getTime());
@@ -56,9 +56,5 @@ public class MonthlyMenuCustomAdapter extends RecyclerView.Adapter<MonthlyMenuCu
             date = view.findViewById(R.id.date);
 
         }
-    }
-
-    public List<String> getMenus() {
-        return menus;
     }
 }

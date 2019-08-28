@@ -2,7 +2,6 @@ package com.wambly.iytem;
 
 import android.content.ComponentName;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.net.Uri;
 import androidx.browser.customtabs.CustomTabsCallback;
 import androidx.browser.customtabs.CustomTabsClient;

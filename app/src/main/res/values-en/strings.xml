@@ -12,17 +12,13 @@
     <string name="ydyo">YDYO</string>
     <string name="webmail">Iyte Mail</string>
     <string name="menuTitle">Today\'s Menu</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_bus">BusActivity</string>
     <string name="today">Today</string>
     <string name="week_day">Weekday</string>
     <string name="saturday">Sat</string>
     <string name="sunday">Sun</string>
-    <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
     <string name="search">Search contacts</string>
     <string name="bus_982">Bus - 982</string>
-    <string name="minibus">Minibus</string>
     <string name="teneke">Teneke</string>
     <string name="change_direction">Change Direction</string>
     <string name="monthly_menu">Monthly Menu</string>
@@ -33,13 +29,11 @@
     <string name="department">Department</string>
     <string name="contacts_des">School personale contact info</string>
     <string name="food_des">Refectory menu \n Add Credit</string>
-    <string name="sefer_yok">No Service</string>
     <string name="shortcut_des">Most used websites</string>
     <string name="transportation_des">Transportation schedules for Iztech</string>
-    <string name="menu_yok">No Menu Avaliable</string>
+    <string name="menu_yok">No Menu Available</string>
     <string name="bus_882">Bus - 882</string>
-    <string name="theme_switch">Change Theme</string>
     <string name="contact">Contact</string>
     <string name="feedback">Feedback</string>
-    <string name="hi">Hello</string>
+    <string name="iytem">iztech</string>
 </resources>

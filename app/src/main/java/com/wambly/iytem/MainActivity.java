@@ -2,12 +2,10 @@ package com.wambly.iytem;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,8 +25,7 @@ import com.google.android.play.core.tasks.Task;
 public class MainActivity extends AppCompatActivity {
 
     private static final int MY_REQUEST_CODE = 17300;
-    AppUpdateManager appUpdateManager;
-    SharedPreferences prefs;
+    private AppUpdateManager appUpdateManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
         jsonUpdater.updateContacts(this);
         jsonUpdater.updateTransportation(this);
         jsonUpdater.updateMonthlyMenu(this);
-
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         View transportation = findViewById(R.id.transportation);
         transportation.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressWarnings("SwitchStatementWithTooFewBranches")
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
@@ -120,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void requestUpdate(AppUpdateInfo appUpdateInfo, int flow_type) {
+    private void requestUpdate(AppUpdateInfo appUpdateInfo, @SuppressWarnings("SameParameterValue") int flow_type) {
         try {
             appUpdateManager.startUpdateFlowForResult(appUpdateInfo, flow_type, this, MY_REQUEST_CODE);
         } catch (IntentSender.SendIntentException e) {

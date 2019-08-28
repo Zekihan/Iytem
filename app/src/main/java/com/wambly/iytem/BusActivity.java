@@ -104,7 +104,7 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             Fragment fragment = null;
             switch (position){
                 case 0:
-                    Calendar c = Calendar.getInstance();;
+                    Calendar c = Calendar.getInstance();
                     if(c.get(Calendar.DAY_OF_WEEK)== Calendar.SUNDAY){
                         fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, 0)
                                 , getTimeTable(Week.sunday, 1),true,type);
@@ -145,14 +145,14 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             InputStreamReader instream = new InputStreamReader(new FileInputStream(file));
             BufferedReader buffer = new BufferedReader(instream);
 
-            String content = "";
+            StringBuilder content = new StringBuilder();
             String line;
             while ((line = buffer.readLine()) != null) {
-                content += line;
+                content.append(line);
             }
             buffer.close();
             Gson gson = new Gson();
-            JsonObject reader = gson.fromJson(content, JsonObject.class);
+            JsonObject reader = gson.fromJson(content.toString(), JsonObject.class);
             JsonObject bus  = reader.get(type.toString()).getAsJsonObject();
             JsonObject weekly  = bus.get(week.toString()).getAsJsonObject();
             JsonArray table;

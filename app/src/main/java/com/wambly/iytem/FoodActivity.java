@@ -31,7 +31,7 @@ import java.util.Calendar;
 public class FoodActivity extends AppCompatActivity {
     private CustomTabsIntent.Builder intentBuilder;
     private CustomTabsServiceConnection tabsConnection;
-    public CustomTabsSession tabsSession;
+    private CustomTabsSession tabsSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,18 +96,18 @@ public class FoodActivity extends AppCompatActivity {
     private void setMenuText(String str){
         TextView tv = findViewById(R.id.menu);
         String[] menuList = str.split("\n");
-        String menuOut = "";
+        StringBuilder menuOut = new StringBuilder();
         for (String m : menuList) {
             if (m.contains("(")) {
-                menuOut += m.substring(0, m.indexOf("(")) + "\n";
+                menuOut.append(m.substring(0, m.indexOf("("))).append("\n");
             } else {
-                menuOut += m;
+                menuOut.append(m);
             }
         }
-        if(menuOut.equals("No Menu")){
+        if(menuOut.toString().equals("No Menu")){
             tv.setText(R.string.menu_yok);
         }else{
-            tv.setText(menuOut);
+            tv.setText(menuOut.toString());
         }
     }
 
@@ -120,15 +120,15 @@ public class FoodActivity extends AppCompatActivity {
             InputStreamReader instream = new InputStreamReader(new FileInputStream(file));
             BufferedReader buffer = new BufferedReader(instream);
 
-            String content = "";
+            StringBuilder content = new StringBuilder();
             String line;
             while ((line = buffer.readLine()) != null) {
-                content += line;
+                content.append(line);
             }
             buffer.close();
 
             Gson gson = new Gson();
-            JsonObject reader = gson.fromJson(content, JsonObject.class);
+            JsonObject reader = gson.fromJson(content.toString(), JsonObject.class);
             JsonArray monthly  = reader.getAsJsonArray("refectory");
             String menu = monthly.get(dayOfMonth).getAsString();
 

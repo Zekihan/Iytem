@@ -22,6 +22,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+@SuppressWarnings("ALL")
 public class JsonUpdater {
 
     public void updateContacts(Context context){

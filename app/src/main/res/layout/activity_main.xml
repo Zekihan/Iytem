@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?android:attr/colorBackground"
     tools:context=".MainActivity">
 
 
@@ -19,12 +18,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/open_sans_bold"
-            android:text="iytem"
+            android:text="@string/iytem"
             android:textColor="@color/colorPrimary"
             android:textSize="30sp"
             tools:layout_editor_absoluteX="166dp"
@@ -54,8 +52,8 @@
             android:id="@+id/transportation"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
             android:elevation="4dp"
@@ -76,7 +74,8 @@
                     android:layout_gravity="center"
                     android:padding="6dp"
                     android:src="@drawable/ic_bus"
-                    android:tint="?attr/colorControlNormal" />
+                    android:tint="?attr/colorControlNormal"
+                    android:contentDescription="@string/dummy" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -109,8 +108,8 @@
             android:id="@+id/food"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="4dp"
@@ -132,7 +131,8 @@
                     android:layout_gravity="center"
                     android:padding="4dp"
                     android:src="@drawable/ic_food"
-                    android:tint="?attr/colorControlNormal"/>
+                    android:tint="?attr/colorControlNormal"
+                    android:contentDescription="@string/dummy" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -168,8 +168,8 @@
             android:id="@+id/shortcuts"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="22dp"
             app:cardCornerRadius="4dp"
             android:elevation="4dp"
@@ -190,7 +190,8 @@
                     android:layout_gravity="center"
                     android:padding="4dp"
                     android:src="@drawable/ic_web"
-                    android:tint="?attr/colorControlNormal"/>
+                    android:tint="?attr/colorControlNormal"
+                    android:contentDescription="@string/dummy" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -224,8 +225,8 @@
             android:id="@+id/contacts"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="22dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp"
@@ -246,7 +247,8 @@
                     android:layout_gravity="center"
                     android:padding="4dp"
                     android:src="@drawable/ic_contact_mail"
-                    android:tint="?attr/colorControlNormal"/>
+                    android:tint="?attr/colorControlNormal"
+                    android:contentDescription="@string/dummy" />
 
                 <TextView
                     android:layout_width="wrap_content"
