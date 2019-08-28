@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -110,14 +111,15 @@ public class ContactsActivity extends AppCompatActivity {
             JsonObject reader = gson.fromJson(content, JsonObject.class);
             JsonArray contactList  = reader.getAsJsonArray("contactsList");
             int i = 0;
-            JsonObject item = contactList.get(i).getAsJsonObject();
-            while (item != null){
+            JsonObject item;
+            while (i < contactList.size()){
                 item = contactList.get(i).getAsJsonObject();
-                contacts.add(new Contact(item.get("name").getAsString(),item.get("email").getAsString(),
-                        item.get("phone").getAsString() , item.get("department").getAsString() ,
+                contacts.add(new Contact(item.get("name").getAsString(), item.get("email").getAsString(),
+                        item.get("phone").getAsString(), item.get("department").getAsString() ,
                         item.get("title").getAsString() ));
                 i++;
             }
+            Log.d("Contacts num", "getContacts: " + contacts.size());
         } catch (Exception e) {
             e.printStackTrace();
         }
