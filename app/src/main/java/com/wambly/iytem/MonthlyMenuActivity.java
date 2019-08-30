@@ -78,7 +78,7 @@ public class MonthlyMenuActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
         recyclerView.smoothScrollToPosition(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

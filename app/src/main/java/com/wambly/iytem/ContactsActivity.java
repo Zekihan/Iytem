@@ -55,7 +55,7 @@ public class ContactsActivity extends AppCompatActivity {
         final RecyclerView recyclerView = findViewById(R.id.RC);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
 
         List<Contact> contacts = getContacts();
         final ContactsCustomAdapter contactsCustomAdapter = new ContactsCustomAdapter(contacts);
