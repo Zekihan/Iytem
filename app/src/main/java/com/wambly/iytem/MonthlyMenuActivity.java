@@ -59,7 +59,7 @@ public class MonthlyMenuActivity extends AppCompatActivity {
             Gson gson = new Gson();
             JsonObject reader = gson.fromJson(content, JsonObject.class);
             JsonArray monthly  = reader.getAsJsonArray("refectory");
-            for (int i = 1; i <= calendar.getMaximum(Calendar.DAY_OF_MONTH); i++) {
+            for (int i = 1; i <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
                 String menu = monthly.get(i).getAsString();
                 if(menu.equals("No Menu")){
                     menuList.add(getString(R.string.no_menu));
