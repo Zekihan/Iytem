@@ -32,7 +32,7 @@
     <string name="food_des">Yemekhane menüsü \n Bakiye yükleme</string>
     <string name="shortcut_des">En gerekli siteler</string>
     <string name="transportation_des">İYTE\'ye ulaşım saatleri</string>
-    <string name="no_menu">Menü yok</string>
+    <string name="no_menu">Yemekhane Kapalı</string>
     <string name="bus_882">Otobüs - 882</string>
     <string name="contact">Kişi</string>
     <string name="feedback">Öneri/Hata Bildir</string>
