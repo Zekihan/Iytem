@@ -31,7 +31,7 @@
     <string name="food_des">Refectory menu \n Add Credit</string>
     <string name="shortcut_des">Most used websites</string>
     <string name="transportation_des">Transportation schedules for Iztech</string>
-    <string name="menu_yok">No Menu Available</string>
+    <string name="no_menu">No Menu Available</string>
     <string name="bus_882">Bus - 882</string>
     <string name="contact">Contact</string>
     <string name="feedback">Feedback</string>

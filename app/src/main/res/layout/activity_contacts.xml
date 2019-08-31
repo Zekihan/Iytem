@@ -18,7 +18,7 @@
         <EditText
             android:id="@+id/editText"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_gravity="end"
@@ -30,8 +30,7 @@
             android:inputType="textPersonName"
             android:textAlignment="center"
             android:textColorHint="@color/black"
-            android:theme="@style/Widget.AppCompat.SearchView"
-            tools:targetApi="o" />
+            android:theme="@style/Widget.AppCompat.SearchView" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -39,7 +38,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,6 +47,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RC"
+            android:layout_marginTop="4dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

@@ -105,7 +105,7 @@ public class FoodActivity extends AppCompatActivity {
             }
         }
         if(menuOut.toString().equals("No Menu")){
-            tv.setText(R.string.menu_yok);
+            tv.setText(R.string.no_menu);
         }else{
             tv.setText(menuOut.toString());
         }

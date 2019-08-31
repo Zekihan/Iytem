@@ -32,7 +32,7 @@
     <string name="phone">Telefon</string>
     <string name="title">Ünvan</string>
     <string name="department">Bölüm</string>
-    <string name="menu_yok">Menü yok</string>
+    <string name="no_menu">Menü yok</string>
     <string name="bus_882">Otobüs - 882</string>
     <string name="contact">Kişi</string>
     <string name="feedback">Geri Bildirim</string>
