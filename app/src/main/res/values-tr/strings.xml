@@ -37,6 +37,7 @@
     <string name="contact">Kişi</string>
     <string name="feedback">Öneri/Hata Bildir</string>
     <string name="iytem">iytem</string>
+    <string name="connection_warn">İnternetinizin açık olduğundan emin olun</string>
 
 
 </resources>

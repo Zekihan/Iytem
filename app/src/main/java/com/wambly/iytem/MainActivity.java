@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         dbCheck();
 
         if(!dbStat){
-            Toast.makeText(this, "İnternetinizin açık olduğundan emin olun",
+            Toast.makeText(this, getString(R.string.connection_warn),
                     Toast.LENGTH_LONG).show();
             handler.post(runnableCode);
         }
@@ -123,20 +123,27 @@ public class MainActivity extends AppCompatActivity {
     private Runnable runnableCode = new Runnable() {
         @Override
         public void run() {
+            Log.d("loop", "run: tryin");
+
             jsonUpdater.updateContacts(getApplicationContext());
             jsonUpdater.updateTransportation(getApplicationContext());
             jsonUpdater.updateMonthlyMenu(getApplicationContext());
+
             dbCheck();
-            Log.d("loop", "run: tryin");
-            if(dbStat){
+
+            if (dbStat) {
                 handler.removeCallbacks(runnableCode);
-                Toast.makeText(getApplicationContext(), "Kullanıma Hazır",
+                Toast.makeText(getApplicationContext(), "Kullanıma hazır",
                         Toast.LENGTH_LONG).show();
                 finish();
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+
             }else{
-                handler.postDelayed(this, 500);
+                handler.postDelayed(this, 1000);
             }
+
+
 
         }
     };

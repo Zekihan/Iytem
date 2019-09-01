@@ -20,11 +20,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -170,10 +170,10 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
                 timeTable.add(item);
                 i++;
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(this, getString(R.string.connection_warn),
+                    Toast.LENGTH_SHORT).show();
         }
 
         return timeTable;

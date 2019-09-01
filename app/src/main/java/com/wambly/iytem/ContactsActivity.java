@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -121,6 +122,8 @@ public class ContactsActivity extends AppCompatActivity {
             Log.d("Contacts num", "getContacts: " + contacts.size());
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(this, getString(R.string.connection_warn),
+                    Toast.LENGTH_SHORT).show();
         }
 
         return contacts;

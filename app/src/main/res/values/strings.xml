@@ -39,6 +39,7 @@
     <string name="textview" translatable="false">TextView</string>
     <string name="iytem">iytem</string>
     <string name="dummy" translatable="false">dummy</string>
+    <string name="connection_warn">İnternetinizin açık olduğundan emin olun</string>
 
 
 </resources>
