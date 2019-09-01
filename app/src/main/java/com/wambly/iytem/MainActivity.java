@@ -12,9 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -25,21 +23,15 @@ import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.OnSuccessListener;
 import com.google.android.play.core.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int MY_REQUEST_CODE = 17300;
     private AppUpdateManager appUpdateManager;
-    private boolean dbStat = false;
-    private boolean dbLoaded = false;
-    Handler handler = new Handler();
-    JsonUpdater jsonUpdater;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,18 +39,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
         checkUpdate(this);
 
-        jsonUpdater = new JsonUpdater();
-        jsonUpdater.updateContacts(this);
-        jsonUpdater.updateTransportation(this);
-        jsonUpdater.updateMonthlyMenu(this);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        ref.keepSynced(true);
+
 
         View transportation = findViewById(R.id.transportation);
         transportation.setOnClickListener(new View.OnClickListener() {
@@ -90,24 +79,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),ContactsActivity.class));
             }
         });
-
-        dbCheck();
-
-        if(!dbStat){
-            Toast.makeText(this, getString(R.string.connection_warn),
-                    Toast.LENGTH_LONG).show();
-            handler.post(runnableCode);
-        }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
-
 
     @SuppressWarnings("SwitchStatementWithTooFewBranches")
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -117,47 +95,6 @@ public class MainActivity extends AppCompatActivity {
                 sendFeedback();
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private Runnable runnableCode = new Runnable() {
-        @Override
-        public void run() {
-            Log.d("loop", "run: tryin");
-
-            jsonUpdater.updateContacts(getApplicationContext());
-            jsonUpdater.updateTransportation(getApplicationContext());
-            jsonUpdater.updateMonthlyMenu(getApplicationContext());
-
-            dbCheck();
-
-            if (dbStat) {
-                handler.removeCallbacks(runnableCode);
-                Toast.makeText(getApplicationContext(), "Kullanıma hazır",
-                        Toast.LENGTH_LONG).show();
-                finish();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-
-
-            }else{
-                handler.postDelayed(this, 1000);
-            }
-
-
-
-        }
-    };
-
-
-    private void dbCheck(){
-        try {
-            File temp0 = new File(getFilesDir(),"food.json");
-            File temp1 = new File(getFilesDir(),"contacts.json");
-            File temp2 = new File(getFilesDir(),"transportation.json");
-            dbStat = temp0.exists() && temp1.exists() && temp2.exists();
-
-        } catch (Exception e) {
-            dbStat = false;
         }
     }
 

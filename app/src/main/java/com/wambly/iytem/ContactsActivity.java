@@ -2,6 +2,8 @@ package com.wambly.iytem;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -16,6 +18,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -25,9 +32,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ContactsActivity extends AppCompatActivity {
+
+    ContactsCustomAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +58,6 @@ public class ContactsActivity extends AppCompatActivity {
             }
         });
 
-        JsonUpdater jsonUpdater = new JsonUpdater();
-        jsonUpdater.updateContacts(this);
-
         EditText etSearch = findViewById(R.id.editText);
 
         final RecyclerView recyclerView = findViewById(R.id.RC);
@@ -59,15 +66,14 @@ public class ContactsActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
 
         List<Contact> contacts = getContacts();
-        final ContactsCustomAdapter contactsCustomAdapter = new ContactsCustomAdapter(contacts);
-        contactsCustomAdapter.setContacts(contacts);
-        recyclerView.setAdapter(contactsCustomAdapter);
+        adapter = new ContactsCustomAdapter(contacts);
+        adapter.setContacts(contacts);
+        recyclerView.setAdapter(adapter);
         etSearch.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Call back the Adapter with current character to Filter
-                contactsCustomAdapter.getFilter().filter(s.toString());
+                adapter.getFilter().filter(s.toString());
             }
 
             @Override
@@ -84,7 +90,7 @@ public class ContactsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 Intent reader = new Intent(getApplicationContext(), ContactsDetailsActivity.class);
-                reader.putExtra("contact", contactsCustomAdapter.getmDisplayedValues().get(position));
+                reader.putExtra("contact", adapter.getmDisplayedValues().get(position));
                 startActivity(reader);
             }
             @Override
@@ -95,37 +101,27 @@ public class ContactsActivity extends AppCompatActivity {
     }
     private ArrayList<Contact> getContacts(){
         final ArrayList<Contact> contacts = new ArrayList<>();
-        try{
-            File file = new File(getFilesDir(),"contacts.json");
-            InputStreamReader instream = new InputStreamReader(new FileInputStream(file));
-            BufferedReader buffer = new BufferedReader(instream);
 
-            StringBuilder content = new StringBuilder();
-            String line;
-            while ((line = buffer.readLine()) != null) {
-                content.append(line);
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference ref = database.getReference().child("contacts").child("contactsList");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int i = 0;
+                for (DataSnapshot childS : snapshot.getChildren()) {
+                    contacts.add(childS.getValue(Contact.class));
+                    adapter.notifyItemInserted(i);
+                    i++;
+                }
             }
-            buffer.close();
 
-            Gson gson = new Gson();
-            JsonObject reader = gson.fromJson(content.toString(), JsonObject.class);
-            JsonArray contactList  = reader.getAsJsonArray("contactsList");
-            int i = 0;
-            JsonObject item;
-            while (i < contactList.size()){
-                item = contactList.get(i).getAsJsonObject();
-                contacts.add(new Contact(item.get("name").getAsString(), item.get("email").getAsString(),
-                        item.get("phone").getAsString(), item.get("department").getAsString() ,
-                        item.get("title").getAsString() ));
-                i++;
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
             }
-            Log.d("Contacts num", "getContacts: " + contacts.size());
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this, getString(R.string.connection_warn),
-                    Toast.LENGTH_SHORT).show();
-        }
+        });
 
+        Log.d("contacts:", contacts.toString());
         return contacts;
     }
 }

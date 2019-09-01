@@ -5,10 +5,14 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -17,15 +21,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -47,9 +49,6 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         toolbar.setTitle(type.getTitleVal());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        JsonUpdater jsonUpdater = new JsonUpdater();
-        jsonUpdater.updateTransportation(this);
 
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -140,41 +139,33 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
 
     private ArrayList<String> getTimeTable(Week week, int direction){
         final ArrayList<String> timeTable = new ArrayList<>();
-        try{
-            File file = new File(getFilesDir(),"transportation.json");
-            InputStreamReader instream = new InputStreamReader(new FileInputStream(file));
-            BufferedReader buffer = new BufferedReader(instream);
 
-            StringBuilder content = new StringBuilder();
-            String line;
-            while ((line = buffer.readLine()) != null) {
-                content.append(line);
-            }
-            buffer.close();
-            Gson gson = new Gson();
-            JsonObject reader = gson.fromJson(content.toString(), JsonObject.class);
-            JsonObject bus  = reader.get(type.toString()).getAsJsonObject();
-            JsonObject weekly  = bus.get(week.toString()).getAsJsonObject();
-            JsonArray table;
-
-            if(direction == 0){
-                table = weekly.getAsJsonArray(type.getDirection1());
-            }else{
-                table = weekly.getAsJsonArray(type.getDirection0());
-            }
-
-            int i = 0;
-            String item;
-            while (i < table.size()){
-                item = table.get(i).getAsString();
-                timeTable.add(item);
-                i++;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this, getString(R.string.connection_warn),
-                    Toast.LENGTH_SHORT).show();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        String direct;
+        if(direction == 0){
+             direct = type.getDirection0();
+        }else{
+            direct = type.getDirection1();
         }
+
+        final DatabaseReference ref = database.getReference().child("transportation").
+                child(type.toString()).child(week.toString()).child(direct);
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot postSnap: snapshot.getChildren()){
+                    timeTable.add(postSnap.getValue(String.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
+        Log.d("table", timeTable.toString());
 
         return timeTable;
     }

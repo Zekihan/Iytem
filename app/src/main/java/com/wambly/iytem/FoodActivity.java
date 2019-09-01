@@ -4,6 +4,8 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
+
+import androidx.annotation.NonNull;
 import androidx.browser.customtabs.CustomTabsCallback;
 import androidx.browser.customtabs.CustomTabsClient;
 import androidx.browser.customtabs.CustomTabsIntent;
@@ -16,6 +18,11 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -29,9 +36,6 @@ import java.util.Calendar;
 
 
 public class FoodActivity extends AppCompatActivity {
-    private CustomTabsIntent.Builder intentBuilder;
-    private CustomTabsServiceConnection tabsConnection;
-    private CustomTabsSession tabsSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,23 +49,7 @@ public class FoodActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        JsonUpdater jsonUpdater = new JsonUpdater();
-        jsonUpdater.updateMonthlyMenu(this);
-
         showMenu();
-
-        tabsConnection = new CustomTabsServiceConnection() {
-            @Override
-            public void onCustomTabsServiceConnected(ComponentName componentName, CustomTabsClient customTabsClient) {
-                customTabsClient.warmup(1);
-                CustomTabsCallback customTabsCallback = new CustomTabsCallback();
-                tabsSession = customTabsClient.newSession(customTabsCallback);
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-            }
-        };
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,17 +58,11 @@ public class FoodActivity extends AppCompatActivity {
             }
         });
 
-        CustomTabsClient.bindCustomTabsService(this,"custom.tabs", tabsConnection);
-        intentBuilder = new CustomTabsIntent.Builder();
-        intentBuilder.setStartAnimations(this,R.anim.slide_in_right , R.anim.slide_out_left);
-        intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-        intentBuilder.setToolbarColor(getResources().getColor(R.color.bgColor));
-
         View food = findViewById(R.id.addMoney);
         food.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chromeTab();
+                chromeTab("https://yks.iyte.edu.tr/Login.aspx");
             }
         });
 
@@ -112,42 +94,33 @@ public class FoodActivity extends AppCompatActivity {
     }
 
     private void showMenu() {
-        Calendar calendar = Calendar.getInstance();
-        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        Calendar c = Calendar.getInstance();
+        final String dayOfMonth = Integer.toString(c.get(Calendar.DAY_OF_MONTH));
+        System.out.println(dayOfMonth);
 
-        try{
-            File file = new File(getFilesDir(),"food.json");
-            InputStreamReader instream = new InputStreamReader(new FileInputStream(file));
-            BufferedReader buffer = new BufferedReader(instream);
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference ref = database.getReference().child("food").child("refectory").child(dayOfMonth);
 
-            StringBuilder content = new StringBuilder();
-            String line;
-            while ((line = buffer.readLine()) != null) {
-                content.append(line);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot ds) {
+                setMenuText(ds.getValue(String.class));
+
             }
-            buffer.close();
-
-            Gson gson = new Gson();
-            JsonObject reader = gson.fromJson(content.toString(), JsonObject.class);
-            JsonArray monthly  = reader.getAsJsonArray("refectory");
-            String menu = monthly.get(dayOfMonth).getAsString();
-
-            setMenuText(menu);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
     }
 
-    private void chromeTab(){
+    private void chromeTab(String url){
+        CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+        intentBuilder.setStartAnimations(this,R.anim.slide_in_right , R.anim.slide_out_left);
+        intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        intentBuilder.setToolbarColor(getResources().getColor(R.color.bgColor));
         CustomTabsIntent customTabsIntent = intentBuilder.build();
-        customTabsIntent.launchUrl(this, Uri.parse("https://yks.iyte.edu.tr/Login.aspx"));
+        customTabsIntent.launchUrl(this, Uri.parse(url));
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbindService(tabsConnection);
-    }
 }
