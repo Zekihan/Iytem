@@ -1,5 +1,4 @@
 package com.wambly.iytem;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -7,7 +6,6 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int MY_REQUEST_CODE = 17300;
     private AppUpdateManager appUpdateManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,10 +145,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         Uri data = Uri.parse("mailto:wamblywambly@gmail.com?subject=" + "Feedback for [Iytem] app" + "&body="
                 + "\n"+ "\n"+ "\n"+ "\n"+ "\n"+ "\n"+ "\n"+ "\n"
-                + "--------------------------------------" + System.lineSeparator()
-                + "Android API Level: " + Build.VERSION.SDK_INT + System.lineSeparator()
-                + "Brand and Model: " + Build.BRAND + " " + android.os.Build.MODEL +  System.lineSeparator()
-                + "App Version and Code: " + BuildConfig.VERSION_NAME + " / " + BuildConfig.VERSION_CODE + System.lineSeparator()
+                + "--------------------------------------" + "\n"
+                + "Android API Level: " + Build.VERSION.SDK_INT + "\n"
+                + "Brand and Model: " + Build.BRAND + " " + android.os.Build.MODEL + "\n"
+                + "App Version and Code: " + BuildConfig.VERSION_NAME + " / " + BuildConfig.VERSION_CODE + "\n"
                 + "--------------------------------------"
         );
         intent.setData(data);

@@ -14,9 +14,6 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 
 public class ShortcutActivity extends AppCompatActivity {
-    private CustomTabsIntent.Builder intentBuilder;
-    private CustomTabsSession tabsSession;
-    private CustomTabsServiceConnection tabsConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,27 +32,6 @@ public class ShortcutActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        tabsConnection = new CustomTabsServiceConnection() {
-            @Override
-            public void onCustomTabsServiceConnected(ComponentName componentName, CustomTabsClient customTabsClient) {
-                customTabsClient.warmup(1);
-                CustomTabsCallback customTabsCallback = new CustomTabsCallback();
-                tabsSession = customTabsClient.newSession(customTabsCallback);
-
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-
-            }
-        };
-        CustomTabsClient.bindCustomTabsService(this,"custom.tabs", tabsConnection);
-        intentBuilder = new CustomTabsIntent.Builder(tabsSession);
-        intentBuilder.setStartAnimations(this,R.anim.slide_in_right , R.anim.slide_out_left);
-        intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left,
-                android.R.anim.slide_out_right);
-        intentBuilder.setToolbarColor(getResources().getColor(R.color.bgColor));
 
         View obs = findViewById(R.id.obs);
         obs.setOnClickListener(new View.OnClickListener() {
@@ -102,20 +78,15 @@ public class ShortcutActivity extends AppCompatActivity {
         });
 
     }
+
     private void chromeTab(String url){
+        CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+        intentBuilder.setStartAnimations(this,R.anim.slide_in_right , R.anim.slide_out_left);
+        intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        intentBuilder.setToolbarColor(getResources().getColor(R.color.bgColor));
         CustomTabsIntent customTabsIntent = intentBuilder.build();
         customTabsIntent.launchUrl(this, Uri.parse(url));
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
 
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbindService(tabsConnection);
-    }
 }
