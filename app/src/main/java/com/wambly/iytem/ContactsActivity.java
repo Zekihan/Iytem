@@ -100,8 +100,8 @@ public class ContactsActivity extends AppCompatActivity {
         }));
     }
     private ArrayList<Contact> getContacts(){
-        final ArrayList<Contact> contacts = new ArrayList<>();
 
+        final ArrayList<Contact> contacts = new ArrayList<>();
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference ref = database.getReference().child("contacts").child("contactsList");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -114,14 +114,12 @@ public class ContactsActivity extends AppCompatActivity {
                     i++;
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
 
-        Log.d("contacts:", contacts.toString());
         return contacts;
     }
 }

@@ -22,8 +22,7 @@ import java.util.List;
 
 
 public class BlankFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_CONTENT1 = "content1";
     private static final String ARG_CONTENT2 = "content2";
 
@@ -41,7 +40,7 @@ public class BlankFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     public BlankFragment() {
-        // Required empty public constructor
+
     }
 
     public static BlankFragment newInstance(ArrayList<String> param1, ArrayList<String> param2, boolean today, Serializable type) {
@@ -63,8 +62,6 @@ public class BlankFragment extends Fragment {
             ft.setReorderingAllowed(false);
         }
         ft.detach(this).attach(this).commit();
-
-
     }
 
     @Override
@@ -115,7 +112,6 @@ public class BlankFragment extends Fragment {
                         adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
                         listView.setAdapter(adapter);
                     }
-
                 }
             });
 
@@ -157,7 +153,6 @@ public class BlankFragment extends Fragment {
                 }
             });
         }
-
         return rootView;
     }
     private ArrayList<String> getSchedule(){
@@ -200,7 +195,6 @@ public class BlankFragment extends Fragment {
                     }
                 }
             }
-
         }
         if(result.isEmpty()){
             result.add("Sefer Yok - No Service");
@@ -248,10 +242,6 @@ public class BlankFragment extends Fragment {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

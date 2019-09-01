@@ -10,9 +10,12 @@ public class Contact implements Parcelable{
     private String department;
     private String title;
 
-
     public Contact(){
-
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.department = department;
+        this.title = title;
     }
 
     public Contact(String name, String email, String phone, String department, String title) {
@@ -22,8 +25,6 @@ public class Contact implements Parcelable{
         this.department = department;
         this.title = title;
     }
-
-
 
     private Contact(Parcel in) {
         name = in.readString();

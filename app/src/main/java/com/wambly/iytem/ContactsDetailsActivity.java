@@ -37,7 +37,7 @@ public class ContactsDetailsActivity extends AppCompatActivity {
 
         TextView name = findViewById(R.id.name);
         TextView email = findViewById(R.id.email);
-        final TextView phone = findViewById(R.id.phone);
+        TextView phone = findViewById(R.id.phone);
         TextView department = findViewById(R.id.department);
         TextView title = findViewById(R.id.title);
         name.setText(contact.getName());
@@ -78,7 +78,11 @@ public class ContactsDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-
+    }
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 
     private void sendEmail(String adress) {

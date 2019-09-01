@@ -11,7 +11,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -25,8 +24,6 @@ import android.util.Log;
 import android.view.View;
 
 import android.widget.Button;
-import android.widget.Toast;
-
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -164,8 +161,6 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-
-        Log.d("table", timeTable.toString());
 
         return timeTable;
     }

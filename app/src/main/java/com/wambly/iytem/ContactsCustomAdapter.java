@@ -41,9 +41,6 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
         myViewHolder.name.setText(contact.getName());
         myViewHolder.department.setText(contact.getDepartment());
         myViewHolder.title.setText(contact.getTitle());
-
-
-
     }
 
     @Override
