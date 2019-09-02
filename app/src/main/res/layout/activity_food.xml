@@ -65,7 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
-                    android:padding="8dp"
+                    android:padding="4dp"
                     android:src="@drawable/ic_calendar_today"
                     android:tint="?attr/colorControlNormal"
                     android:contentDescription="@string/dummy" />
@@ -114,7 +114,8 @@
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/ic_credit_card"
                     android:tint="?attr/colorControlNormal"
-                    android:contentDescription="@string/dummy" />
+                    android:contentDescription="@string/dummy"
+                    android:padding="8dp"/>
 
                 <TextView
                     android:layout_width="match_parent"

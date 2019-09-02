@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 
@@ -72,7 +73,7 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         final TextView directionView = findViewById(R.id.directionTxt);
         directionView.setText(prettyDirection(type.getDirection0()));
 
-        ImageView changeDir = findViewById(R.id.swap);
+        View changeDir = findViewById(R.id.direction);
         changeDir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
