@@ -40,6 +40,7 @@
     <string name="iytem">iytem</string>
     <string name="dummy" translatable="false">dummy</string>
     <string name="connection_warn">İnternetinizin açık olduğundan emin olun</string>
+    <string name="theme_switch">Tema Değiştir</string>
 
 
 </resources>

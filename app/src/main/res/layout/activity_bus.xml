@@ -65,7 +65,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_8ssp"
         android:background="@color/colorAccent"
-        android:fontFamily="@font/open_sans_semibold"
         android:text="@string/change_direction"
         app:layout_anchor="@+id/container"
         app:layout_anchorGravity="bottom|center" />

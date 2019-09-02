@@ -1,17 +1,21 @@
 package com.wambly.iytem;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.play.core.appupdate.AppUpdateInfo;
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int MY_REQUEST_CODE = 17300;
     private AppUpdateManager appUpdateManager;
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +41,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if(prefs.getBoolean("darkTheme",false)){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
+
 
         checkUpdate(this);
 
@@ -88,6 +102,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.theme_switch:
+                boolean darkTheme = prefs.getBoolean("darkTheme",false);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("darkTheme",!darkTheme);
+                editor.apply();
+                recreate();
+                return true;
             case R.id.feedback:
                 sendFeedback();
             default:

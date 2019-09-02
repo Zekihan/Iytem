@@ -24,12 +24,11 @@
             android:layout_gravity="end"
             android:ems="10"
             android:focusable="auto"
-            android:fontFamily="@font/open_sans"
             android:hint="@string/search"
+            android:textColorHint="@color/textColor"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
             android:textAlignment="center"
-            android:textColorHint="@color/black"
             android:theme="@style/Widget.AppCompat.SearchView" />
 
     </androidx.appcompat.widget.Toolbar>

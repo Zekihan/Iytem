@@ -37,4 +37,5 @@
     <string name="feedback">Feedback</string>
     <string name="iytem">iztech</string>
     <string name="connection_warn">Connect to the Internet</string>
+    <string name="theme_switch">Change Theme</string>
 </resources>
