@@ -38,4 +38,6 @@
     <string name="iytem">iztech</string>
     <string name="connection_warn">Connect to the Internet</string>
     <string name="theme_switch">Change Theme</string>
+    <string name="light_theme">Light Theme</string>
+    <string name="dark_theme">Dark Theme</string>
 </resources>

@@ -41,6 +41,8 @@
     <string name="dummy" translatable="false">dummy</string>
     <string name="connection_warn">İnternetinizin açık olduğundan emin olun</string>
     <string name="theme_switch">Tema Değiştir</string>
+    <string name="light_theme">Açık Tema</string>
+    <string name="dark_theme">Koyu Tema</string>
 
 
 </resources>

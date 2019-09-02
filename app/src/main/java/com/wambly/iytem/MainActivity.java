@@ -43,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if(prefs.getBoolean("darkTheme",false)){
+        boolean darkTheme = prefs.getBoolean("darkTheme",false);
+
+        if(darkTheme){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }else{
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -95,11 +97,27 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        boolean darkTheme = prefs.getBoolean("darkTheme",false);
+        MenuItem button = menu.findItem(R.id.theme_switch);
+        if(darkTheme){
+            button.setTitle(getString(R.string.light_theme));
+        }else{
+            button.setTitle(getString(R.string.dark_theme));
+        }
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @SuppressWarnings("SwitchStatementWithTooFewBranches")
     public boolean onOptionsItemSelected(MenuItem item) {
+
+
+
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.theme_switch:
