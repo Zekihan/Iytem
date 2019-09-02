@@ -9,4 +9,5 @@
     <color name="textColor">#DE000000</color>
     <color name="cardBg">#F8F8FF</color>
     <color name="statusBar">#121212</color>
+    <color name="white">#FFFFFF</color>
 </resources>

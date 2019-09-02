@@ -24,6 +24,9 @@ import android.util.Log;
 import android.view.View;
 
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -65,8 +68,12 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("direction", direction);
         editor.apply();
-        Button b = findViewById(R.id.direction);
-        b.setOnClickListener(new View.OnClickListener() {
+
+        final TextView directionView = findViewById(R.id.directionTxt);
+        directionView.setText(prettyDirection(type.getDirection0()));
+
+        ImageView changeDir = findViewById(R.id.swap);
+        changeDir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(direction){
@@ -74,11 +81,13 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putBoolean("direction", direction);
                     editor.apply();
+                    directionView.setText(prettyDirection(type.getDirection0()));
                 }else{
                     direction = true;
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putBoolean("direction", direction);
                     editor.apply();
+                    directionView.setText(prettyDirection(type.getDirection1()));
                 }
             }
         });
@@ -132,6 +141,15 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         public int getCount() {
             return 4;
         }
+    }
+
+    private String prettyDirection(String dir){
+        String[] dirArr = dir.split("_");
+        return dirArr[0].toUpperCase() + "  -->  " + dirArr[1].toUpperCase();
+    }
+
+    private String titleCase(String word){
+        return word.substring(0,1).toUpperCase() + word.substring(1);
     }
 
     private ArrayList<String> getTimeTable(Week week, int direction){

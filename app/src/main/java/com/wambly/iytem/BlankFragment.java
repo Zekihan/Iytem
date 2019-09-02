@@ -84,30 +84,24 @@ public class BlankFragment extends Fragment {
             listView.setAdapter(adapter);
             ArrayList<String> list = new ArrayList<>();
             if(prefs.getBoolean("direction",false)){
-                list.add(direction1);
                 list.addAll(filterByTime(content2,getTime()));
                 adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
                 listView.setAdapter(adapter);
             }else{
-                list.add(direction2);
                 list.addAll(filterByTime(content1,getTime()));
                 adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
                 listView.setAdapter(adapter);
             }
-            final String finalDirection = direction1;
-            final String finalDirection1 = direction2;
             prefs.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
                 @Override
                 public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                     ArrayList<String> list = new ArrayList<>();
                     ArrayAdapter<String> adapter;
                     if(prefs.getBoolean("direction",false)){
-                        list.add(finalDirection);
                         list.addAll(filterByTime(content2,getTime()));
                         adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
                         listView.setAdapter(adapter);
                     }else{
-                        list.add(finalDirection1);
                         list.addAll(filterByTime(content1,getTime()));
                         adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
                         listView.setAdapter(adapter);
@@ -122,30 +116,24 @@ public class BlankFragment extends Fragment {
             listView.setAdapter(adapter);
             ArrayList<String> list = new ArrayList<>();
             if(prefs.getBoolean("direction",false)){
-                list.add(direction1);
                 list.addAll(content2);
                 adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
                 listView.setAdapter(adapter);
             }else{
-                list.add(direction2);
                 list.addAll(content1);
                 adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
                 listView.setAdapter(adapter);
             }
-            final String finalDirection2 = direction1;
-            final String finalDirection3 = direction2;
             prefs.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
                 @Override
                 public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                     ArrayList<String> list = new ArrayList<>();
                     ArrayAdapter<String> adapter;
                     if(prefs.getBoolean("direction",false)){
-                        list.add(finalDirection2);
                         list.addAll(content2);
                         adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
                         listView.setAdapter(adapter);
                     }else{
-                        list.add(finalDirection3);
                         list.addAll(content1);
                         adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
                         listView.setAdapter(adapter);
