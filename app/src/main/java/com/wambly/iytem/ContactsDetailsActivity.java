@@ -62,20 +62,7 @@ public class ContactsDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String phoneStr = contact.getPhone();
-                phoneStr = phoneStr.replace("(" , " ");
-                phoneStr = phoneStr.replace(")" , " ");
-                if(phoneStr.replaceAll("\\D", "").length() >= 7) {
-                    phoneStr = phoneStr.split(":")[1];
-                    if ((!phoneStr.contains("232")) && (phoneStr.charAt(0) != '5') &&
-                    (!((phoneStr.charAt(0) == '0') && (phoneStr.charAt(1) == '5')))) {
-                        dialNum("0232" + phoneStr);
-                    }else if((phoneStr.charAt(0) != '0')){
-                        dialNum("0" + phoneStr);
-                    }
-                    else{
-                        dialNum(phoneStr);
-                    }
-                }
+                validateDial(phoneStr);
             }
         });
     }
@@ -83,6 +70,23 @@ public class ContactsDetailsActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp(){
         finish();
         return true;
+    }
+
+    private void validateDial(String phoneStr){
+        phoneStr = phoneStr.replace("(" , " ");
+        phoneStr = phoneStr.replace(")" , " ");
+        if(phoneStr.replaceAll("\\D", "").length() >= 7) {
+            phoneStr = phoneStr.split(":")[1];
+            if ((!phoneStr.contains("232")) && (phoneStr.charAt(0) != '5') &&
+                    (!((phoneStr.charAt(0) == '0') && (phoneStr.charAt(1) == '5')))) {
+                dialNum("0232" + phoneStr);
+            }else if((phoneStr.charAt(0) != '0')){
+                dialNum("0" + phoneStr);
+            }
+            else{
+                dialNum(phoneStr);
+            }
+        }
     }
 
     private void sendEmail(String adress) {

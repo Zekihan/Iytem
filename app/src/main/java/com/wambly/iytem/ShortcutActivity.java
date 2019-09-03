@@ -1,13 +1,8 @@
 package com.wambly.iytem;
 
-import android.content.ComponentName;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
-import androidx.browser.customtabs.CustomTabsCallback;
-import androidx.browser.customtabs.CustomTabsClient;
 import androidx.browser.customtabs.CustomTabsIntent;
-import androidx.browser.customtabs.CustomTabsServiceConnection;
-import androidx.browser.customtabs.CustomTabsSession;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -76,7 +71,6 @@ public class ShortcutActivity extends AppCompatActivity {
                 chromeTab("https://std.iyte.edu.tr/");
             }
         });
-
     }
 
     private void chromeTab(String url){
@@ -87,6 +81,5 @@ public class ShortcutActivity extends AppCompatActivity {
         CustomTabsIntent customTabsIntent = intentBuilder.build();
         customTabsIntent.launchUrl(this, Uri.parse(url));
     }
-
 
 }

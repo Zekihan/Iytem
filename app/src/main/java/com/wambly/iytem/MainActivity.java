@@ -1,5 +1,4 @@
 package com.wambly.iytem;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -14,10 +13,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
@@ -29,11 +33,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-    private static final int MY_REQUEST_CODE = 17300;
-    private AppUpdateManager appUpdateManager;
     SharedPreferences prefs;
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +46,7 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        boolean darkTheme = prefs.getBoolean("darkTheme",false);
-
+        boolean darkTheme = prefs.getBoolean("darkTheme",true);
         if(darkTheme){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }else{
@@ -56,12 +57,26 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
+        drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        Menu menu = navigationView.getMenu();
+        MenuItem nav_theme = menu.findItem(R.id.theme);
 
-        checkUpdate(this);
+        if(darkTheme){
+            nav_theme.setTitle(getString(R.string.light_theme));
+        }else{
+            nav_theme.setTitle(getString(R.string.dark_theme));
+        }
+
+        navigationView.setNavigationItemSelectedListener(this);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref.keepSynced(true);
-
 
         View transportation = findViewById(R.id.transportation);
         transportation.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), FoodActivity.class));
             }
         });
-
         View shortcuts = findViewById(R.id.shortcuts);
         shortcuts.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), ShortcutActivity.class));
             }
         });
-
         View contacts = findViewById(R.id.contacts);
         contacts.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,87 +111,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        boolean darkTheme = prefs.getBoolean("darkTheme",false);
-        MenuItem button = menu.findItem(R.id.theme_switch);
-        if(darkTheme){
-            button.setTitle(getString(R.string.light_theme));
-        }else{
-            button.setTitle(getString(R.string.dark_theme));
-        }
         return true;
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @SuppressWarnings("SwitchStatementWithTooFewBranches")
     public boolean onOptionsItemSelected(MenuItem item) {
 
-
-
-        // Handle item selection
         switch (item.getItemId()) {
-            case R.id.theme_switch:
-                boolean darkTheme = prefs.getBoolean("darkTheme",false);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean("darkTheme",!darkTheme);
-                editor.apply();
-                recreate();
-                return true;
             case R.id.feedback:
                 sendFeedback();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void checkUpdate(Context context) {
-
-        appUpdateManager = AppUpdateManagerFactory.create(context);
-
-        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
-
-        appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
-            @Override
-            public void onSuccess(AppUpdateInfo appUpdateInfo) {
-                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                        && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
-
-                    Log.d("Support in-app-update", "UPDATE_AVAILABLE");
-                    requestUpdate(appUpdateInfo, AppUpdateType.FLEXIBLE);
-                } else {
-                    Log.d("Support in-app-update", "UPDATE_NOT_AVAILABLE");
-                }
-            }
-
-        });
-    }
-
-    private void requestUpdate(AppUpdateInfo appUpdateInfo, @SuppressWarnings("SameParameterValue") int flow_type) {
-        try {
-            appUpdateManager.startUpdateFlowForResult(appUpdateInfo, flow_type, this, MY_REQUEST_CODE);
-        } catch (IntentSender.SendIntentException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == MY_REQUEST_CODE) {
-            if (resultCode != RESULT_OK) {
-                Log.w("Update flow failed! ", "Result code: " + resultCode);
-                checkUpdate(this);
-            }
-        }
-    }
-
     public void onBackPressed() {
-        moveTaskToBack(true);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void sendFeedback() {
@@ -192,6 +144,63 @@ public class MainActivity extends AppCompatActivity {
                 + "--------------------------------------"
         );
         intent.setData(data);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        boolean closeDrawer = true;
+        switch (item.getItemId()) {
+            case R.id.nav_share:
+                try {
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My application name");
+                    String shareMessage= "\nİYTE'de hayat artık daha kolay!\n\n";
+                    shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=com.wambly.iytem";
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                    startActivity(Intent.createChooser(shareIntent, getString(R.string.share)));
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.theme:
+                boolean darkTheme = prefs.getBoolean("darkTheme",false);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("darkTheme",!darkTheme);
+                editor.apply();
+                recreate();
+                closeDrawer = false;
+                break;
+            case R.id.nav_location:
+                Uri gmmIntentUri = Uri.parse("geo:38.320356, 26.638675");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+                break;
+
+            case R.id.nav_emergency:
+                dialNum("02327506222");
+                break;
+            case R.id.nav_rectorate:
+                dialNum("02327506000");
+                break;
+            case R.id.nav_student_affairs:
+                dialNum("02327506300");
+                break;
+            default:
+                break;
+        }
+        if(closeDrawer){
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        return true;
+    }
+
+    private void dialNum(String num){
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        String uri = "tel:" + num ;
+        intent.setData(Uri.parse(uri));
         startActivity(intent);
     }
 

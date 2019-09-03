@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/nav_share"
+        android:icon="@drawable/ic_share_black"
+        android:title="@string/share" />
+
+    <item android:title="@string/settings">
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/theme"
+                    android:icon="@drawable/ic_theme"
+                    android:title="@string/change_theme" />
+
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/location">
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/nav_location"
+                    android:icon="@drawable/ic_map"
+                    android:title="@string/map" />
+            </group>
+        </menu>
+    </item>
+
+
+    <item android:title="@string/communication">
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/nav_emergency"
+                    android:icon="@drawable/ic_phone"
+                    android:title="@string/emergency" />
+                <item
+                    android:id="@+id/nav_rectorate"
+                    android:icon="@drawable/ic_phone"
+                    android:title="@string/rectorate" />
+                <item
+                    android:id="@+id/nav_student_affairs"
+                    android:icon="@drawable/ic_phone"
+                    android:title="@string/student_affairs" />
+            </group>
+        </menu>
+    </item>
+
+</menu>

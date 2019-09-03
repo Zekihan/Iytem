@@ -20,13 +20,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
-import android.text.Layout;
-import android.util.Log;
 import android.view.View;
 
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -147,10 +142,6 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
     private String prettyDirection(String dir){
         String[] dirArr = dir.split("_");
         return dirArr[0].toUpperCase() + "  -->  " + dirArr[1].toUpperCase();
-    }
-
-    private String titleCase(String word){
-        return word.substring(0,1).toUpperCase() + word.substring(1);
     }
 
     private ArrayList<String> getTimeTable(Week week, int direction){

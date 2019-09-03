@@ -1,16 +1,11 @@
 package com.wambly.iytem;
 
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
-import androidx.browser.customtabs.CustomTabsCallback;
-import androidx.browser.customtabs.CustomTabsClient;
 import androidx.browser.customtabs.CustomTabsIntent;
-import androidx.browser.customtabs.CustomTabsServiceConnection;
-import androidx.browser.customtabs.CustomTabsSession;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -23,15 +18,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-
-import java.io.InputStreamReader;
 import java.util.Calendar;
 
 
@@ -77,7 +63,17 @@ public class FoodActivity extends AppCompatActivity {
 
     private void setMenuText(String str){
         TextView tv = findViewById(R.id.menu);
-        String[] menuList = str.split("\n");
+        String menu = prettyMenu(str);
+
+        if(menu.equals("No Menu")){
+            tv.setText(R.string.no_menu);
+        }else{
+            tv.setText(menu);
+        }
+    }
+
+    private String prettyMenu(String menuStr){
+        String[] menuList = menuStr.split("\n");
         StringBuilder menuOut = new StringBuilder();
         for (String m : menuList) {
             if (m.contains("(")) {
@@ -86,11 +82,7 @@ public class FoodActivity extends AppCompatActivity {
                 menuOut.append(m);
             }
         }
-        if(menuOut.toString().equals("No Menu")){
-            tv.setText(R.string.no_menu);
-        }else{
-            tv.setText(menuOut.toString());
-        }
+        return menuOut.toString();
     }
 
     private void showMenu() {
@@ -105,7 +97,6 @@ public class FoodActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot ds) {
                 setMenuText(ds.getValue(String.class));
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

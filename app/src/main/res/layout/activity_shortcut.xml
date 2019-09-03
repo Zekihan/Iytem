@@ -74,7 +74,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
                     android:text="@string/obs"
                     android:textAlignment="center"
                     android:textSize="@dimen/_12ssp"
@@ -121,7 +120,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
                     android:text="@string/iztech"
                     android:textAlignment="center"
                     android:textSize="@dimen/_12ssp"
@@ -170,7 +168,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="@font/roboto"
                     android:text="@string/library"
                     android:textAlignment="center"
                     android:textSize="@dimen/_12ssp"
@@ -216,7 +213,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
                     android:text="@string/cms"
                     android:textAlignment="center"
                     android:textSize="@dimen/_12ssp"
@@ -261,7 +257,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
                     android:text="@string/ydyo"
                     android:textAlignment="center"
                     android:textSize="@dimen/_12ssp"
@@ -307,7 +302,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
                     android:text="@string/webmail"
                     android:textAlignment="center"
                     android:textSize="@dimen/_12ssp"

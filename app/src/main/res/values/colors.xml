@@ -2,12 +2,11 @@
 <resources>
     <color name="colorPrimary">#3949AB</color>
     <color name="colorPrimaryDark">#283593</color>
-    <color name="colorAccent">#304FFE</color>
+    <color name="colorAccent">#E8EAF6</color>
     <color name="bgColor">#FFFFFF</color>
     <color name="lightgray">#ededed</color>
     <color name="black">#000000</color>
     <color name="textColor">#DE000000</color>
-    <color name="cardBg">#F7F7FF</color>
-    <color name="statusBar">#121212</color>
+    <color name="cardBg">#F0F0F9</color>
     <color name="white">#FFFFFF</color>
 </resources>

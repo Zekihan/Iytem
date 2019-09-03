@@ -73,12 +73,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:fontFamily="@font/roboto_bold"
+                    android:textStyle="bold"
                     android:text="@string/monthly_menu"
                     android:textAlignment="center"
-
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -120,7 +118,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:fontFamily="@font/roboto_bold"
                     android:text="@string/add_money"
                     android:textAlignment="center"
                     android:textSize="14sp"
@@ -165,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|top"
                 android:layout_marginTop="@dimen/_18ssp"
-                android:fontFamily="@font/roboto_bold"
+                android:textStyle="bold"
                 android:text="@string/menuTitle"
                 android:textSize="@dimen/_22ssp" />
 
@@ -175,7 +172,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_30ssp"
-                android:fontFamily="@font/roboto"
                 android:lineSpacingExtra="@dimen/_20ssp"
                 android:textAlignment="center"
                 android:textSize="@dimen/_18ssp" />

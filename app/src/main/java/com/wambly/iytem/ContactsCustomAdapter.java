@@ -17,11 +17,11 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
     private List<Contact> contacts;
     private List<Contact> mDisplayedValues;
 
-    public void setContacts(List<Contact> contacts) {
+    void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
     }
 
-    public ContactsCustomAdapter(List<Contact> contacts) {
+    ContactsCustomAdapter(List<Contact> contacts) {
         this.contacts = contacts;
         this.mDisplayedValues = contacts;
     }

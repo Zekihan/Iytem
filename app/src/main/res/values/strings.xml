@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">İytem</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
     <string name="transportation">Ulaşım</string>
     <string name="transportation_des">İYTE\'ye ulaşım saatleri</string>
     <string name="food_des">Yemekhane menüsü   Bakiye yükleme</string>
@@ -37,12 +39,22 @@
     <string name="contact">Kişi</string>
     <string name="feedback">Geri Bildirim</string>
     <string name="textview" translatable="false">TextView</string>
-    <string name="iytem">iytem</string>
+    <string name="iytem">İYTEM</string>
     <string name="dummy" translatable="false">dummy</string>
     <string name="connection_warn">İnternetinizin açık olduğundan emin olun</string>
     <string name="theme_switch">Tema Değiştir</string>
     <string name="light_theme">Açık Tema</string>
     <string name="dark_theme">Koyu Tema</string>
+    <string name="share">Paylaş</string>
+    <string name="welcome">Hoşgeldiniz</string>
+    <string name="change_theme">Tema Değiştir</string>
+    <string name="settings">Ayarlar</string>
+    <string name="communication">İletişim</string>
+    <string name="emergency">Kampüs Acil Durum</string>
+    <string name="rectorate">Rektörlük</string>
+    <string name="student_affairs">Öğrenci İşleri</string>
+    <string name="location">Konum</string>
+    <string name="map">Harita</string>
 
 
 </resources>

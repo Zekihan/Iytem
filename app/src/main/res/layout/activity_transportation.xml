@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:fontFamily="@font/roboto_bold"
+                android:textStyle="bold"
                 android:text="@string/bus_882"
                 android:textSize="@dimen/_20ssp" />
         </androidx.cardview.widget.CardView>
@@ -80,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:fontFamily="@font/roboto_bold"
+                android:textStyle="bold"
                 android:text="@string/teneke"
                 android:textSize="@dimen/_20ssp" />
         </androidx.cardview.widget.CardView>
@@ -105,7 +105,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:fontFamily="@font/roboto_bold"
+                android:textStyle="bold"
                 android:text="@string/bus_982"
                 android:textSize="@dimen/_20ssp" />
         </androidx.cardview.widget.CardView>

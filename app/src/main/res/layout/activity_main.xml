@@ -1,296 +1,309 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/bgColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/open_sans_bold"
-            android:text="@string/iytem"
-            android:textColor="@color/colorPrimary"
-            android:textSize="30sp"
-            tools:layout_editor_absoluteX="166dp"
-            tools:layout_editor_absoluteY="18dp" />
-
-    </androidx.appcompat.widget.Toolbar>
-
-    <androidx.gridlayout.widget.GridLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="4dp"
-        android:layout_weight="8"
-        android:padding="14dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.0"
-        app:alignmentMode="alignMargins"
-        app:columnCount="2"
-        app:columnOrderPreserved="false"
-        app:rowCount="2">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/bgColor">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/transportation"
-            android:layout_width="0dp"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/baloo"
+                android:text="@string/iytem"
+                android:textColor="@color/colorPrimary"
+                android:textSize="34sp" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+
+        <androidx.gridlayout.widget.GridLayout
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="4dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/cardBg"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            app:cardCornerRadius="@dimen/cardCornerRad">
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:layout_weight="8"
+            android:padding="14dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintVertical_bias="0.0"
+            app:alignmentMode="alignMargins"
+            app:columnCount="2"
+            app:columnOrderPreserved="false"
+            app:rowCount="2">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="8dp"
-                android:orientation="vertical">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/transportation"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="4dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/cardBg"
+                app:layout_columnWeight="1"
+                app:layout_rowWeight="1"
+                app:cardCornerRadius="@dimen/cardCornerRad">
 
-                <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_gravity="center"
-                    android:padding="6dp"
-                    android:src="@drawable/ic_bus"
-                    android:tint="?attr/colorControlNormal"
-                    android:contentDescription="@string/dummy" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/transportation"
-                    android:textStyle="bold" />
-
-                <View
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_margin="10dp"
-                    android:background="@color/lightgray" />
+                    android:layout_height="180dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_margin="8dp"
+                    android:orientation="vertical">
 
-                <TextView
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center"
+                        android:padding="6dp"
+                        android:src="@drawable/ic_bus"
+                        android:tint="?attr/colorControlNormal"
+                        android:contentDescription="@string/dummy" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/transportation"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="10dp"
+                        android:background="@color/lightgray" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/transportation_des"
+                        android:textColor="@android:color/darker_gray" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/food"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="4dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="@dimen/cardCornerRad"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/cardBg"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                >
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/transportation_des"
-                    android:textColor="@android:color/darker_gray" />
-            </LinearLayout>
+                    android:layout_height="180dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_margin="8dp"
+                    android:orientation="vertical">
 
-        </androidx.cardview.widget.CardView>
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center"
+                        android:padding="4dp"
+                        android:src="@drawable/ic_food"
+                        android:tint="?attr/colorControlNormal"
+                        android:contentDescription="@string/dummy" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/food"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:background="@color/lightgray" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/food_des"
+                        android:textColor="@android:color/darker_gray" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/food"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="4dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            app:cardCornerRadius="@dimen/cardCornerRad"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/cardBg"
-            app:layout_rowWeight="1"
-            app:layout_columnWeight="1"
-            >
+            <!-- Row 3 -->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="8dp"
-                android:orientation="vertical">
+            <!-- Column 1 -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/shortcuts"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="22dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="@dimen/cardCornerRad"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/cardBg"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1">
 
-                <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_gravity="center"
-                    android:padding="4dp"
-                    android:src="@drawable/ic_food"
-                    android:tint="?attr/colorControlNormal"
-                    android:contentDescription="@string/dummy" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/food"
-                    android:textStyle="bold" />
-
-                <View
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:background="@color/lightgray" />
+                    android:layout_height="180dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_margin="8dp"
+                    android:orientation="vertical">
 
-                <TextView
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center"
+                        android:padding="4dp"
+                        android:src="@drawable/ic_web"
+                        android:tint="?attr/colorControlNormal"
+                        android:contentDescription="@string/dummy" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/shortcuts"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:background="@color/lightgray" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/shortcut_des"
+                        android:textColor="@android:color/darker_gray" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Column 2 -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/contacts"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="22dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="@dimen/cardCornerRad"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/cardBg"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/food_des"
-                    android:textColor="@android:color/darker_gray" />
-            </LinearLayout>
+                    android:layout_height="180dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_margin="8dp"
+                    android:orientation="vertical">
 
-        </androidx.cardview.widget.CardView>
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center"
+                        android:padding="4dp"
+                        android:src="@drawable/ic_contact_mail"
+                        android:tint="?attr/colorControlNormal"
+                        android:contentDescription="@string/dummy" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/contacts"
+                        android:textStyle="bold" />
 
-        <!-- Row 3 -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:background="@color/lightgray" />
 
-        <!-- Column 1 -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/shortcuts"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="22dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            app:cardCornerRadius="@dimen/cardCornerRad"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/cardBg"
-            app:layout_rowWeight="1"
-            app:layout_columnWeight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/contacts_des"
+                        android:textColor="@android:color/darker_gray" />
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="8dp"
-                android:orientation="vertical">
+            </androidx.cardview.widget.CardView>
 
-                <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_gravity="center"
-                    android:padding="4dp"
-                    android:src="@drawable/ic_web"
-                    android:tint="?attr/colorControlNormal"
-                    android:contentDescription="@string/dummy" />
+        </androidx.gridlayout.widget.GridLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/shortcuts"
-                    android:textStyle="bold" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:background="@color/lightgray" />
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/drawer_menu" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/shortcut_des"
-                    android:textColor="@android:color/darker_gray" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <!-- Column 2 -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/contacts"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="22dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            app:cardCornerRadius="@dimen/cardCornerRad"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/cardBg"
-            app:layout_rowWeight="1"
-            app:layout_columnWeight="1">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="8dp"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_gravity="center"
-                    android:padding="4dp"
-                    android:src="@drawable/ic_contact_mail"
-                    android:tint="?attr/colorControlNormal"
-                    android:contentDescription="@string/dummy" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/contacts"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:background="@color/lightgray" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/contacts_des"
-                    android:textColor="@android:color/darker_gray" />
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-    </androidx.gridlayout.widget.GridLayout>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

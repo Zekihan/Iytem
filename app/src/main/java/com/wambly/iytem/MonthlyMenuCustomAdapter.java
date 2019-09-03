@@ -17,7 +17,7 @@ import java.util.List;
 public class MonthlyMenuCustomAdapter extends RecyclerView.Adapter<MonthlyMenuCustomAdapter.MyViewHolder> {
     private List<String> menus;
 
-    public MonthlyMenuCustomAdapter(List<String> menus) {
+    MonthlyMenuCustomAdapter(List<String> menus) {
         this.menus = menus;
     }
 
@@ -26,7 +26,6 @@ public class MonthlyMenuCustomAdapter extends RecyclerView.Adapter<MonthlyMenuCu
     public MonthlyMenuCustomAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.monthly_menu_row_item, parent, false);
-
         return new MonthlyMenuCustomAdapter.MyViewHolder(itemView);
     }
     @Override

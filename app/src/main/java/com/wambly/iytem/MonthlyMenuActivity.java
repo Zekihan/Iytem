@@ -29,7 +29,6 @@ public class MonthlyMenuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        dbCheck();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monthly_menu);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -40,17 +39,16 @@ public class MonthlyMenuActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        dbCheck();
+
         RecyclerView recyclerView = findViewById(R.id.menulist);
         adapter = new MonthlyMenuCustomAdapter(menuList);
         recyclerView.setAdapter(adapter);
-
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
         recyclerView.smoothScrollToPosition(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-
-
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,20 +73,15 @@ public class MonthlyMenuActivity extends AppCompatActivity {
                     }else{
                         menuList.add(menu);
                     }
-
                     adapter.notifyItemInserted(i);
 
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
     }
-
-
-
 
 }
