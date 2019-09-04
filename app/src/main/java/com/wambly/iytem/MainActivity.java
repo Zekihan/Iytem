@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.theme:
-                boolean darkTheme = prefs.getBoolean("darkTheme",false);
+                boolean darkTheme = prefs.getBoolean("darkTheme",true);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean("darkTheme",!darkTheme);
                 editor.apply();

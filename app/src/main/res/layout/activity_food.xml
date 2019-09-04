@@ -171,7 +171,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_30ssp"
+                android:layout_marginTop="@dimen/_20ssp"
                 android:lineSpacingExtra="@dimen/_20ssp"
                 android:textAlignment="center"
                 android:textSize="@dimen/_18ssp" />

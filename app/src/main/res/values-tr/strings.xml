@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">İYTEM</string>
     <string name="transportation">Ulaşım</string>
-    <string name="food">Yemek</string>
+    <string name="food">Yemekhane</string>
     <string name="shortcuts">Kolay Erişim</string>
     <string name="contacts">Rehber</string>
     <string name="obs">ÖBS</string>
@@ -51,6 +51,7 @@
     <string name="student_affairs">Öğrenci İşleri</string>
     <string name="location">Konum</string>
     <string name="map">Harita</string>
+    <string name="launcher_name">İytem</string>
 
 
 </resources>

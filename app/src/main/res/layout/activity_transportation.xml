@@ -20,7 +20,7 @@
     <androidx.gridlayout.widget.GridLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/_100ssp"
+        android:layout_marginTop="@dimen/_90ssp"
         android:layout_marginBottom="8dp"
         android:layout_weight="8"
         android:padding="14dp"
@@ -57,7 +57,7 @@
                 android:layout_gravity="center"
                 android:textStyle="bold"
                 android:text="@string/bus_882"
-                android:textSize="@dimen/_20ssp" />
+                android:textSize="@dimen/_18ssp" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -82,7 +82,7 @@
                 android:layout_gravity="center"
                 android:textStyle="bold"
                 android:text="@string/teneke"
-                android:textSize="@dimen/_20ssp" />
+                android:textSize="@dimen/_18ssp" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -107,7 +107,7 @@
                 android:layout_gravity="center"
                 android:textStyle="bold"
                 android:text="@string/bus_982"
-                android:textSize="@dimen/_20ssp" />
+                android:textSize="@dimen/_18ssp" />
         </androidx.cardview.widget.CardView>
     </androidx.gridlayout.widget.GridLayout>
 

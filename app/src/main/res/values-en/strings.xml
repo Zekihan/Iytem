@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">İYTEM</string>
     <string name="transportation">Transportation</string>
-    <string name="food">Food</string>
+    <string name="food">Refectory</string>
     <string name="shortcuts">Easy Access</string>
     <string name="contacts">Contacts</string>
     <string name="obs">OBS</string>
@@ -50,4 +50,5 @@
     <string name="student_affairs">Student Affairs</string>
     <string name="location">Location</string>
     <string name="map">Map</string>
+    <string name="launcher_name">İztech</string>
 </resources>
