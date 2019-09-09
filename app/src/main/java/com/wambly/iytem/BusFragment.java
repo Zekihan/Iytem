@@ -17,13 +17,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 
-public class BlankFragment extends Fragment {
+public class BusFragment extends Fragment {
 
     private static final String ARG_CONTENT1 = "content1";
     private static final String ARG_CONTENT2 = "content2";
@@ -41,17 +40,16 @@ public class BlankFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public BlankFragment() {
+    public BusFragment() {
 
     }
 
-    public static BlankFragment newInstance(ArrayList<String> param1, ArrayList<String> param2, boolean today, Serializable type) {
-        BlankFragment fragment = new BlankFragment();
+    public static BusFragment newInstance(ArrayList<String> param1, ArrayList<String> param2, boolean today) {
+        BusFragment fragment = new BusFragment();
         Bundle args = new Bundle();
         args.putStringArrayList(ARG_CONTENT1, param1);
         args.putStringArrayList(ARG_CONTENT2, param2);
         args.putBoolean("today",today);
-        args.putSerializable("type",type);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,7 +72,6 @@ public class BlankFragment extends Fragment {
             content1 = getArguments().getStringArrayList(ARG_CONTENT1);
             content2 = getArguments().getStringArrayList(ARG_CONTENT2);
             today = getArguments().getBoolean("today");
-            type = (TransportationType) getArguments().getSerializable("type");
         }
 
         if(today){

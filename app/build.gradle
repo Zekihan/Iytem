@@ -7,8 +7,8 @@ android {
         applicationId "com.wambly.iytem"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 20
-        versionName "1.5"
+        versionCode 22
+        versionName "1.51"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

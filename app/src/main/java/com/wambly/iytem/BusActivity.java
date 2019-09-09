@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import android.widget.TextView;
@@ -27,7 +28,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class BusActivity extends AppCompatActivity implements BlankFragment.OnFragmentInteractionListener {
+public class BusActivity extends AppCompatActivity implements BusFragment.OnFragmentInteractionListener {
 
     private boolean direction = false;
     private TransportationType type;
@@ -47,15 +48,14 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
-
-        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         ViewPager mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -111,30 +111,33 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
                 case 0:
                     Calendar c = Calendar.getInstance();
                     if(c.get(Calendar.DAY_OF_WEEK)== Calendar.SUNDAY){
-                        fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, 0)
-                                , getTimeTable(Week.sunday, 1),true,type);
+                        fragment = BusFragment.newInstance(getTimeTable(Week.sunday, 0),
+                                getTimeTable(Week.sunday, 1),true);
                     }else if(c.get(Calendar.DAY_OF_WEEK)== Calendar.SATURDAY){
-                        fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, 0)
-                                ,getTimeTable(Week.saturday, 1),true,type);
+                        fragment = BusFragment.newInstance(getTimeTable(Week.saturday, 0),
+                                getTimeTable(Week.saturday, 1),true);
 
                     }else{
-                        fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, 0)
-                                ,getTimeTable(Week.weekday, 1),true,type);
+                        fragment = BusFragment.newInstance(getTimeTable(Week.weekday, 0),
+                                getTimeTable(Week.weekday, 1),true);
                     }
                     break;
                 case 1:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, 0)
-                            ,getTimeTable(Week.weekday, 1),false,type);
+                    fragment = BusFragment.newInstance(getTimeTable(Week.weekday, 0),
+                            getTimeTable(Week.weekday, 1),false);
                     break;
                 case 2:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, 0)
-                            ,getTimeTable(Week.saturday, 1),false,type);
+                    fragment = BusFragment.newInstance(getTimeTable(Week.saturday, 0),
+                            getTimeTable(Week.saturday, 1),false);
                     break;
                 case 3:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, 0)
-                            ,getTimeTable(Week.sunday, 1),false,type);
+                    fragment = BusFragment.newInstance(getTimeTable(Week.sunday, 0),
+                            getTimeTable(Week.sunday, 1),false);
                     break;
                 default:
+                    fragment = BusFragment.newInstance(getTimeTable(Week.weekday, 0),
+                            getTimeTable(Week.weekday, 1),false);
+                    Log.e("F", "getItem: err");
                     break;
             }
             return fragment;

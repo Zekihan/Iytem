@@ -37,14 +37,14 @@ public class FoodActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        showMenu();
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
+        showMenu();
 
         View food = findViewById(R.id.addMoney);
         food.setOnClickListener(new View.OnClickListener() {
