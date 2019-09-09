@@ -87,10 +87,10 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
         };
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView name;
-        TextView department;
-        TextView title;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        final TextView name;
+        final TextView department;
+        final TextView title;
 
         MyViewHolder(@NonNull View view) {
             super(view);

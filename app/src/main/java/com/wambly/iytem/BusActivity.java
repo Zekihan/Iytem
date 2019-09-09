@@ -3,7 +3,7 @@ package com.wambly.iytem;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,8 +43,11 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(type.getTitleVal());
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if(getSupportActionBar()!= null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
 
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -100,6 +103,7 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             super(fm);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             Fragment fragment = null;
@@ -130,6 +134,8 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
                     fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, 0)
                             ,getTimeTable(Week.sunday, 1),false,type);
                     break;
+                default:
+                    break;
             }
             return fragment;
         }
@@ -150,7 +156,7 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         String direct;
         if(direction == 0){
-             direct = type.getDirection0();
+            direct = type.getDirection0();
         }else{
             direct = type.getDirection1();
         }
@@ -167,7 +173,7 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });

@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+
+import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.util.Log;
@@ -74,8 +76,6 @@ public class BlankFragment extends Fragment {
             today = getArguments().getBoolean("today");
             type = (TransportationType) getArguments().getSerializable("type");
         }
-        direction1 = type.getStrDirection0();
-        direction2 = type.getStrDirection1();
 
         if(today){
             final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
@@ -208,7 +208,7 @@ public class BlankFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;

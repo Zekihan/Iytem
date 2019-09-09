@@ -11,7 +11,7 @@
     app:cardCornerRadius="@dimen/cardCornerRad"
     app:cardElevation="4dp">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/activatedBackgroundIndicator"

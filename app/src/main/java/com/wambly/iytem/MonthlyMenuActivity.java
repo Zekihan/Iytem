@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.View;
 
 import com.google.firebase.database.DataSnapshot;
@@ -24,8 +26,8 @@ import java.util.List;
 
 public class MonthlyMenuActivity extends AppCompatActivity {
 
-    final List<String> menuList = new ArrayList<>();
-    MonthlyMenuCustomAdapter adapter;
+    private final List<String> menuList = new ArrayList<>();
+    private MonthlyMenuCustomAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +38,10 @@ public class MonthlyMenuActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.monthly_menu);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if(getSupportActionBar()!= null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         dbCheck();
 
@@ -68,9 +72,12 @@ public class MonthlyMenuActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (int i = 1; i <= c.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
                     String menu = dataSnapshot.child(Integer.toString(i)).getValue(String.class);
-                    if(menu.equals("No Menu")){
+                    if(menu == null){
+                        Log.e("DBE", "onDataChange: DB error");
+                    }else if(menu.equals("No Menu")){
                         menuList.add(getString(R.string.no_menu));
-                    }else{
+                    }
+                    else{
                         menuList.add(menu);
                     }
                     adapter.notifyItemInserted(i);
@@ -78,7 +85,7 @@ public class MonthlyMenuActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });

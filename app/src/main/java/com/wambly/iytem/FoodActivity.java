@@ -32,8 +32,10 @@ public class FoodActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.food);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if(getSupportActionBar()!= null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         showMenu();
 
@@ -105,6 +107,7 @@ public class FoodActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void chromeTab(String url){
         CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
         intentBuilder.setStartAnimations(this,R.anim.slide_in_right , R.anim.slide_out_left);
