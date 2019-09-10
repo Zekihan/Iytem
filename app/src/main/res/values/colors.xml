@@ -7,5 +7,5 @@
     <color name="lightgray">#ededed</color>
     <color name="black">#000000</color>
     <color name="textColor">#DE000000</color>
-    <color name="cardBg">#F0F0F9</color>
+    <color name="cardBg">#F7F7FF</color>
 </resources>

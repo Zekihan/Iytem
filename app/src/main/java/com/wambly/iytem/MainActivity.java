@@ -1,5 +1,4 @@
 package com.wambly.iytem;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -7,12 +6,14 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.preference.PreferenceManager;
 
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -24,6 +25,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.play.core.install.InstallState;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.InstallStatus;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,8 +42,6 @@ import com.google.android.play.core.tasks.OnSuccessListener;
 import com.google.android.play.core.tasks.Task;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     private static final int MY_REQUEST_CODE = 17300;
     private AppUpdateManager appUpdateManager;
+    private boolean forcedUpdate = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+
         boolean darkTheme = prefs.getBoolean("darkTheme",true);
         if(darkTheme){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -81,7 +87,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref.keepSynced(true);
-        appUpdate();
+
+        boolean checkUpdate = prefs.getBoolean("checkUpdate", false);
+        if(checkUpdate){
+            appUpdate();
+        }
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("checkUpdate", true);
+        editor.apply();
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -119,6 +133,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(getApplicationContext(),ContactsActivity.class));
             }
         });
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("checkUpdate", false);
+        editor.apply();
     }
 
     @Override
@@ -160,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(intent);
     }
 
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         boolean closeDrawer = true;
@@ -180,13 +203,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.theme:
                 boolean darkTheme = prefs.getBoolean("darkTheme",true);
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean("darkTheme",!darkTheme);
+                editor.putBoolean("darkTheme", !darkTheme);
+                editor.putBoolean("checkUpdate", false);
                 editor.apply();
                 recreate();
                 closeDrawer = false;
+
                 break;
             case R.id.nav_location:
-                Uri gmmIntentUri = Uri.parse("geo:38.320356, 26.638675");
+                Uri gmmIntentUri = Uri.parse("geo:38.319212, 26.643241?q=İzmir Yüksek Teknoloji Enstitüsü İYTE");
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 startActivity(mapIntent);
@@ -210,6 +235,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+
     private void dialNum(String num){
         Intent intent = new Intent(Intent.ACTION_DIAL);
         String uri = "tel:" + num ;
@@ -226,39 +252,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onDataChange(@NonNull DataSnapshot ds) {
 
-                Long updateLevel = ds.child("appUpdate").getValue(Long.class);
-
+                Integer updateLevel = ds.child("appUpdate").getValue(Integer.class);
                 if(updateLevel != null){
                     if(updateLevel == 2){
-                        update(AppUpdateType.IMMEDIATE, getApplicationContext());
+                        update(AppUpdateType.IMMEDIATE);
                     }else if(updateLevel == 1){
-                        update(AppUpdateType.FLEXIBLE, getApplicationContext());
+                        update(AppUpdateType.FLEXIBLE);
+                    }else if(updateLevel == 3){
+                        forcedUpdate = true;
+                        update(AppUpdateType.IMMEDIATE);
                     }
-                }else{
-                    System.out.println("The read failed " );
                 }
-
-                Log.d("update level", Long.toString(updateLevel));
+                Log.d("Update level: ", Integer.toString(updateLevel));
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-
     }
 
-    private void update(final int updateT, Context context){
-
-        appUpdateManager = AppUpdateManagerFactory.create(context);
+    private void update(final int updateT){
+        appUpdateManager = AppUpdateManagerFactory.create(this);
         Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
-
         appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
             @Override
             public void onSuccess(AppUpdateInfo appUpdateInfo) {
                 if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                         && appUpdateInfo.isUpdateTypeAllowed(updateT)) {
-
                     Log.d("Support in-app-update", "UPDATE_AVAILABLE");
                     requestUpdate(appUpdateInfo, updateT);
                 } else {
@@ -268,9 +289,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    private void requestUpdate(AppUpdateInfo appUpdateInfo, @SuppressWarnings("SameParameterValue") int flow_type) {
+    private void requestUpdate(final AppUpdateInfo appUpdateInfo, int flow_type) {
         try {
             appUpdateManager.startUpdateFlowForResult(appUpdateInfo, flow_type, this, MY_REQUEST_CODE);
+            if(flow_type == AppUpdateType.FLEXIBLE ){
+                appUpdateManager.registerListener(new InstallStateUpdatedListener() {
+                    @Override
+                    public void onStateUpdate(InstallState installState) {
+                        if (installState.installStatus() == InstallStatus.DOWNLOADED){
+                            appUpdateManager.completeUpdate();
+                        }
+                    }
+                });
+            }
         } catch (IntentSender.SendIntentException e) {
             e.printStackTrace();
         }
@@ -283,7 +314,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (requestCode == MY_REQUEST_CODE) {
             if (resultCode != RESULT_OK) {
                 Log.w("Update flow failed! ", "Result code: " + resultCode);
-                appUpdate();
+                if(forcedUpdate){
+                    appUpdate();
+                }
             }
         }
     }
