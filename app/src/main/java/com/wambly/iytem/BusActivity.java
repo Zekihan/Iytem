@@ -20,7 +20,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import android.widget.TextView;
@@ -41,7 +40,6 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(busService.getPrettyName());
         if(getSupportActionBar()!= null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -62,6 +60,8 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
         busService = getIntent().getParcelableExtra("busServices");
+
+        toolbar.setTitle(busService.getPrettyName());
 
         direction = false;
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -90,6 +90,7 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
             }
         });
     }
+
 
     @Override
     public void onFragmentInteraction(Uri uri) { }
@@ -132,10 +133,7 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
                             getTimeTable(Week.sunday, 1),false);
                     break;
                 default:
-                    fragment = BusFragment.newInstance(getTimeTable(Week.weekday, 0),
-                            getTimeTable(Week.weekday, 1),false);
-                    Log.e("F", "getItem: err");
-                    break;
+                    throw new IllegalStateException("Unexpected value: " + position);
             }
             return fragment;
         }
@@ -155,7 +153,6 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
         }else{
             direct = busService.getDirection1();
         }
-
         final DatabaseReference ref = database.getReference().child("transportation").
                 child(busService.getName()).child(week.toString()).child(direct);
 
@@ -166,13 +163,11 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
                     timeTable.add(postSnap.getValue(String.class));
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-
         return timeTable;
     }
 

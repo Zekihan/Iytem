@@ -26,23 +26,13 @@ public class BusFragment extends Fragment {
 
     private static final String ARG_CONTENT1 = "content1";
     private static final String ARG_CONTENT2 = "content2";
-
-    // TODO: Rename and change types of parameters
+    
     private ArrayList<String> content1;
     private ArrayList<String> content2;
-
     private boolean today = false;
-
-    private TransportationType type;
-    private String direction1 = "";
-    private String direction2 = "";
-
-
     private OnFragmentInteractionListener mListener;
 
-    public BusFragment() {
-
-    }
+    public BusFragment() { }
 
     public static BusFragment newInstance(ArrayList<String> param1, ArrayList<String> param2, boolean today) {
         BusFragment fragment = new BusFragment();
@@ -114,13 +104,19 @@ public class BusFragment extends Fragment {
             ArrayList<String> list = new ArrayList<>();
             if(prefs.getBoolean("direction",false)){
                 list.addAll(content2);
-                adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
-                listView.setAdapter(adapter);
             }else{
                 list.addAll(content1);
-                adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
-                listView.setAdapter(adapter);
             }
+            if(list.isEmpty()){
+                list = new ArrayList<>();
+                list.add("Loading - Yükleniyor");
+            }
+            else if(list.get(0).equals("Sefer Yok")){
+                list = new ArrayList<>();
+                list.add("Sefer Yok - No Service");
+            }
+            adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
+            listView.setAdapter(adapter);
             prefs.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
                 @Override
                 public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -128,13 +124,11 @@ public class BusFragment extends Fragment {
                     ArrayAdapter<String> adapter;
                     if(prefs.getBoolean("direction",false)){
                         list.addAll(content2);
-                        adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
-                        listView.setAdapter(adapter);
                     }else{
                         list.addAll(content1);
-                        adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
-                        listView.setAdapter(adapter);
                     }
+                    adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
+                    listView.setAdapter(adapter);
                 }
             });
         }
@@ -142,12 +136,14 @@ public class BusFragment extends Fragment {
     }
     private ArrayList<String> getSchedule(){
         ArrayList<String> list = new ArrayList<>();
+        String direction2 = "";
         list.add(direction2);
         list.addAll(content1);
         list.add(" ");
+        String direction1 = "";
         list.add(direction1);
         list.addAll(content2);
-        return  list;
+        return list;
     }
     private String getTime(){
         Calendar calendar = Calendar.getInstance();
@@ -181,6 +177,7 @@ public class BusFragment extends Fragment {
                 }
             }
         }
+
         if(result.isEmpty()){
             result.add("Sefer Yok - No Service");
         }
@@ -197,13 +194,6 @@ public class BusFragment extends Fragment {
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -213,7 +203,6 @@ public class BusFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-
     }
 
     @Override
@@ -222,14 +211,7 @@ public class BusFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
