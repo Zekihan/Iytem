@@ -1,78 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".BusActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/appbar_padding_top"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/Widget.AppCompat.Light.ActionBar">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
+            android:theme="@style/ToolbarTheme"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_weight="1"
-            android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
+            android:layout_height="match_parent"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="@string/app_name"/>
 
-        <android.support.design.widget.TabLayout
+        <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
+            app:tabTextAppearance="@style/CustomTabText"
+            app:layout_scrollFlags="scroll|enterAlways"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/tabItem"
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/today" />
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/tabItem2"
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/week_day" />
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/tabItem3"
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/saturday" />
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/tabItem4"
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sunday" />
 
-        </android.support.design.widget.TabLayout>
-    </android.support.design.widget.AppBarLayout>
+        </com.google.android.material.tabs.TabLayout>
 
-    <android.support.v4.view.ViewPager
+
+        <RelativeLayout
+            android:id="@+id/direction"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:theme="@style/ToolbarTheme"
+            android:background="@color/cardBg"
+            android:elevation="8dp">
+
+            <TextView
+                android:id="@+id/directionTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="20dp"
+                android:background="@color/cardBg"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <ImageView
+                android:id="@+id/swap"
+                android:layout_width="40dp"
+                android:layout_height="36dp"
+                android:scaleType="fitCenter"
+                android:layout_centerInParent="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="30dp"
+                android:tint="?attr/colorControlNormal"
+                android:background="@color/cardBg"
+                app:srcCompat="@drawable/ic_swap_horiz"
+                android:contentDescription="@string/change_direction" />
+
+        </RelativeLayout>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <Button
-        android:id="@+id/direction"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="@color/colorAccent"
-        android:fontFamily="@font/open_sans_semibold"
-        android:text="@string/change_direction"
-        app:layout_anchor="@+id/container"
-        app:layout_anchorGravity="bottom|center" />
-
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

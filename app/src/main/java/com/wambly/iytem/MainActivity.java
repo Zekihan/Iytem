@@ -1,66 +1,111 @@
 package com.wambly.iytem;
-import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+
+import androidx.preference.PreferenceManager;
+
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.play.core.install.InstallState;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.InstallStatus;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.tasks.OnSuccessListener;
+import com.google.android.play.core.tasks.Task;
 import com.google.firebase.database.ValueEventListener;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.params.HttpClientParams;
-import org.apache.commons.httpclient.params.HttpMethodParams;
-import org.apache.commons.io.IOUtils;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.ConnectException;
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-
-public class MainActivity extends AppCompatActivity {
+    private SharedPreferences prefs;
+    private DrawerLayout drawer;
+    private static final int MY_REQUEST_CODE = 17300;
+    private AppUpdateManager appUpdateManager;
+    private boolean forcedUpdate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+        boolean darkTheme = prefs.getBoolean("darkTheme",true);
+        if(darkTheme){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
 
-        View announcements = findViewById(R.id.announcements);
-        announcements.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), AnnouncementsActivity.class));
-            }
-        });
+        drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        Menu menu = navigationView.getMenu();
+        MenuItem nav_theme = menu.findItem(R.id.theme);
+
+        if(darkTheme){
+            nav_theme.setTitle(getString(R.string.light_theme));
+        }else{
+            nav_theme.setTitle(getString(R.string.dark_theme));
+        }
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        ref.keepSynced(true);
+
+        boolean checkUpdate = prefs.getBoolean("checkUpdate", false);
+        if(checkUpdate){
+            appUpdate();
+        }
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("checkUpdate", true);
+        editor.apply();
+
+        navigationView.setNavigationItemSelectedListener(this);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+
         View transportation = findViewById(R.id.transportation);
         transportation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), TransportationActivity.class));
-            }
-        });
-        View tips = findViewById(R.id.tips);
-        tips.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), TipsActivity.class));
             }
         });
         View food = findViewById(R.id.food);
@@ -70,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), FoodActivity.class));
             }
         });
-
         View shortcuts = findViewById(R.id.shortcuts);
         shortcuts.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,8 +122,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), ShortcutActivity.class));
             }
         });
-
-
         View contacts = findViewById(R.id.contacts);
         contacts.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,191 +129,189 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),ContactsActivity.class));
             }
         });
+    }
 
-        saveTransportation();
-        saveMonthlyMenu();
-        saveContacts();
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("checkUpdate", false);
+        editor.apply();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-    private static String getHtml(String fileURL)
-            throws IOException {
-        GetMethod get = new GetMethod(fileURL);
-        HttpClient client = new HttpClient();
-        HttpClientParams params = client.getParams();
-        params.setSoTimeout(2000);
-        params.setParameter(HttpMethodParams.USER_AGENT,
-                "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2"
-        );
-        client.setParams(params);
-        try {
-            client.executeMethod(get);
-        } catch(ConnectException e){
-            // Add some context to the exception and rethrow
-            throw new IOException("ConnectionException trying to GET " +
-                    fileURL,e);
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.feedback) {
+            sendFeedback();
+            return true;
         }
-
-        if(get.getStatusCode()!=200){
-            throw new FileNotFoundException(
-                    "Server returned " + get.getStatusCode());
-        }
-        return  IOUtils.toString(get.getResponseBodyAsStream());
-    }
-    private void saveMonthlyMenu(){
-
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        final FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = mDatabase.getReference().child("food").child("vcs");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                final Integer vcs = dataSnapshot.getValue(Integer.class);
-                if (prefs.getInt("MonthlyMenuVCS",-1)< vcs){
-                    final String s = "https://iytem-e266d.firebaseio.com/food.json";
-                    final FileOutputStream[] outputStream = new FileOutputStream[1];
-                    try {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                String x;
-                                try {
-                                        x = getHtml(s);
-                                    try {
-                                        outputStream[0] = openFileOutput("monthlyMenu.json", Context.MODE_PRIVATE);
-                                        outputStream[0].write(x.getBytes());
-                                        outputStream[0].close();
-                                        SharedPreferences.Editor editor = prefs.edit();
-                                        editor.putInt("MonthlyMenuVCS", vcs);
-                                        editor.apply();
-                                    } catch (FileNotFoundException e) {
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }).start();
-                    }catch (Exception e) {
-                        Log.e("Main",""+e.toString());
-                        e.printStackTrace();
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-    private void saveTransportation(){
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        final FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = mDatabase.getReference().child("transportation").child("vcs");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final Integer vcs = dataSnapshot.getValue(Integer.class);
-                if (prefs.getInt("TransportationVCS",-1)< vcs){
-                    final String s = "https://iytem-e266d.firebaseio.com/transportation.json";
-                    final FileOutputStream[] outputStream = new FileOutputStream[1];
-                    try {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                String x;
-                                try {
-                                    x = getHtml(s);
-                                    try {
-                                        outputStream[0] = openFileOutput("transportation.json", Context.MODE_PRIVATE);
-                                        outputStream[0].write(x.getBytes());
-                                        outputStream[0].close();
-                                        SharedPreferences.Editor editor = prefs.edit();
-                                        editor.putInt("TransportationVCS", vcs);
-                                        editor.apply();
-                                    } catch (FileNotFoundException e) {
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }).start();
-                    }catch (Exception e) {
-                        Log.e("Main",""+e.toString());
-                        e.printStackTrace();
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        return super.onOptionsItemSelected(item);
     }
 
-    private void saveContacts(){
-
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        final FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = mDatabase.getReference().child("contacts").child("vcs");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final Integer vcs = dataSnapshot.getValue(Integer.class);
-                if (prefs.getInt("ContactsVCS",-1)< vcs){
-                    final String s = "https://iytem-e266d.firebaseio.com/contacts.json";
-                    final FileOutputStream[] outputStream = new FileOutputStream[1];
-                    try {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                String x;
-                                try {
-                                    x = getHtml(s);
-                                    try {
-                                        outputStream[0] = openFileOutput("contacts.json", Context.MODE_PRIVATE);
-                                        outputStream[0].write(x.getBytes());
-                                        outputStream[0].close();
-                                        SharedPreferences.Editor editor = prefs.edit();
-                                        editor.putInt("ContactsVCS", vcs);
-                                        editor.apply();
-                                    } catch (FileNotFoundException e) {
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }).start();
-                    }catch (Exception e) {
-                        Log.e("Main",""+e.toString());
-                        e.printStackTrace();
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
+    @Override
     public void onBackPressed() {
-        //  super.onBackPressed();
-        moveTaskToBack(true);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
+    private void sendFeedback() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri data = Uri.parse("mailto:wamblywambly@gmail.com?subject=" + "Feedback for [Iytem] app" + "&body="
+                + "\n"+ "\n"+ "\n"+ "\n"+ "\n"+ "\n"+ "\n"+ "\n"
+                + "--------------------------------------" + "\n"
+                + "Android API Level: " + Build.VERSION.SDK_INT + "\n"
+                + "Brand and Model: " + Build.BRAND + " " + android.os.Build.MODEL + "\n"
+                + "App Version and Code: " + BuildConfig.VERSION_NAME + " / " + BuildConfig.VERSION_CODE + "\n"
+                + "--------------------------------------"
+        );
+        intent.setData(data);
+        startActivity(intent);
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        boolean closeDrawer = true;
+        switch (item.getItemId()) {
+            case R.id.nav_share:
+                try {
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My application name");
+                    String shareMessage= "\nİYTE'de hayat artık daha kolay!\n\n";
+                    shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=com.wambly.iytem";
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                    startActivity(Intent.createChooser(shareIntent, getString(R.string.share)));
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.theme:
+                boolean darkTheme = prefs.getBoolean("darkTheme",true);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("darkTheme", !darkTheme);
+                editor.putBoolean("checkUpdate", false);
+                editor.apply();
+                recreate();
+                closeDrawer = false;
+                break;
+            case R.id.nav_location:
+                Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse("https://www.google.com/maps/search/?api=1&query=" +
+                                "İzmir Yüksek Teknoloji Enstitüsü İYTE"));
+                startActivity(mapIntent);
+                break;
+            case R.id.nav_emergency:
+                dialNum("02327506222");
+                break;
+            case R.id.nav_rectorate:
+                dialNum("02327506000");
+                break;
+            case R.id.nav_student_affairs:
+                dialNum("02327506300");
+                break;
+            default:
+                break;
+        }
+        if(closeDrawer){
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        return true;
+    }
+
+
+    private void dialNum(String num){
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        String uri = "tel:" + num ;
+        intent.setData(Uri.parse(uri));
+        startActivity(intent);
+    }
+
+    private void appUpdate() {
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference ref = database.getReference();
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot ds) {
+
+                Integer updateLevel = ds.child("appUpdate").getValue(Integer.class);
+                if(updateLevel != null){
+                    if(updateLevel == 2){
+                        update(AppUpdateType.IMMEDIATE);
+                    }else if(updateLevel == 1){
+                        update(AppUpdateType.FLEXIBLE);
+                    }else if(updateLevel == 3){
+                        forcedUpdate = true;
+                        update(AppUpdateType.IMMEDIATE);
+                    }
+                }
+                Log.d("Update level: ", Integer.toString(updateLevel));
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+    }
+
+    private void update(final int updateT){
+        appUpdateManager = AppUpdateManagerFactory.create(this);
+        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+        appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
+            @Override
+            public void onSuccess(AppUpdateInfo appUpdateInfo) {
+                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                        && appUpdateInfo.isUpdateTypeAllowed(updateT)) {
+                    Log.d("Support in-app-update", "UPDATE_AVAILABLE");
+                    requestUpdate(appUpdateInfo, updateT);
+                } else {
+                    Log.d("Support in-app-update", "UPDATE_NOT_AVAILABLE");
+                }
+            }
+        });
+    }
+
+    private void requestUpdate(final AppUpdateInfo appUpdateInfo, int flow_type) {
+        try {
+            appUpdateManager.startUpdateFlowForResult(appUpdateInfo, flow_type, this, MY_REQUEST_CODE);
+            if(flow_type == AppUpdateType.FLEXIBLE ){
+                appUpdateManager.registerListener(new InstallStateUpdatedListener() {
+                    @Override
+                    public void onStateUpdate(InstallState installState) {
+                        if (installState.installStatus() == InstallStatus.DOWNLOADED){
+                            appUpdateManager.completeUpdate();
+                        }
+                    }
+                });
+            }
+        } catch (IntentSender.SendIntentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == MY_REQUEST_CODE) {
+            if (resultCode != RESULT_OK) {
+                Log.w("Update flow failed! ", "Result code: " + resultCode);
+                if(forcedUpdate){
+                    appUpdate();
+                }
+            }
+        }
+    }
 }

@@ -3,34 +3,35 @@ package com.wambly.iytem;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
-import android.preference.PreferenceManager;
-import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.preference.PreferenceManager;
+import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
 
-import android.widget.Button;
+import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Scanner;
 
-public class BusActivity extends AppCompatActivity implements BlankFragment.OnFragmentInteractionListener {
+public class BusActivity extends AppCompatActivity implements BusFragment.OnFragmentInteractionListener {
 
-    private boolean[] direction = {false};//iyte-izmir
+    private boolean direction = false;
+    private TransportationType type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +39,15 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
         setContentView(R.layout.activity_bus);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        type = (TransportationType) getIntent().getSerializableExtra("type");
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(R.string.bus);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        toolbar.setTitle(type.getTitleVal());
+        if(getSupportActionBar()!= null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,52 +55,41 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             }
         });
 
-        // Set up the ViewPager with the sections adapter.
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
         ViewPager mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
         TabLayout tabLayout = findViewById(R.id.tabs);
-
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("direction", direction[0]);
+        editor.putBoolean("direction", direction);
         editor.apply();
-        Button b = findViewById(R.id.direction);
-        b.setOnClickListener(new View.OnClickListener() {
+
+        final TextView directionView = findViewById(R.id.directionTxt);
+        directionView.setText(prettyDirection(type.getDirection0()));
+
+        View changeDir = findViewById(R.id.direction);
+        changeDir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(direction[0]){
-                    direction[0] = false;
+                if(direction){
+                    direction = false;
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putBoolean("direction", direction[0]);
+                    editor.putBoolean("direction", direction);
                     editor.apply();
+                    directionView.setText(prettyDirection(type.getDirection0()));
                 }else{
-                    direction[0] = true;
+                    direction = true;
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putBoolean("direction", direction[0]);
+                    editor.putBoolean("direction", direction);
                     editor.apply();
+                    directionView.setText(prettyDirection(type.getDirection1()));
                 }
             }
         });
-
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -111,6 +103,7 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
             super(fm);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             Fragment fragment = null;
@@ -118,63 +111,81 @@ public class BusActivity extends AppCompatActivity implements BlankFragment.OnFr
                 case 0:
                     Calendar c = Calendar.getInstance();
                     if(c.get(Calendar.DAY_OF_WEEK)== Calendar.SUNDAY){
-                        fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, Direction.iyte_izmir),getTimeTable(Week.sunday, Direction.izmir_iyte),true,"bus");
+                        fragment = BusFragment.newInstance(getTimeTable(Week.sunday, 0),
+                                getTimeTable(Week.sunday, 1),true);
                     }else if(c.get(Calendar.DAY_OF_WEEK)== Calendar.SATURDAY){
-                        fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, Direction.iyte_izmir),getTimeTable(Week.saturday, Direction.izmir_iyte),true,"bus");
+                        fragment = BusFragment.newInstance(getTimeTable(Week.saturday, 0),
+                                getTimeTable(Week.saturday, 1),true);
+
                     }else{
-                        fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, Direction.iyte_izmir),getTimeTable(Week.weekday, Direction.izmir_iyte),true,"bus");
+                        fragment = BusFragment.newInstance(getTimeTable(Week.weekday, 0),
+                                getTimeTable(Week.weekday, 1),true);
                     }
                     break;
                 case 1:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.weekday, Direction.iyte_izmir),getTimeTable(Week.weekday, Direction.izmir_iyte),false,"bus");
+                    fragment = BusFragment.newInstance(getTimeTable(Week.weekday, 0),
+                            getTimeTable(Week.weekday, 1),false);
                     break;
                 case 2:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.saturday, Direction.iyte_izmir),getTimeTable(Week.saturday, Direction.izmir_iyte),false,"bus");
+                    fragment = BusFragment.newInstance(getTimeTable(Week.saturday, 0),
+                            getTimeTable(Week.saturday, 1),false);
                     break;
                 case 3:
-                    fragment = BlankFragment.newInstance(getTimeTable(Week.sunday, Direction.iyte_izmir),getTimeTable(Week.sunday, Direction.izmir_iyte),false,"bus");
+                    fragment = BusFragment.newInstance(getTimeTable(Week.sunday, 0),
+                            getTimeTable(Week.sunday, 1),false);
+                    break;
+                default:
+                    fragment = BusFragment.newInstance(getTimeTable(Week.weekday, 0),
+                            getTimeTable(Week.weekday, 1),false);
+                    Log.e("F", "getItem: err");
                     break;
             }
             return fragment;
         }
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return 4;
         }
     }
 
-    private ArrayList<String> getTimeTable( BusActivity.Week week, BusActivity.Direction direction){
+    private String prettyDirection(String dir){
+        String[] dirArr = dir.split("_");
+        return dirArr[0].toUpperCase() + "  -->  " + dirArr[1].toUpperCase();
+    }
+
+    private ArrayList<String> getTimeTable(Week week, int direction){
         final ArrayList<String> timeTable = new ArrayList<>();
-        try {
-            Scanner scan = new Scanner(new File(getFilesDir(),"transportation.json"));
-            scan.useDelimiter("\\Z");
-            String content = scan.next();
-            JSONObject reader = new JSONObject(content);
-            JSONObject bus  = reader.getJSONObject("eshot");
-            JSONObject weekly  = bus.getJSONObject(week.toString());
-            JSONArray table = weekly.getJSONArray(direction.toString());
-            int i = 0;
-            String item = table.getString(i);
-            while (item != null){
-                item = table.getString(i);
-                timeTable.add(item);
-                i++;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        String direct;
+        if(direction == 0){
+            direct = type.getDirection0();
+        }else{
+            direct = type.getDirection1();
         }
+
+        final DatabaseReference ref = database.getReference().child("transportation").
+                child(type.toString()).child(week.toString()).child(direct);
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot postSnap: snapshot.getChildren()){
+                    timeTable.add(postSnap.getValue(String.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
 
         return timeTable;
     }
 
     public enum Week{
         weekday,saturday,sunday
-    }
-    public enum Direction{
-        iyte_izmir,izmir_iyte
     }
 
 }

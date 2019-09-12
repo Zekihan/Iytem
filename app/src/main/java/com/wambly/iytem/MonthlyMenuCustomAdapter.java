@@ -1,8 +1,10 @@
 package com.wambly.iytem;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +17,8 @@ import java.util.List;
 public class MonthlyMenuCustomAdapter extends RecyclerView.Adapter<MonthlyMenuCustomAdapter.MyViewHolder> {
     private final List<String> menus;
 
-    public MonthlyMenuCustomAdapter(List<String> menus, Context context) {
+    MonthlyMenuCustomAdapter(List<String> menus) {
         this.menus = menus;
-        Context context1 = context;
     }
 
     @NonNull
@@ -25,7 +26,6 @@ public class MonthlyMenuCustomAdapter extends RecyclerView.Adapter<MonthlyMenuCu
     public MonthlyMenuCustomAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.monthly_menu_row_item, parent, false);
-
         return new MonthlyMenuCustomAdapter.MyViewHolder(itemView);
     }
     @Override
@@ -36,7 +36,7 @@ public class MonthlyMenuCustomAdapter extends RecyclerView.Adapter<MonthlyMenuCu
     }
 
     private String getDate(int day){
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("d MMMM EEEE");
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_MONTH,day);
         return format.format(c.getTime());
@@ -48,8 +48,8 @@ public class MonthlyMenuCustomAdapter extends RecyclerView.Adapter<MonthlyMenuCu
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView date;
-        TextView menu;
+        final TextView date;
+        final TextView menu;
         MyViewHolder(@NonNull View view) {
             super(view);
             menu = view.findViewById(R.id.menu);
@@ -57,4 +57,5 @@ public class MonthlyMenuCustomAdapter extends RecyclerView.Adapter<MonthlyMenuCu
 
         }
     }
+
 }

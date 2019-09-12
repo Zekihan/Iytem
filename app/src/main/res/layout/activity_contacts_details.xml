@@ -13,13 +13,12 @@
         android:layout_below="@+id/email"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="36dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="0dp"
         android:fontFamily="@font/open_sans"
-        android:text="TextView"
-        android:textSize="18sp"
-        android:textIsSelectable="true"/>
+        android:text="@string/textview"
+        android:textSize="@dimen/_15ssp" />
 
     <TextView
         android:id="@+id/email"
@@ -28,13 +27,12 @@
         android:layout_below="@+id/department"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="36dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="0dp"
         android:fontFamily="@font/open_sans"
-        android:text="TextView"
-        android:textSize="18sp"
-        android:textIsSelectable="true" />
+        android:text="@string/textview"
+        android:textSize="@dimen/_15ssp" />
 
     <TextView
         android:id="@+id/department"
@@ -43,26 +41,23 @@
         android:layout_below="@+id/title"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="36dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="0dp"
         android:fontFamily="@font/open_sans"
-        android:text="TextView"
-        android:textSize="18sp"
-        android:textIsSelectable="true"/>
+        android:text="@string/textview"
+        android:textSize="@dimen/_15ssp"/>
 
-    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:theme="@style/ToolbarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <TextView
         android:id="@+id/name"
@@ -70,12 +65,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="32dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="0dp"
         android:fontFamily="@font/open_sans_bold"
-        android:text="TextView"
-        android:textSize="24sp"
-        android:textIsSelectable="true"/>
+        android:text="@string/textview"
+        android:textSize="@dimen/_20ssp" />
 
     <TextView
         android:id="@+id/title"
@@ -84,12 +80,61 @@
         android:layout_below="@+id/name"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="36dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="0dp"
         android:fontFamily="@font/open_sans"
-        android:text="TextView"
-        android:textSize="18sp"
+        android:text="@string/textview"
+        android:textSize="@dimen/_15ssp"
         android:textIsSelectable="true"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/call"
+        android:layout_width="@dimen/_60ssp"
+        android:layout_height="@dimen/_60ssp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="215dp"
+        android:layout_marginBottom="@dimen/_30ssp"
+        android:elevation="4dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="@dimen/cardCornerRad"
+        app:cardBackgroundColor="@color/cardBg">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:tint="?attr/colorControlNormal"
+            app:srcCompat="@drawable/ic_phone"
+            android:contentDescription="@string/dummy" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/send_email"
+        android:layout_width="@dimen/_60ssp"
+        android:layout_height="@dimen/_60ssp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="75dp"
+        android:layout_marginBottom="@dimen/_30ssp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="@dimen/cardCornerRad"
+        app:cardBackgroundColor="@color/cardBg"
+        android:elevation="4dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_email"
+            android:layout_gravity="center"
+            android:tint="?attr/colorControlNormal"
+            android:contentDescription="@string/dummy" />
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

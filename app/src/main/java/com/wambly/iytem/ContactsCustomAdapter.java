@@ -1,7 +1,7 @@
 package com.wambly.iytem;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +17,11 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
     private List<Contact> contacts;
     private List<Contact> mDisplayedValues;
 
-    public void setContacts(List<Contact> contacts) {
+    void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
     }
 
-    public ContactsCustomAdapter(List<Contact> contacts) {
+    ContactsCustomAdapter(List<Contact> contacts) {
         this.contacts = contacts;
         this.mDisplayedValues = contacts;
     }
@@ -39,6 +39,8 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
     public void onBindViewHolder(@NonNull ContactsCustomAdapter.MyViewHolder myViewHolder, int i) {
         Contact contact = mDisplayedValues.get(i);
         myViewHolder.name.setText(contact.getName());
+        myViewHolder.department.setText(contact.getDepartment());
+        myViewHolder.title.setText(contact.getTitle());
     }
 
     @Override
@@ -58,17 +60,14 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
                 String charString = charSequence.toString();
                 if (charString.isEmpty()) {
                     mDisplayedValues = contacts;
-                } else {
+                }else {
                     List<Contact> filteredList = new ArrayList<>();
                     for (Contact row : contacts) {
-
-                        // name match condition. this might differ depending on your requirement
-                        // here we are looking for name or phone number match
-                        if (row.getName().toLowerCase().contains(charString.toLowerCase()) || row.getPhone().contains(charSequence)) {
+                        if (row.getName().toLowerCase().contains(charString.toLowerCase()) ||
+                                row.getDepartment().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }
                     }
-
                     mDisplayedValues = filteredList;
                 }
 
@@ -88,11 +87,16 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
         };
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView name;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        final TextView name;
+        final TextView department;
+        final TextView title;
+
         MyViewHolder(@NonNull View view) {
             super(view);
             name = view.findViewById(R.id.name);
+            department = view.findViewById(R.id.department);
+            title = view.findViewById(R.id.title);
         }
     }
 }

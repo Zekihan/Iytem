@@ -10,8 +10,7 @@ public class Contact implements Parcelable{
     private String department;
     private String title;
 
-    public Contact() {
-    }
+    public Contact(){ }
 
     public Contact(String name, String email, String phone, String department, String title) {
         this.name = name;
@@ -45,40 +44,20 @@ public class Contact implements Parcelable{
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getDepartment() {
         return department;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     @Override

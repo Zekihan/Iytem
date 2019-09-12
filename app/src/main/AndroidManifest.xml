@@ -8,32 +8,27 @@
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/launcher_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:name="FirebaseApp"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".TenekeActivity"></activity>
         <activity android:name=".MonthlyMenuActivity" />
-        <activity
-            android:name=".BusActivity"
-            android:label="@string/title_activity_bus"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".BusActivity"/>
         <activity android:name=".ContactsDetailsActivity" />
-        <activity android:name=".TipsDetailsActivity" />
-        <activity android:name=".AnnouncementsDetailsActivity" />
-        <activity android:name=".AnnouncementsActivity" />
         <activity android:name=".TransportationActivity" />
-        <activity android:name=".TipsActivity" />
-        <activity android:name=".FoodActivity" />
-        <activity android:name=".ContactsActivity" />
+        <activity android:name=".FoodActivity"/>
+        <activity android:name=".ContactsActivity"/>
         <activity android:name=".ShortcutActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppThemeFade">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
 
         <meta-data
             android:name="preloaded_fonts"
