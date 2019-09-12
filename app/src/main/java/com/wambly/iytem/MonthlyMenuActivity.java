@@ -1,6 +1,5 @@
 package com.wambly.iytem;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 
 import androidx.annotation.NonNull;
@@ -58,16 +57,15 @@ public class MonthlyMenuActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
-        recyclerView.smoothScrollToPosition(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-
-
+        int itemPosition = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        recyclerView.smoothScrollToPosition(itemPosition);
     }
+
     private void dbCheck(){
         final Calendar c = Calendar.getInstance();
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference ref = database.getReference().child("food").child("refectory");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
-
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (int i = 1; i <= c.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
@@ -81,7 +79,6 @@ public class MonthlyMenuActivity extends AppCompatActivity {
                         menuList.add(menu);
                     }
                     adapter.notifyItemInserted(i);
-
                 }
             }
             @Override

@@ -30,8 +30,8 @@ import java.util.Calendar;
 
 public class BusActivity extends AppCompatActivity implements BusFragment.OnFragmentInteractionListener {
 
-    private boolean direction = false;
-    private TransportationType type;
+    private boolean direction;
+    private BusService busService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +39,9 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
         setContentView(R.layout.activity_bus);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        type = (TransportationType) getIntent().getSerializableExtra("type");
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(type.getTitleVal());
+        toolbar.setTitle(busService.getPrettyName());
         if(getSupportActionBar()!= null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -63,39 +61,38 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
+        busService = getIntent().getParcelableExtra("busServices");
+
+        direction = false;
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("direction", direction);
         editor.apply();
 
         final TextView directionView = findViewById(R.id.directionTxt);
-        directionView.setText(prettyDirection(type.getDirection0()));
+        directionView.setText(wayTitle(busService.getWay0()));
 
         View changeDir = findViewById(R.id.direction);
         changeDir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences.Editor editor = prefs.edit();
+                String directionText;
                 if(direction){
-                    direction = false;
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putBoolean("direction", direction);
-                    editor.apply();
-                    directionView.setText(prettyDirection(type.getDirection0()));
+                    directionText = wayTitle(busService.getWay0());
                 }else{
-                    direction = true;
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putBoolean("direction", direction);
-                    editor.apply();
-                    directionView.setText(prettyDirection(type.getDirection1()));
+                    directionText = wayTitle(busService.getWay1());
                 }
+                directionView.setText(directionText);
+                direction = !direction;
+                editor.putBoolean("direction", direction);
+                editor.apply();
             }
         });
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
+    public void onFragmentInteraction(Uri uri) { }
 
     class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -106,7 +103,7 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            Fragment fragment = null;
+            Fragment fragment;
             switch (position){
                 case 0:
                     Calendar c = Calendar.getInstance();
@@ -148,24 +145,19 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
         }
     }
 
-    private String prettyDirection(String dir){
-        String[] dirArr = dir.split("_");
-        return dirArr[0].toUpperCase() + "  -->  " + dirArr[1].toUpperCase();
-    }
-
     private ArrayList<String> getTimeTable(Week week, int direction){
         final ArrayList<String> timeTable = new ArrayList<>();
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         String direct;
         if(direction == 0){
-            direct = type.getDirection0();
+            direct = busService.getDirection0();
         }else{
-            direct = type.getDirection1();
+            direct = busService.getDirection1();
         }
 
         final DatabaseReference ref = database.getReference().child("transportation").
-                child(type.toString()).child(week.toString()).child(direct);
+                child(busService.getName()).child(week.toString()).child(direct);
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -182,6 +174,10 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
         });
 
         return timeTable;
+    }
+
+    private String wayTitle(String way){
+        return way + "  " + getString(R.string.departure_hours);
     }
 
     public enum Week{

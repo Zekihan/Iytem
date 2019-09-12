@@ -51,4 +51,6 @@
     <string name="location">Location</string>
     <string name="map">Map</string>
     <string name="launcher_name">İztech</string>
+    <string name="bus">Bus</string>
+    <string name="departure_hours">Departure Hours</string>
 </resources>

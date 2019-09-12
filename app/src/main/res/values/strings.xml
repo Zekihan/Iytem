@@ -56,6 +56,8 @@
     <string name="location">Konum</string>
     <string name="map">Harita</string>
     <string name="launcher_name">İytem</string>
+    <string name="bus">Otobüs</string>
+    <string name="departure_hours">Kalkış Saatleri</string>
 
 
 </resources>
