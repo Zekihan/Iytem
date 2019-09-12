@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#283593</color>
     <color name="colorAccent">#E8EAF6</color>
     <color name="bgColor">#FFFFFF</color>
-    <color name="lightgray">#ededed</color>
+    <color name="lightgray">#DCDCDC</color>
     <color name="black">#000000</color>
     <color name="textColor">#DE000000</color>
     <color name="cardBg">#F7F7FF</color>

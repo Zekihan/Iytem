@@ -14,16 +14,14 @@
         android:name="FirebaseApp"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".MonthlyMenuActivity" />
-        <activity
-            android:name=".BusActivity"
-            android:label="@string/title_activity_bus"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".BusActivity"/>
         <activity android:name=".ContactsDetailsActivity" />
         <activity android:name=".TransportationActivity" />
-        <activity android:name=".FoodActivity" />
+        <activity android:name=".FoodActivity"/>
         <activity android:name=".ContactsActivity"/>
         <activity android:name=".ShortcutActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppThemeFade">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

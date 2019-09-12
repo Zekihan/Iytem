@@ -52,8 +52,6 @@ public class ContactsActivity extends AppCompatActivity {
 
         EditText etSearch = findViewById(R.id.editText);
 
-
-
         final RecyclerView recyclerView = findViewById(R.id.RC);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());

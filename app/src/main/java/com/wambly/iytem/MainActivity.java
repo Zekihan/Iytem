@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -51,14 +50,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private AppUpdateManager appUpdateManager;
     private boolean forcedUpdate = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppThemeFade);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 
@@ -208,15 +204,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 editor.apply();
                 recreate();
                 closeDrawer = false;
-
                 break;
             case R.id.nav_location:
-                Uri gmmIntentUri = Uri.parse("geo:38.319212, 26.643241?q=İzmir Yüksek Teknoloji Enstitüsü İYTE");
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
+                Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse("https://www.google.com/maps/search/?api=1&query=" +
+                                "İzmir Yüksek Teknoloji Enstitüsü İYTE"));
                 startActivity(mapIntent);
                 break;
-
             case R.id.nav_emergency:
                 dialNum("02327506222");
                 break;
