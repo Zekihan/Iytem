@@ -31,6 +31,7 @@ public class BusFragment extends Fragment {
     private ArrayList<String> content2;
     private boolean today = false;
     private OnFragmentInteractionListener mListener;
+    ArrayAdapter<String> adapter;
 
     public BusFragment() { }
 
@@ -67,8 +68,6 @@ public class BusFragment extends Fragment {
         if(today){
             final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
             final ListView listView = rootView.findViewById(R.id.timeList);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, getSchedule());
-            listView.setAdapter(adapter);
             ArrayList<String> list = new ArrayList<>();
             if(prefs.getBoolean("direction",false)){
                 list.addAll(filterByTime(content2,getTime()));
@@ -83,7 +82,6 @@ public class BusFragment extends Fragment {
                 @Override
                 public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                     ArrayList<String> list = new ArrayList<>();
-                    ArrayAdapter<String> adapter;
                     if(prefs.getBoolean("direction",false)){
                         list.addAll(filterByTime(content2,getTime()));
                         adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
@@ -99,7 +97,7 @@ public class BusFragment extends Fragment {
         }else{
             final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
             final ListView listView = rootView.findViewById(R.id.timeList);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, getSchedule());
+            adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, getSchedule());
             listView.setAdapter(adapter);
             ArrayList<String> list = new ArrayList<>();
             if(prefs.getBoolean("direction",false)){
@@ -109,11 +107,7 @@ public class BusFragment extends Fragment {
             }
             if(list.isEmpty()){
                 list = new ArrayList<>();
-                list.add("Loading - Yükleniyor");
-            }
-            else if(list.get(0).equals("Sefer Yok")){
-                list = new ArrayList<>();
-                list.add("Sefer Yok - No Service");
+                list.add("Loading");
             }
             adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
             listView.setAdapter(adapter);
@@ -121,7 +115,6 @@ public class BusFragment extends Fragment {
                 @Override
                 public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                     ArrayList<String> list = new ArrayList<>();
-                    ArrayAdapter<String> adapter;
                     if(prefs.getBoolean("direction",false)){
                         list.addAll(content2);
                     }else{
@@ -170,6 +163,7 @@ public class BusFragment extends Fragment {
                         s = "00:00";
                     }
                     result.add(s);
+
                 }else if(Integer.parseInt(ss[0]) == Integer.parseInt(time2[0])){
                     if(Integer.parseInt(ss[1])>Integer.parseInt(time2[1])){
                         result.add(s);
@@ -177,7 +171,6 @@ public class BusFragment extends Fragment {
                 }
             }
         }
-
         if(result.isEmpty()){
             result.add("Sefer Yok - No Service");
         }

@@ -29,7 +29,7 @@ import java.util.Calendar;
 
 public class BusActivity extends AppCompatActivity implements BusFragment.OnFragmentInteractionListener {
 
-    private boolean direction;
+    private boolean direction = false;
     private BusService busService;
 
     @Override
@@ -63,11 +63,7 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
 
         toolbar.setTitle(busService.getPrettyName());
 
-        direction = false;
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("direction", direction);
-        editor.apply();
 
         final TextView directionView = findViewById(R.id.directionTxt);
         directionView.setText(wayTitle(busService.getWay0()));

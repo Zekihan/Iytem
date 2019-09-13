@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ContactsDetailsActivity extends AppCompatActivity {
 
@@ -39,7 +40,7 @@ public class ContactsDetailsActivity extends AppCompatActivity {
 
         TextView name = findViewById(R.id.name);
         TextView email = findViewById(R.id.email);
-        TextView phone = findViewById(R.id.phone);
+        final TextView phone = findViewById(R.id.phone);
         TextView department = findViewById(R.id.department);
         TextView title = findViewById(R.id.title);
         name.setText(contact.getName());
@@ -55,6 +56,9 @@ public class ContactsDetailsActivity extends AppCompatActivity {
                 String emailStr = contact.getEmail();
                 if(emailStr.contains("@")){
                     sendEmail(contact.getEmail());
+                }else{
+                    Toast.makeText(getApplicationContext(), getString(R.string.not_available),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -64,7 +68,13 @@ public class ContactsDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String phoneStr = contact.getPhone();
-                validateDial(phoneStr);
+                if(phoneStr.replaceAll("\\D", "").length() >= 7){
+                    validateDial(phoneStr);
+                }else{
+                    Toast.makeText(getApplicationContext(), getString(R.string.not_available),
+                            Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }

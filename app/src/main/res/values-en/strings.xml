@@ -54,4 +54,5 @@
     <string name="bus">Bus</string>
     <string name="departure_hours">Departure Hours</string>
     <string name="no_service">No Service</string>
+    <string name="not_available">Not Available</string>
 </resources>

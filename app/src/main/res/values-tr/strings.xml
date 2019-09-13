@@ -55,6 +55,7 @@
     <string name="bus">Otobüs</string>
     <string name="departure_hours">Kalkış Saatleri</string>
     <string name="no_service">Sefer Yok</string>
+    <string name="not_available">Mevcut değil</string>
 
 
 </resources>

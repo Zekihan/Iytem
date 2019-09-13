@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,6 +45,13 @@ public class TransportationActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         final ArrayList<BusService> busServices = new ArrayList<>();
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -71,22 +79,12 @@ public class TransportationActivity extends AppCompatActivity {
             }
         });
 
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
         RecyclerView recyclerView = findViewById(R.id.services);
         adapter = new TransportationCustomAdapter(busServices);
         recyclerView.setAdapter(adapter);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
-
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(),
                 recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
@@ -100,6 +98,7 @@ public class TransportationActivity extends AppCompatActivity {
 
             }
         }));
+
 
 
     }
