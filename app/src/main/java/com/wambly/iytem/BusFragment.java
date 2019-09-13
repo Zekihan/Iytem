@@ -148,7 +148,6 @@ public class BusFragment extends Fragment {
 
     private List<String> filterByTime(List<String> list, String time){
         List<String> result = new ArrayList<>();
-
         for (int i = 0; i < list.size(); i++) {
             Log.e("Blank", list.size()+"");
             String s = list.get(i);

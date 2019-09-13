@@ -3,6 +3,7 @@ package com.wambly.iytem;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
+
 import androidx.preference.PreferenceManager;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -158,6 +159,7 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
                 for(DataSnapshot postSnap: snapshot.getChildren()){
                     timeTable.add(postSnap.getValue(String.class));
                 }
+                recreate();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
