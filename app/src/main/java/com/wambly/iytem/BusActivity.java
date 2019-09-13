@@ -1,9 +1,12 @@
 package com.wambly.iytem;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -20,6 +23,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -32,6 +37,7 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
 
     private boolean direction = false;
     private BusService busService;
+    FragmentStatePagerAdapter mFragmentPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,22 +58,28 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
             }
         });
 
-        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("transportation");
+        ref.keepSynced(true);
+
+        mFragmentPagerAdapter = new MyAdapter(getSupportFragmentManager());
 
         ViewPager mViewPager = findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setAdapter(mFragmentPagerAdapter);
         TabLayout tabLayout = findViewById(R.id.tabs);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
         busService = getIntent().getParcelableExtra("busServices");
-
         toolbar.setTitle(busService.getPrettyName());
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         final TextView directionView = findViewById(R.id.directionTxt);
         directionView.setText(wayTitle(busService.getWay0()));
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("direction", direction);
+        editor.apply();
 
         View changeDir = findViewById(R.id.direction);
         changeDir.setOnClickListener(new View.OnClickListener() {
@@ -88,50 +100,48 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
         });
     }
 
-
     @Override
     public void onFragmentInteraction(Uri uri) { }
 
-    class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        SectionsPagerAdapter(FragmentManager fm) {
+    public class MyAdapter extends FragmentStatePagerAdapter {
+        MyAdapter(FragmentManager fm) {
             super(fm);
         }
-
         @NonNull
         @Override
         public Fragment getItem(int position) {
             Fragment fragment;
+            Week week;
+            boolean today = false;
             switch (position){
                 case 0:
                     Calendar c = Calendar.getInstance();
                     if(c.get(Calendar.DAY_OF_WEEK)== Calendar.SUNDAY){
-                        fragment = BusFragment.newInstance(getTimeTable(Week.sunday, 0),
-                                getTimeTable(Week.sunday, 1),true);
+                        week = Week.sunday;
+
                     }else if(c.get(Calendar.DAY_OF_WEEK)== Calendar.SATURDAY){
-                        fragment = BusFragment.newInstance(getTimeTable(Week.saturday, 0),
-                                getTimeTable(Week.saturday, 1),true);
+                        week = Week.saturday;
 
                     }else{
-                        fragment = BusFragment.newInstance(getTimeTable(Week.weekday, 0),
-                                getTimeTable(Week.weekday, 1),true);
+                        week = Week.weekday;
                     }
+                    today = true;
                     break;
                 case 1:
-                    fragment = BusFragment.newInstance(getTimeTable(Week.weekday, 0),
-                            getTimeTable(Week.weekday, 1),false);
+                    week = Week.weekday;
                     break;
                 case 2:
-                    fragment = BusFragment.newInstance(getTimeTable(Week.saturday, 0),
-                            getTimeTable(Week.saturday, 1),false);
+                    week = Week.saturday;
                     break;
                 case 3:
-                    fragment = BusFragment.newInstance(getTimeTable(Week.sunday, 0),
-                            getTimeTable(Week.sunday, 1),false);
+                    week = Week.sunday;
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + position);
             }
+
+            fragment = BusFragment.newInstance(getTimeTable(week, 0),
+                    getTimeTable(week, 1),today);
             return fragment;
         }
         @Override
@@ -159,7 +169,6 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
                 for(DataSnapshot postSnap: snapshot.getChildren()){
                     timeTable.add(postSnap.getValue(String.class));
                 }
-                recreate();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

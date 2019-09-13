@@ -98,8 +98,6 @@ public class TransportationActivity extends AppCompatActivity {
 
             }
         }));
-
-
-
+        
     }
 }
