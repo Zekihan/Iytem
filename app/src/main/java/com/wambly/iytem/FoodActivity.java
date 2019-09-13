@@ -1,6 +1,7 @@
 package com.wambly.iytem;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 
@@ -9,8 +10,11 @@ import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -64,14 +68,16 @@ public class FoodActivity extends AppCompatActivity {
     }
 
     private void setMenuText(String str){
-        TextView tv = findViewById(R.id.menu);
-        String menu = prettyMenu(str);
 
-        if(menu.equals("No Menu")){
-            tv.setText(R.string.no_menu);
-        }else{
-            tv.setText(menu);
-        }
+        ListView listView =  findViewById(R.id.menu);
+        String menuStr = prettyMenu(str);
+        String[] menu = menuStr.split("(\n)");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                R.layout.centered_row_item, R.id.text1,menu);
+        listView.setAdapter(adapter);
+
+
     }
 
     private String prettyMenu(String menuStr){
@@ -84,7 +90,11 @@ public class FoodActivity extends AppCompatActivity {
                 menuOut.append(m);
             }
         }
-        return menuOut.toString();
+        String menu = menuOut.toString();
+        if(menu.equals("No Menu")){
+            menu = getString(R.string.no_menu);
+        }
+        return menu;
     }
 
     private void showMenu() {

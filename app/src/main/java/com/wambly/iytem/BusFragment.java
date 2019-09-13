@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.preference.PreferenceManager;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -20,29 +21,22 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class BusFragment extends Fragment {
 
-    private static final String ARG_CONTENT1 = "content1";
-    private static final String ARG_CONTENT2 = "content2";
-
-    // TODO: Rename and change types of parameters
+    private static final String ARG_CONTENT1 = "content0";
+    private static final String ARG_CONTENT2 = "content1";
+    
+    private ArrayList<String> content0;
     private ArrayList<String> content1;
-    private ArrayList<String> content2;
-
     private boolean today = false;
-
-    private TransportationType type;
-    private String direction1 = "";
-    private String direction2 = "";
-
-
     private OnFragmentInteractionListener mListener;
+    private ArrayAdapter<String> adapter;
 
-    public BusFragment() {
-
-    }
+    public BusFragment() { }
 
     public static BusFragment newInstance(ArrayList<String> param1, ArrayList<String> param2, boolean today) {
         BusFragment fragment = new BusFragment();
@@ -57,11 +51,20 @@ public class BusFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        if (Build.VERSION.SDK_INT >= 26) {
-            ft.setReorderingAllowed(false);
-        }
-        ft.detach(this).attach(this).commit();
+        final BusFragment context = this;
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                FragmentManager fm = getFragmentManager();
+                if(fm != null){
+                    FragmentTransaction ft = fm.beginTransaction();
+                    if (Build.VERSION.SDK_INT >= 26) {
+                        ft.setReorderingAllowed(false);
+                    }
+                    ft.detach(context).attach(context).commit();
+                }
+            }
+        }, 5);
     }
 
     @Override
@@ -69,86 +72,69 @@ public class BusFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
         if (getArguments() != null) {
-            content1 = getArguments().getStringArrayList(ARG_CONTENT1);
-            content2 = getArguments().getStringArrayList(ARG_CONTENT2);
+            content0 = getArguments().getStringArrayList(ARG_CONTENT1);
+            content1 = getArguments().getStringArrayList(ARG_CONTENT2);
             today = getArguments().getBoolean("today");
         }
-
+        final ListView listView = rootView.findViewById(R.id.timeList);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
+        final ArrayList<String> list = new ArrayList<>();
+        adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
+        listView.setAdapter(adapter);
         if(today){
-            final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
-            final ListView listView = rootView.findViewById(R.id.timeList);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, getSchedule());
-            listView.setAdapter(adapter);
-            ArrayList<String> list = new ArrayList<>();
             if(prefs.getBoolean("direction",false)){
-                list.addAll(filterByTime(content2,getTime()));
-                adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
-                listView.setAdapter(adapter);
-            }else{
                 list.addAll(filterByTime(content1,getTime()));
-                adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
-                listView.setAdapter(adapter);
+            }else{
+                list.addAll(filterByTime(content0,getTime()));
             }
+            if(list.isEmpty()){
+                list.add("Sefer Yok");
+            }
+            adapter.notifyDataSetChanged();
             prefs.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
                 @Override
                 public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                    ArrayList<String> list = new ArrayList<>();
-                    ArrayAdapter<String> adapter;
+                    list.clear();
                     if(prefs.getBoolean("direction",false)){
-                        list.addAll(filterByTime(content2,getTime()));
-                        adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
-                        listView.setAdapter(adapter);
-                    }else{
                         list.addAll(filterByTime(content1,getTime()));
-                        adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
-                        listView.setAdapter(adapter);
+                    }else{
+                        list.addAll(filterByTime(content0,getTime()));
                     }
+                    if(list.isEmpty()){
+                        list.add("Sefer Yok");
+                    }
+                    adapter.notifyDataSetChanged();
                 }
             });
-
         }else{
-            final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
-            final ListView listView = rootView.findViewById(R.id.timeList);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, getSchedule());
-            listView.setAdapter(adapter);
-            ArrayList<String> list = new ArrayList<>();
             if(prefs.getBoolean("direction",false)){
-                list.addAll(content2);
-                adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
-                listView.setAdapter(adapter);
-            }else{
                 list.addAll(content1);
-                adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
-                listView.setAdapter(adapter);
+            }else{
+                list.addAll(content0);
             }
+            if(list.isEmpty()){
+                list.add("Sefer Yok");
+            }
+            adapter.notifyDataSetChanged();
             prefs.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
                 @Override
                 public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                    ArrayList<String> list = new ArrayList<>();
-                    ArrayAdapter<String> adapter;
+                    list.clear();
                     if(prefs.getBoolean("direction",false)){
-                        list.addAll(content2);
-                        adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
-                        listView.setAdapter(adapter);
-                    }else{
                         list.addAll(content1);
-                        adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
-                        listView.setAdapter(adapter);
+                    }else{
+                        list.addAll(content0);
                     }
+                    if(list.isEmpty()){
+                        list.add("Sefer Yok");
+                    }
+                    adapter.notifyDataSetChanged();
                 }
             });
         }
         return rootView;
     }
-    private ArrayList<String> getSchedule(){
-        ArrayList<String> list = new ArrayList<>();
-        list.add(direction2);
-        list.addAll(content1);
-        list.add(" ");
-        list.add(direction1);
-        list.addAll(content2);
-        return  list;
-    }
+
     private String getTime(){
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(calendar.getTimeInMillis()-900000);
@@ -159,7 +145,6 @@ public class BusFragment extends Fragment {
 
     private List<String> filterByTime(List<String> list, String time){
         List<String> result = new ArrayList<>();
-
         for (int i = 0; i < list.size(); i++) {
             Log.e("Blank", list.size()+"");
             String s = list.get(i);
@@ -174,6 +159,7 @@ public class BusFragment extends Fragment {
                         s = "00:00";
                     }
                     result.add(s);
+
                 }else if(Integer.parseInt(ss[0]) == Integer.parseInt(time2[0])){
                     if(Integer.parseInt(ss[1])>Integer.parseInt(time2[1])){
                         result.add(s);
@@ -181,27 +167,7 @@ public class BusFragment extends Fragment {
                 }
             }
         }
-        if(result.isEmpty()){
-            result.add("Sefer Yok - No Service");
-        }
         return result;
-    }
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            if (Build.VERSION.SDK_INT >= 26) {
-                ft.setReorderingAllowed(false);
-            }
-            ft.detach(this).attach(this).commit();
-        }
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -213,7 +179,6 @@ public class BusFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-
     }
 
     @Override
@@ -222,14 +187,7 @@ public class BusFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
