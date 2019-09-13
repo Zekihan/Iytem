@@ -53,7 +53,6 @@ public class TransportationActivity extends AppCompatActivity {
         });
 
         final ArrayList<BusService> busServices = new ArrayList<>();
-
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference ref = database.getReference().child("transportation");
 
@@ -70,8 +69,7 @@ public class TransportationActivity extends AppCompatActivity {
                     adapter.notifyItemInserted(i);
                     i++;
                 }
-                Log.d("busServices", Integer.toString(busServices.size()));
-
+                Log.d("BusServices count: ", Integer.toString(busServices.size()));
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -98,6 +96,5 @@ public class TransportationActivity extends AppCompatActivity {
 
             }
         }));
-        
     }
 }

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -69,11 +70,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         Menu menu = navigationView.getMenu();
         MenuItem nav_theme = menu.findItem(R.id.theme);
+
+        View hView =  navigationView.getHeaderView(0);
+        final TextView nav_user = hView.findViewById(R.id.message);
 
         if(darkTheme){
             nav_theme.setTitle(getString(R.string.light_theme));
@@ -83,6 +86,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref.keepSynced(true);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot ds) {
+                nav_user.setText(ds.child("headerMessage").getValue(String.class));
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
 
         boolean checkUpdate = prefs.getBoolean("checkUpdate", false);
         if(checkUpdate){
@@ -188,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Intent shareIntent = new Intent(Intent.ACTION_SEND);
                     shareIntent.setType("text/plain");
                     shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My application name");
-                    String shareMessage= "\nİYTE'de hayat artık daha kolay!\n\n";
+                    String shareMessage= "İYTE'de hayat artık daha kolay!\n\n";
                     shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=com.wambly.iytem";
                     shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                     startActivity(Intent.createChooser(shareIntent, getString(R.string.share)));
@@ -228,7 +241,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return true;
     }
-
 
     private void dialNum(String num){
         Intent intent = new Intent(Intent.ACTION_DIAL);

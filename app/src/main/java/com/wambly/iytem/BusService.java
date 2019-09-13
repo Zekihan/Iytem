@@ -14,7 +14,7 @@ public class BusService implements Parcelable{
         this.direction1 = direction1;
     }
 
-    public BusService(String name, String direction0) {
+    BusService(String name, String direction0) {
         this.name = name;
         this.direction0 = direction0;
         this.direction1 = reverseDir(direction0);
@@ -66,11 +66,12 @@ public class BusService implements Parcelable{
         return direction1;
     }
 
-    public String getPrettyName(){
-        return firstLetterUp(name.replace("_", " - ")).replace("Bus","Eshot");
+    public String getNameStr(){
+        return firstLetterUp(name.replace("_", " - ")).
+                replace("Bus","Eshot");
     }
 
-    public String getPrettyDirectionTile(){
+    public String getDirectionTileStr(){
         return direction0.toUpperCase().replace("_", "  <-->  ");
     }
 

@@ -40,7 +40,7 @@ public class ContactsDetailsActivity extends AppCompatActivity {
 
         TextView name = findViewById(R.id.name);
         TextView email = findViewById(R.id.email);
-        final TextView phone = findViewById(R.id.phone);
+        TextView phone = findViewById(R.id.phone);
         TextView department = findViewById(R.id.department);
         TextView title = findViewById(R.id.title);
         name.setText(contact.getName());
@@ -74,19 +74,12 @@ public class ContactsDetailsActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), getString(R.string.not_available),
                             Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }
-    @Override
-    public boolean onSupportNavigateUp(){
-        finish();
-        return true;
-    }
 
     private void validateDial(String phoneStr){
-        phoneStr = phoneStr.replace("(" , " ");
-        phoneStr = phoneStr.replace(")" , " ");
+        phoneStr = phoneStr.replace("(" , " ").replace(")" , " ");
         if(phoneStr.replaceAll("\\D", "").length() >= 7) {
             phoneStr = phoneStr.split(":")[1];
             if ((!phoneStr.contains("232")) && (phoneStr.charAt(0) != '5') &&
@@ -94,8 +87,7 @@ public class ContactsDetailsActivity extends AppCompatActivity {
                 dialNum("0232" + phoneStr);
             }else if((phoneStr.charAt(0) != '0')){
                 dialNum("0" + phoneStr);
-            }
-            else{
+            }else{
                 dialNum(phoneStr);
             }
         }

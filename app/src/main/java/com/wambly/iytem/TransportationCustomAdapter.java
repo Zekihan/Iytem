@@ -26,8 +26,8 @@ public class TransportationCustomAdapter extends RecyclerView.Adapter<Transporta
     }
     @Override
     public void onBindViewHolder(@NonNull TransportationCustomAdapter.MyViewHolder myViewHolder, int i) {
-        String service = busServices.get(i).getPrettyName();
-        String dir = busServices.get(i).getPrettyDirectionTile();
+        String service = busServices.get(i).getNameStr();
+        String dir = busServices.get(i).getDirectionTileStr();
         myViewHolder.service.setText(service);
         myViewHolder.direction.setText(dir);
     }
@@ -37,18 +37,17 @@ public class TransportationCustomAdapter extends RecyclerView.Adapter<Transporta
         return busServices.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder {
         final TextView service;
         final TextView direction;
         MyViewHolder(@NonNull View view) {
             super(view);
             service = view.findViewById(R.id.service);
             direction = view.findViewById(R.id.direction);
-
         }
     }
 
-    public ArrayList<BusService> getBusService() {
+    ArrayList<BusService> getBusService() {
         return busServices;
     }
 

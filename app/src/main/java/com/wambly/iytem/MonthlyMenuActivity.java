@@ -74,8 +74,7 @@ public class MonthlyMenuActivity extends AppCompatActivity {
                         Log.e("DBE", "onDataChange: DB error");
                     }else if(menu.equals("No Menu")){
                         menuList.add(getString(R.string.no_menu));
-                    }
-                    else{
+                    }else{
                         menuList.add(menu);
                     }
                     adapter.notifyItemInserted(i);

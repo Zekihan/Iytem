@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,6 +27,8 @@ import java.util.Calendar;
 
 
 public class FoodActivity extends AppCompatActivity {
+
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,13 @@ public class FoodActivity extends AppCompatActivity {
             }
         });
 
+        listView =  findViewById(R.id.menu);
+
+        String[] menuPlaceHolder = {" "," "," "," "};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                R.layout.centered_row_item, R.id.text1,menuPlaceHolder);
+        listView.setAdapter(adapter);
+
         showMenu();
 
         View food = findViewById(R.id.addMoney);
@@ -68,16 +78,11 @@ public class FoodActivity extends AppCompatActivity {
     }
 
     private void setMenuText(String str){
-
-        ListView listView =  findViewById(R.id.menu);
         String menuStr = prettyMenu(str);
         String[] menu = menuStr.split("(\n)");
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 R.layout.centered_row_item, R.id.text1,menu);
         listView.setAdapter(adapter);
-
-
     }
 
     private String prettyMenu(String menuStr){
@@ -86,7 +91,7 @@ public class FoodActivity extends AppCompatActivity {
         for (String m : menuList) {
             if (m.contains("(")) {
                 menuOut.append(m.substring(0, m.indexOf("("))).append("\n");
-            } else {
+            }else {
                 menuOut.append(m);
             }
         }

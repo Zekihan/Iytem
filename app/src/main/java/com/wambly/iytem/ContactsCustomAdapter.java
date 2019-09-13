@@ -48,7 +48,7 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
         return mDisplayedValues.size();
     }
 
-    public List<Contact> getmDisplayedValues() {
+    List<Contact> getmDisplayedValues() {
         return mDisplayedValues;
     }
 
@@ -70,7 +70,6 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
                     }
                     mDisplayedValues = filteredList;
                 }
-
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = mDisplayedValues;
                 return filterResults;
@@ -88,6 +87,7 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
+
         final TextView name;
         final TextView department;
         final TextView title;

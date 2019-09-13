@@ -54,7 +54,6 @@ public class MonthlyMenuCustomAdapter extends RecyclerView.Adapter<MonthlyMenuCu
             super(view);
             menu = view.findViewById(R.id.menu);
             date = view.findViewById(R.id.date);
-
         }
     }
 

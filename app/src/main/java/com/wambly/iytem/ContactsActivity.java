@@ -69,12 +69,10 @@ public class ContactsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count,int after) { }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) { }
         });
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(),
@@ -86,11 +84,10 @@ public class ContactsActivity extends AppCompatActivity {
                 startActivity(reader);
             }
             @Override
-            public void onLongClick(View view, int position) {
-
-            }
+            public void onLongClick(View view, int position) { }
         }));
     }
+
     private ArrayList<Contact> getContacts(){
 
         final ArrayList<Contact> contacts = new ArrayList<>();
@@ -111,7 +108,6 @@ public class ContactsActivity extends AppCompatActivity {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-
         return contacts;
     }
 }
