@@ -44,10 +44,11 @@ public class ContactsDetailsActivity extends AppCompatActivity {
         TextView department = findViewById(R.id.department);
         TextView title = findViewById(R.id.title);
         name.setText(contact.getName());
-        email.setText(String.format("%s: \n%s", getString(R.string.email), contact.getEmail()));
-        phone.setText(String.format("%s: \n%s", getString(R.string.phone), contact.getPhone()));
-        title.setText(String.format("%s: \n%s", getString(R.string.title), contact.getTitle()));
-        department.setText(String.format("%s: \n%s", getString(R.string.department), contact.getDepartment()));
+        email.setText(showStr(getString(R.string.email), contact.getEmail()));
+        phone.setText(showStr(getString(R.string.phone), contact.getPhone()));
+        department.setText(showStr(getString(R.string.department), contact.getDepartment()));
+        title.setText(showStr(getString(R.string.title), contact.getTitle()));
+
 
         View emailView = findViewById(R.id.send_email);
         emailView.setOnClickListener(new View.OnClickListener() {
@@ -106,6 +107,9 @@ public class ContactsDetailsActivity extends AppCompatActivity {
         intent.setData(Uri.parse(uri));
         startActivity(intent);
 
+    }
+    private String showStr(String att, String val){
+        return att + "\n" + val;
     }
 
 }

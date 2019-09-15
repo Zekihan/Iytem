@@ -12,13 +12,11 @@
     <string name="ydyo">YDYO</string>
     <string name="webmail">Iyte Mail</string>
     <string name="menuTitle">Today\'s Menu</string>
-    <string name="title_activity_bus">BusActivity</string>
     <string name="today">Today</string>
     <string name="week_day">Weekday</string>
     <string name="saturday">Sat</string>
     <string name="sunday">Sun</string>
     <string name="search">Search contacts</string>
-    <string name="bus_982">İzmir Bus - 982</string>
     <string name="teneke">Urla Teneke</string>
     <string name="change_direction">Change Direction</string>
     <string name="monthly_menu">Monthly Menu</string>
@@ -32,7 +30,6 @@
     <string name="shortcut_des">Most used websites</string>
     <string name="transportation_des">Transportation schedules for Iztech</string>
     <string name="no_menu">Refectory is Closed</string>
-    <string name="bus_882">Urla Bus - 882</string>
     <string name="contact">Contact</string>
     <string name="feedback">Feedback</string>
     <string name="iytem">Iztech</string>

@@ -33,7 +33,7 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
 
     private boolean direction = false;
     private BusService busService;
-    FragmentStatePagerAdapter mFragmentPagerAdapter;
+    private FragmentStatePagerAdapter mFragmentPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,11 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
         busService = getIntent().getParcelableExtra("busServices");
-        toolbar.setTitle(busService.getNameStr());
+        if(busService != null){
+            toolbar.setTitle(busService.getNameStr());
+        }else{
+            toolbar.setTitle(getString(R.string.bus));
+        }
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -99,7 +103,7 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
     @Override
     public void onFragmentInteraction(Uri uri) { }
 
-    public class MyAdapter extends FragmentStatePagerAdapter {
+    class MyAdapter extends FragmentStatePagerAdapter {
         MyAdapter(FragmentManager fm) {
             super(fm);
         }

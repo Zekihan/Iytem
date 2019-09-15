@@ -269,7 +269,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         update(AppUpdateType.IMMEDIATE);
                     }
                 }
-                Log.d("Update level: ", Integer.toString(updateLevel));
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

@@ -4,9 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class BusService implements Parcelable{
-    private String name;
-    private String direction0;
-    private String direction1;
+    private final String name;
+    private final String direction0;
+    private final String direction1;
 
     public BusService(String name, String direction0, String direction1) {
         this.name = name;

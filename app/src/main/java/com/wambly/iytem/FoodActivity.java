@@ -1,7 +1,6 @@
 package com.wambly.iytem;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 
@@ -10,13 +9,10 @@ import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
-import androidx.preference.PreferenceManager;
 
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,7 +24,7 @@ import java.util.Calendar;
 
 public class FoodActivity extends AppCompatActivity {
 
-    ListView listView;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +93,7 @@ public class FoodActivity extends AppCompatActivity {
         }
         String menu = menuOut.toString();
         if(menu.equals("No Menu")){
-            menu = getString(R.string.no_menu);
+            menu = " " + "\n" + getString(R.string.no_menu) + "\n" + " " + "\n" + " ";
         }
         return menu;
     }
