@@ -32,7 +32,7 @@
     <string name="no_menu">Refectory is Closed</string>
     <string name="contact">Contact</string>
     <string name="feedback">Feedback</string>
-    <string name="iytem">Iztech</string>
+    <string name="iytem">İYTEM</string>
     <string name="connection_warn">Connect to the Internet</string>
     <string name="theme_switch">Change Theme</string>
     <string name="light_theme">Light Theme</string>
@@ -47,7 +47,7 @@
     <string name="student_affairs">Student Affairs</string>
     <string name="location">Location</string>
     <string name="map">Map</string>
-    <string name="launcher_name">İztech</string>
+    <string name="launcher_name">İytem</string>
     <string name="bus">Bus</string>
     <string name="departure_hours">Departure Hours</string>
     <string name="no_service">No Service</string>

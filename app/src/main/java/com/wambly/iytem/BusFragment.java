@@ -38,7 +38,7 @@ public class BusFragment extends Fragment {
 
     public BusFragment() { }
 
-    public static BusFragment newInstance(ArrayList<String> param1, ArrayList<String> param2, boolean today) {
+    static BusFragment newInstance(ArrayList<String> param1, ArrayList<String> param2, boolean today) {
         BusFragment fragment = new BusFragment();
         Bundle args = new Bundle();
         args.putStringArrayList(ARG_CONTENT1, param1);
@@ -58,13 +58,10 @@ public class BusFragment extends Fragment {
                 FragmentManager fm = getFragmentManager();
                 if(fm != null){
                     FragmentTransaction ft = fm.beginTransaction();
-                    if (Build.VERSION.SDK_INT >= 26) {
-                        ft.setReorderingAllowed(false);
-                    }
                     ft.detach(context).attach(context).commit();
                 }
             }
-        }, 5);
+        }, 100);
     }
 
     @Override
