@@ -1,14 +1,22 @@
 package com.wambly.iytem;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 
 public class ShortcutActivity extends AppCompatActivity {
+
+    private ShortcutsCustomAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,49 +38,26 @@ public class ShortcutActivity extends AppCompatActivity {
             }
         });
 
-        View obs = findViewById(R.id.obs);
-        obs.setOnClickListener(new View.OnClickListener() {
+        RecyclerView recyclerView = findViewById(R.id.shortcuts);
+        adapter = new ShortcutsCustomAdapter();
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(),
+                recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
-            public void onClick(View v) {
-                chromeTab("https://obs.iyte.edu.tr");
+            public void onClick(View view, int position) {
+                Intent reader = new Intent(getApplicationContext(), BusActivity.class);
+                reader.putExtra("busServices", adapter.getBusService().get(position));
+                startActivity(reader);
             }
-        });
+            @Override
+            public void onLongClick(View view, int position) {
 
-        View iyte = findViewById(R.id.mainpage);
-        iyte.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chromeTab("http://iyte.edu.tr/");
             }
-        });
-        View library = findViewById(R.id.library);
-        library.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chromeTab("http://library.iyte.edu.tr/");
-            }
-        });
-        View cms = findViewById(R.id.cms);
-        cms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chromeTab("https://cms.iyte.edu.tr/login/index.php");
-            }
-        });
-        View ydyo = findViewById(R.id.ydyo);
-        ydyo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chromeTab("http://ydyo.iyte.edu.tr/");
-            }
-        });
-        View mail = findViewById(R.id.webmail);
-        mail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chromeTab("https://std.iyte.edu.tr/");
-            }
-        });
+        }));
+    }
     }
 
     private void chromeTab(String url){
