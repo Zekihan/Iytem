@@ -19,15 +19,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 
 public class FoodActivity extends AppCompatActivity {
 
     private ListView listView;
+    ArrayAdapter<String> adapter;
+    ArrayList<String> menu;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -49,9 +54,14 @@ public class FoodActivity extends AppCompatActivity {
 
         listView =  findViewById(R.id.menu);
 
-        String[] menuPlaceHolder = {" "," "," "," "};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                R.layout.centered_row_item, R.id.text1,menuPlaceHolder);
+        menu = new ArrayList<>();
+        menu.add(" ");
+        menu.add(" ");
+        menu.add(" ");
+        menu.add(" ");
+
+        adapter = new ArrayAdapter<>(this,
+                R.layout.centered_row_item, R.id.text1,menu);
         listView.setAdapter(adapter);
 
         showMenu();
@@ -71,14 +81,29 @@ public class FoodActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), MonthlyMenuActivity.class));
             }
         });
-    }
 
-    private void setMenuText(String str){
-        String menuStr = prettyMenu(str);
-        String[] menu = menuStr.split("(\n)");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                R.layout.centered_row_item, R.id.text1,menu);
-        listView.setAdapter(adapter);
+        View shareButton = findViewById(R.id.share);
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.contact));
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(getString(R.string.food));
+                stringBuilder.append(" ");
+                stringBuilder.append(getString(R.string.menuTitle));
+                stringBuilder.append("\n\n");
+                for(int i=0; i < adapter.getCount(); i++){
+                    stringBuilder.append(adapter.getItem(i));
+                    stringBuilder.append("\n");
+                }
+                String shareMessage = stringBuilder.toString();
+                shareMessage += "\n" + getString(R.string.download_iytem) + ": bit.ly/2lTdDpn";
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                startActivity(Intent.createChooser(shareIntent, getString(R.string.share)));
+            }
+        });
     }
 
     private String prettyMenu(String menuStr){
@@ -109,7 +134,10 @@ public class FoodActivity extends AppCompatActivity {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot ds) {
-                setMenuText(ds.getValue(String.class));
+                String menuStr = prettyMenu(ds.getValue(String.class));
+                menu.clear();
+                menu.addAll(Arrays.asList(menuStr.split("(\n)")));
+                adapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

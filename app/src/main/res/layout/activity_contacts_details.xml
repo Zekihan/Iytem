@@ -83,7 +83,6 @@
     </RelativeLayout>
 </ScrollView>
 
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -126,8 +125,8 @@
             android:layout_gravity="center"
             android:contentDescription="@string/dummy"
             android:tint="?attr/colorControlNormal"
-            app:srcCompat="@drawable/ic_phone"
-            android:padding="4dp"/>
+            app:srcCompat="@drawable/ic_dialpad"
+            android:padding="10dp"/>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
