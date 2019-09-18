@@ -93,6 +93,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageButton
+            android:id="@+id/share"
+            android:layout_width="100dp"
+            android:layout_height="?attr/actionBarSize"
+            app:srcCompat="@drawable/ic_share_black"
+            android:layout_gravity="end"
+            android:contentDescription="@string/share"
+            android:tint="@color/colorPrimary"
+            android:backgroundTint="#00000000" />
+
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.cardview.widget.CardView
@@ -144,5 +154,7 @@
             android:contentDescription="@string/dummy"
             android:padding="4dp"/>
     </androidx.cardview.widget.CardView>
+
+
 
 </RelativeLayout>

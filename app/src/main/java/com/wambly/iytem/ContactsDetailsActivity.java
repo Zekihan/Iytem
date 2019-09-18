@@ -70,27 +70,57 @@ public class ContactsDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String phoneStr = contact.getPhone();
                 if(phoneStr.replaceAll("\\D", "").length() >= 7){
-                    validateDial(phoneStr);
+                    if(!validateDial(phoneStr).equals("")){
+                        dialNum(validateDial(phoneStr));
+                    }
                 }else{
                     Toast.makeText(getApplicationContext(), getString(R.string.not_available),
                             Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+        View shareButton = findViewById(R.id.share);
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareContact();
+            }
+        });
     }
 
-    private void validateDial(String phoneStr){
+    private void shareContact(){
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.contact));
+        String shareMessage= contact.getName() ;
+        if(contact.getEmail().contains("@")){
+            shareMessage += "\n" + contact.getEmail();
+        }
+        if(contact.getPhone().replaceAll("\\D", "").length() >= 7){
+            shareMessage += "\n" + validateDial(contact.getPhone());
+        }
+        shareMessage += "\n\n" + getString(R.string.download_iytem) + ": bit.ly/2lTdDpn";
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_contact)));
+    }
+
+
+
+    private String validateDial(String phoneStr){
         phoneStr = phoneStr.replace("(" , " ").replace(")" , " ");
         if(phoneStr.replaceAll("\\D", "").length() >= 7) {
             phoneStr = phoneStr.split(":")[1];
             if ((!phoneStr.contains("232")) && (phoneStr.charAt(0) != '5') &&
                     (!((phoneStr.charAt(0) == '0') && (phoneStr.charAt(1) == '5')))) {
-                dialNum("0232" + phoneStr);
+                return "0232 " + phoneStr;
             }else if((phoneStr.charAt(0) != '0')){
-                dialNum("0" + phoneStr);
+                return "0" + phoneStr;
             }else{
-                dialNum(phoneStr);
+                return phoneStr;
             }
+        }else{
+            return "";
         }
     }
 

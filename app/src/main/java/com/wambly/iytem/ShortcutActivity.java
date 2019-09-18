@@ -1,6 +1,8 @@
 package com.wambly.iytem;
 
-import android.content.Intent;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import androidx.browser.customtabs.CustomTabsIntent;
@@ -13,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
+
+import java.util.ArrayList;
 
 public class ShortcutActivity extends AppCompatActivity {
 
@@ -38,8 +42,18 @@ public class ShortcutActivity extends AppCompatActivity {
             }
         });
 
+        final ArrayList<Shortcut> shortcuts = new ArrayList<>();
+        shortcuts.add(new Shortcut(getString(R.string.obs),"https://obs.iyte.edu.tr",R.drawable.ic_school));
+        shortcuts.add(new Shortcut(getString(R.string.iztech),"https://iyte.edu.tr",R.drawable.ic_home));
+        shortcuts.add(new Shortcut(getString(R.string.library),"http://library.iyte.edu.tr",R.drawable.ic_library));
+        shortcuts.add(new Shortcut(getString(R.string.cms),"https://cms.iyte.edu.tr",R.drawable.ic_cms));
+        shortcuts.add(new Shortcut(getString(R.string.ydyo),"http://ydyo.iyte.edu.tr",R.drawable.ic_language));
+        shortcuts.add(new Shortcut(getString(R.string.webmail),"https://webmail.iyte.edu.tr",R.drawable.ic_email));
+        shortcuts.add(new Shortcut(getString(R.string.academic_calendar),"https://iyte.edu.tr/akademik/akademik-takvim",R.drawable.ic_calendar_today));
+        shortcuts.add(new Shortcut(getString(R.string.gk_dep),"https://gk.iyte.edu.tr",R.drawable.ic_language));
+
         RecyclerView recyclerView = findViewById(R.id.shortcuts);
-        adapter = new ShortcutsCustomAdapter();
+        adapter = new ShortcutsCustomAdapter(shortcuts);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -48,17 +62,17 @@ public class ShortcutActivity extends AppCompatActivity {
                 recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Intent reader = new Intent(getApplicationContext(), BusActivity.class);
-                reader.putExtra("busServices", adapter.getBusService().get(position));
-                startActivity(reader);
+                chromeTab(shortcuts.get(position).getUrl());
             }
             @Override
             public void onLongClick(View view, int position) {
-
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("url", shortcuts.get(position).getUrl());
+                clipboard.setPrimaryClip(clip);
             }
         }));
     }
-    }
+
 
     private void chromeTab(String url){
         CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();

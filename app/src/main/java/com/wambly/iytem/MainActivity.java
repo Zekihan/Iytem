@@ -200,9 +200,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 try {
                     Intent shareIntent = new Intent(Intent.ACTION_SEND);
                     shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My application name");
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.iytem));
                     String shareMessage= "İYTE'de hayat artık daha kolay!\n\n";
-                    shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=com.wambly.iytem";
+                    shareMessage = shareMessage + "play.google.com/store/apps/details?id=com.wambly.iytem";
                     shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                     startActivity(Intent.createChooser(shareIntent, getString(R.string.share)));
                 } catch(Exception e) {
