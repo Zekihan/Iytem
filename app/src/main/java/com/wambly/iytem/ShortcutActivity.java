@@ -20,8 +20,6 @@ import java.util.ArrayList;
 
 public class ShortcutActivity extends AppCompatActivity {
 
-    private ShortcutsCustomAdapter adapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +51,7 @@ public class ShortcutActivity extends AppCompatActivity {
         shortcuts.add(new Shortcut(getString(R.string.gk_dep),"https://gk.iyte.edu.tr",R.drawable.ic_language));
 
         RecyclerView recyclerView = findViewById(R.id.shortcuts);
-        adapter = new ShortcutsCustomAdapter(shortcuts);
+        ShortcutsCustomAdapter adapter = new ShortcutsCustomAdapter(shortcuts);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -68,11 +66,12 @@ public class ShortcutActivity extends AppCompatActivity {
             public void onLongClick(View view, int position) {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("url", shortcuts.get(position).getUrl());
-                clipboard.setPrimaryClip(clip);
+                if (clipboard != null) {
+                    clipboard.setPrimaryClip(clip);
+                }
             }
         }));
     }
-
 
     private void chromeTab(String url){
         CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();

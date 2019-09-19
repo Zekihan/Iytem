@@ -17,7 +17,6 @@
     <string name="saturday">Sat</string>
     <string name="sunday">Sun</string>
     <string name="search">Search contacts</string>
-    <string name="teneke">Urla Teneke</string>
     <string name="change_direction">Change Direction</string>
     <string name="monthly_menu">Monthly Menu</string>
     <string name="add_money">Add Credit</string>
@@ -34,7 +33,6 @@
     <string name="feedback">Feedback</string>
     <string name="iytem">İYTEM</string>
     <string name="connection_warn">Connect to the Internet</string>
-    <string name="theme_switch">Change Theme</string>
     <string name="light_theme">Light Theme</string>
     <string name="dark_theme">Dark Theme</string>
     <string name="share">Share</string>

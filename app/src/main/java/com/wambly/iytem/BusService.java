@@ -8,12 +8,6 @@ public class BusService implements Parcelable{
     private final String direction0;
     private final String direction1;
 
-    public BusService(String name, String direction0, String direction1) {
-        this.name = name;
-        this.direction0 = direction0;
-        this.direction1 = direction1;
-    }
-
     BusService(String name, String direction0) {
         this.name = name;
         this.direction0 = direction0;

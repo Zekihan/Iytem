@@ -27,9 +27,8 @@ import java.util.Calendar;
 
 public class FoodActivity extends AppCompatActivity {
 
-    private ListView listView;
-    ArrayAdapter<String> adapter;
-    ArrayList<String> menu;
+    private ArrayAdapter<String> adapter;
+    private ArrayList<String> menu;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -52,7 +51,7 @@ public class FoodActivity extends AppCompatActivity {
             }
         });
 
-        listView =  findViewById(R.id.menu);
+        ListView listView = findViewById(R.id.menu);
 
         menu = new ArrayList<>();
         menu.add(" ");
@@ -107,20 +106,24 @@ public class FoodActivity extends AppCompatActivity {
     }
 
     private String prettyMenu(String menuStr){
-        String[] menuList = menuStr.split("\n");
-        StringBuilder menuOut = new StringBuilder();
-        for (String m : menuList) {
-            if (m.contains("(")) {
-                menuOut.append(m.substring(0, m.indexOf("("))).append("\n");
-            }else {
-                menuOut.append(m);
+        if(menuStr != null){
+            String[] menuList = menuStr.split("\n");
+            StringBuilder menuOut = new StringBuilder();
+            for (String m : menuList) {
+                if (m.contains("(")) {
+                    menuOut.append(m.substring(0, m.indexOf("("))).append("\n");
+                }else {
+                    menuOut.append(m);
+                }
             }
+            String menu = menuOut.toString();
+            if(menu.equals("No Menu")){
+                menu = " " + "\n" + getString(R.string.no_menu) + "\n" + " " + "\n" + " ";
+            }
+            return menu;
         }
-        String menu = menuOut.toString();
-        if(menu.equals("No Menu")){
-            menu = " " + "\n" + getString(R.string.no_menu) + "\n" + " " + "\n" + " ";
-        }
-        return menu;
+        return "";
+
     }
 
     private void showMenu() {

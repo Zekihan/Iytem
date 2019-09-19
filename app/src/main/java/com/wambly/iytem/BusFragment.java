@@ -3,7 +3,6 @@ package com.wambly.iytem;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -35,6 +34,8 @@ public class BusFragment extends Fragment {
     private boolean today = false;
     private OnFragmentInteractionListener mListener;
     private ArrayAdapter<String> adapter;
+    final ArrayList<String> list = new ArrayList<>();
+    SharedPreferences prefs;
 
     public BusFragment() { }
 
@@ -74,62 +75,60 @@ public class BusFragment extends Fragment {
             today = getArguments().getBoolean("today");
         }
         final ListView listView = rootView.findViewById(R.id.timeList);
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
-        final ArrayList<String> list = new ArrayList<>();
+        prefs = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
+
         adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
         if(today){
-            if(prefs.getBoolean("direction",false)){
-                list.addAll(filterByTime(content1,getTime()));
-            }else{
-                list.addAll(filterByTime(content0,getTime()));
-            }
-            if(list.isEmpty()){
-                list.add("Sefer Yok");
-            }
-            adapter.notifyDataSetChanged();
-            prefs.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-                @Override
-                public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                    list.clear();
-                    if(prefs.getBoolean("direction",false)){
-                        list.addAll(filterByTime(content1,getTime()));
-                    }else{
-                        list.addAll(filterByTime(content0,getTime()));
-                    }
-                    if(list.isEmpty()){
-                        list.add("Sefer Yok");
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-            });
+            method(rootView, true);
         }else{
-            if(prefs.getBoolean("direction",false)){
-                list.addAll(content1);
-            }else{
-                list.addAll(content0);
-            }
-            if(list.isEmpty()){
-                list.add("Sefer Yok");
-            }
-            adapter.notifyDataSetChanged();
-            prefs.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-                @Override
-                public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                    list.clear();
-                    if(prefs.getBoolean("direction",false)){
-                        list.addAll(content1);
-                    }else{
-                        list.addAll(content0);
-                    }
-                    if(list.isEmpty()){
-                        list.add("Sefer Yok");
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-            });
+            method(rootView,false);
         }
         return rootView;
+    }
+
+    private void method(final View rootView, final boolean today){
+        list.clear();
+        if(prefs.getBoolean("direction",false)){
+            if(today){
+                list.addAll(filterByTime(content1,getTime()));
+            }else{
+                list.addAll(content1);
+            }
+        }else{
+            if(today){
+                list.addAll(filterByTime(content0,getTime()));
+            }else {
+                list.addAll(content0);
+            }
+        }
+        if(list.isEmpty()){
+            list.add(rootView.getContext().getString(R.string.no_service));
+        }
+        adapter.notifyDataSetChanged();
+        prefs.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                list.clear();
+                if(prefs.getBoolean("direction",false)){
+                    if(today){
+                        list.addAll(filterByTime(content1,getTime()));
+                    }else{
+                        list.addAll(content1);
+                    }
+                }else{
+                    if(today){
+                        list.addAll(filterByTime(content0,getTime()));
+                    }else {
+                        list.addAll(content0);
+                    }
+                }
+                if(list.isEmpty()){
+                    list.add(rootView.getContext().getString(R.string.no_service));
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private String getTime(){

@@ -91,11 +91,10 @@ public class MonthlyMenuActivity extends AppCompatActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (prefs.getBoolean("monthlyMenuTut", true)){
             ConstraintLayout constraintLayout = findViewById(R.id.root_layout);
-            Snackbar snackbar = Snackbar.make(constraintLayout, getString(R.string.monthly_menu_tut), 5000);
-
+            Snackbar snackbar = Snackbar.make(constraintLayout, getString(R.string.monthly_menu_tut), 4000);
             snackbar.show();
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("monthlyMenuTut", true);
+            editor.putBoolean("monthlyMenuTut", false);
             editor.apply();
         }
 

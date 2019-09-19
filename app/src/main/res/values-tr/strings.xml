@@ -18,7 +18,6 @@
     <string name="saturday">C.tesi</string>
     <string name="sunday">Pazar</string>
     <string name="search">Rehberde ara</string>
-    <string name="teneke">Urla Teneke</string>
     <string name="change_direction">yön değiştir</string>
     <string name="monthly_menu">Aylık Menü</string>
     <string name="add_money">Bakiye Yükle</string>
@@ -35,7 +34,6 @@
     <string name="feedback">Öneri/Hata Bildir</string>
     <string name="iytem">İYTEM</string>
     <string name="connection_warn">İnternetinizin açık olduğundan emin olun</string>
-    <string name="theme_switch">Tema Değiştir</string>
     <string name="light_theme">Açık Tema</string>
     <string name="dark_theme">Koyu Tema</string>
     <string name="share">Paylaş</string>
@@ -57,7 +55,7 @@
     <string name="gk_dep">Genel Kültür Dersleri Bölümü</string>
     <string name="download_iytem">İYTEM ile sağlandı</string>
     <string name="share_contact">Kişiyi Paylaş</string>
-    <string name="monthly_menu_tut">Basılı tutarak menüyü paylaşabilirsin!</string>
+    <string name="monthly_menu_tut">Basılı tutarak menüyü paylaşabilirsin</string>
 
 
 </resources>
