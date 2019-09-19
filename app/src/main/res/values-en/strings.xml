@@ -54,5 +54,5 @@
     <string name="gk_dep">General Culture Courses Department</string>
     <string name="download_iytem">Provided by Iytem</string>
     <string name="share_contact">Share Contact</string>
-    <string name="monthly_menu_tut">Long press to share the menu</string>
+    <string name="monthly_menu_tut">Long press on the menu to share it</string>
 </resources>
