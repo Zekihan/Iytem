@@ -19,7 +19,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
@@ -90,15 +89,13 @@ public class MonthlyMenuActivity extends AppCompatActivity {
 
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
         if (prefs.getBoolean("monthlyMenuTut", true)){
             ConstraintLayout constraintLayout = findViewById(R.id.root_layout);
-            Snackbar snackbar = Snackbar.make(constraintLayout, getString(R.string.monthly_menu_tut), Snackbar.LENGTH_LONG);
-            snackbar.setBackgroundTint(getResources().getColor(R.color.bgColor));
-            snackbar.setTextColor(getResources().getColor(R.color.textColor));
+            Snackbar snackbar = Snackbar.make(constraintLayout, getString(R.string.monthly_menu_tut), 5000);
+
             snackbar.show();
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("monthlyMenuTut", false);
+            editor.putBoolean("monthlyMenuTut", true);
             editor.apply();
         }
 

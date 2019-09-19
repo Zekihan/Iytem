@@ -8,5 +8,6 @@
     <color name="black">#000000</color>
     <color name="textColor">#DE000000</color>
     <color name="cardBg">#F7F7FF</color>
+    <color name="splashScreen">#121212</color>
 
 </resources>

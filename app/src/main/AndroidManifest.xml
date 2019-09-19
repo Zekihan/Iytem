@@ -3,36 +3,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.wambly.iytem">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
+        android:name=".FirebaseApp"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/launcher_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="FirebaseApp"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MonthlyMenuActivity" />
-        <activity android:name=".BusActivity"/>
-        <activity android:name=".ContactsDetailsActivity" />
-        <activity android:name=".TransportationActivity" />
-        <activity android:name=".FoodActivity"/>
-        <activity android:name=".ContactsActivity"/>
-        <activity android:name=".ShortcutActivity" />
-        <activity android:name=".MainActivity"
-            android:theme="@style/AppThemeFade">
+        <activity
+            android:name=".SplashScreenActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".MonthlyMenuActivity" />
+        <activity android:name=".BusActivity" />
+        <activity android:name=".ContactsDetailsActivity" />
+        <activity android:name=".TransportationActivity" />
+        <activity android:name=".FoodActivity" />
+        <activity android:name=".ContactsActivity" />
+        <activity android:name=".ShortcutActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppThemeFade">
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
