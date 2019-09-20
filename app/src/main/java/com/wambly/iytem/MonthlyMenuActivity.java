@@ -57,7 +57,7 @@ public class MonthlyMenuActivity extends AppCompatActivity {
             }
         });
 
-        dbCheck();
+        syncMenuList();
 
         RecyclerView recyclerView = findViewById(R.id.menulist);
         adapter = new MonthlyMenuCustomAdapter(menuList);
@@ -108,7 +108,7 @@ public class MonthlyMenuActivity extends AppCompatActivity {
     }
 
 
-    private void dbCheck(){
+    private void syncMenuList(){
         final Calendar c = Calendar.getInstance();
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference ref = database.getReference().child("food").child("refectory");

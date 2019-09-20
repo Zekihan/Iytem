@@ -1,8 +1,5 @@
 package com.wambly.iytem;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import androidx.browser.customtabs.CustomTabsIntent;
@@ -64,11 +61,7 @@ public class ShortcutActivity extends AppCompatActivity {
             }
             @Override
             public void onLongClick(View view, int position) {
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("url", shortcuts.get(position).getUrl());
-                if (clipboard != null) {
-                    clipboard.setPrimaryClip(clip);
-                }
+
             }
         }));
     }

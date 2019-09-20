@@ -63,7 +63,7 @@ public class FoodActivity extends AppCompatActivity {
                 R.layout.centered_row_item, R.id.text1,menu);
         listView.setAdapter(adapter);
 
-        showMenu();
+        syncMenu();
 
         View food = findViewById(R.id.addMoney);
         food.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +100,7 @@ public class FoodActivity extends AppCompatActivity {
                 String shareMessage = stringBuilder.toString();
                 shareMessage += "\n" + getString(R.string.download_iytem) + ": bit.ly/2lTdDpn";
                 shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-                startActivity(Intent.createChooser(shareIntent, getString(R.string.share)));
+                startActivity(Intent.createChooser(shareIntent, getString(R.string.share_menu)));
             }
         });
     }
@@ -123,10 +123,9 @@ public class FoodActivity extends AppCompatActivity {
             return menu;
         }
         return "";
-
     }
 
-    private void showMenu() {
+    private void syncMenu() {
         Calendar c = Calendar.getInstance();
         final String dayOfMonth = Integer.toString(c.get(Calendar.DAY_OF_MONTH));
         System.out.println(dayOfMonth);

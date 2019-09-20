@@ -34,8 +34,8 @@ public class BusFragment extends Fragment {
     private boolean today = false;
     private OnFragmentInteractionListener mListener;
     private ArrayAdapter<String> adapter;
-    final ArrayList<String> list = new ArrayList<>();
-    SharedPreferences prefs;
+    private final List<String> list = new ArrayList<>();
+    private SharedPreferences prefs;
 
     public BusFragment() { }
 
@@ -76,70 +76,40 @@ public class BusFragment extends Fragment {
         }
         final ListView listView = rootView.findViewById(R.id.timeList);
         prefs = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
-
         adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
-        if(today){
-            method(rootView, true);
-        }else{
-            method(rootView,false);
-        }
+        fillList(rootView, today);
+
+        prefs.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                fillList(rootView, today);
+            }
+        });
         return rootView;
     }
 
-    private void method(final View rootView, final boolean today){
+    private void fillList(final View rootView, final boolean today){
         list.clear();
+        List<String> contentShown0 = content0;
+        List<String> contentShown1 = content1;
+        if(today){
+            contentShown0 = filterByTime(content0);
+            contentShown1 = filterByTime(content1);
+        }
         if(prefs.getBoolean("direction",false)){
-            if(today){
-                list.addAll(filterByTime(content1,getTime()));
-            }else{
-                list.addAll(content1);
-            }
+            list.addAll(contentShown1);
         }else{
-            if(today){
-                list.addAll(filterByTime(content0,getTime()));
-            }else {
-                list.addAll(content0);
-            }
+            list.addAll(contentShown0);
         }
         if(list.isEmpty()){
             list.add(rootView.getContext().getString(R.string.no_service));
         }
         adapter.notifyDataSetChanged();
-        prefs.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                list.clear();
-                if(prefs.getBoolean("direction",false)){
-                    if(today){
-                        list.addAll(filterByTime(content1,getTime()));
-                    }else{
-                        list.addAll(content1);
-                    }
-                }else{
-                    if(today){
-                        list.addAll(filterByTime(content0,getTime()));
-                    }else {
-                        list.addAll(content0);
-                    }
-                }
-                if(list.isEmpty()){
-                    list.add(rootView.getContext().getString(R.string.no_service));
-                }
-                adapter.notifyDataSetChanged();
-            }
-        });
     }
 
-    private String getTime(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(calendar.getTimeInMillis()-900000);
-        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-        int minuteOfDay = calendar.get(Calendar.MINUTE);
-        return hourOfDay+":"+minuteOfDay;
-    }
-
-    private List<String> filterByTime(List<String> list, String time){
+    private List<String> filterByTime(List<String> list){
+        String time = getTime();
         List<String> result = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             Log.e("Blank", list.size()+"");
@@ -164,6 +134,14 @@ public class BusFragment extends Fragment {
             }
         }
         return result;
+    }
+
+    private String getTime(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(calendar.getTimeInMillis()-900000);
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        int minuteOfDay = calendar.get(Calendar.MINUTE);
+        return hourOfDay+":"+minuteOfDay;
     }
 
     @Override

@@ -38,7 +38,7 @@
     <style name="SplashTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/splash_screen</item>
         <item name="android:statusBarColor">@color/splashScreen</item>
-        <item name="android:navigationBarColor">#00000000</item>
+        <item name="android:navigationBarColor">@color/splashScreen</item>
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />

@@ -57,7 +57,7 @@ public class ContactsActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
 
-        final List<Contact> contacts = getContacts();
+        final List<Contact> contacts = syncContacts();
         adapter = new ContactsCustomAdapter(contacts);
         adapter.setContacts(contacts);
         recyclerView.setAdapter(adapter);
@@ -84,13 +84,11 @@ public class ContactsActivity extends AppCompatActivity {
                 startActivity(reader);
             }
             @Override
-            public void onLongClick(View view, int position) {
-                shareContact(contacts.get(position));
-            }
+            public void onLongClick(View view, int position) { }
         }));
     }
 
-    private ArrayList<Contact> getContacts(){
+    private ArrayList<Contact> syncContacts(){
 
         final ArrayList<Contact> contacts = new ArrayList<>();
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -113,36 +111,5 @@ public class ContactsActivity extends AppCompatActivity {
         return contacts;
     }
 
-    private void shareContact(Contact contact){
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.contact));
-        String shareMessage= contact.getName() ;
-        if(contact.getEmail().contains("@")){
-            shareMessage += "\n" + contact.getEmail();
-        }
-        if(contact.getPhone().replaceAll("\\D", "").length() >= 7){
-            shareMessage += "\n" + validateDial(contact.getPhone());
-        }
-        shareMessage += "\n\n" + getString(R.string.download_iytem) + ": bit.ly/2lTdDpn";
-        shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_contact)));
-    }
 
-    private String validateDial(String phoneStr){
-        phoneStr = phoneStr.replace("(" , " ").replace(")" , " ");
-        if(phoneStr.replaceAll("\\D", "").length() >= 7) {
-            phoneStr = phoneStr.split(":")[1];
-            if ((!phoneStr.contains("232")) && (phoneStr.charAt(0) != '5') &&
-                    (!((phoneStr.charAt(0) == '0') && (phoneStr.charAt(1) == '5')))) {
-                return "0232 " + phoneStr;
-            }else if((phoneStr.charAt(0) != '0')){
-                return "0" + phoneStr;
-            }else{
-                return phoneStr;
-            }
-        }else{
-            return "";
-        }
-    }
 }

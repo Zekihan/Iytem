@@ -27,7 +27,7 @@
     <string name="department">Bölüm</string>
     <string name="contacts_des">Okul personeli iletişim bilgileri</string>
     <string name="food_des">Yemekhane menüsü \n Bakiye yükleme</string>
-    <string name="shortcut_des">En gerekli siteler</string>
+    <string name="shortcut_des">En gerekli web sayfaları</string>
     <string name="transportation_des">İYTE\'ye ulaşım saatleri</string>
     <string name="no_menu">Yemekhane Kapalı</string>
     <string name="contact">Kişi</string>
@@ -53,9 +53,10 @@
     <string name="not_available">Mevcut değil</string>
     <string name="academic_calendar">Akademik Takvim</string>
     <string name="gk_dep">Genel Kültür Dersleri Bölümü</string>
-    <string name="download_iytem">İYTEM ile sağlandı</string>
+    <string name="download_iytem">İYTEM ile getirildi</string>
     <string name="share_contact">Kişiyi Paylaş</string>
     <string name="monthly_menu_tut">Menüye basılı tutarak onu paylaşabilirsin</string>
+    <string name="share_menu">Menüyü Paylaş</string>
 
 
 </resources>
