@@ -34,6 +34,13 @@
         <item name="android:textSize">13sp</item>
     </style>
 
+    <!-- SplashScreen theme. -->
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="android:statusBarColor">@color/splashScreen</item>
+        <item name="android:navigationBarColor">@color/splashScreen</item>
+    </style>
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
 
 </resources>

@@ -19,15 +19,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 
 public class FoodActivity extends AppCompatActivity {
 
-    private ListView listView;
+    private ArrayAdapter<String> adapter;
+    private ArrayList<String> menu;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -47,14 +51,19 @@ public class FoodActivity extends AppCompatActivity {
             }
         });
 
-        listView =  findViewById(R.id.menu);
+        ListView listView = findViewById(R.id.menu);
 
-        String[] menuPlaceHolder = {" "," "," "," "};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                R.layout.centered_row_item, R.id.text1,menuPlaceHolder);
+        menu = new ArrayList<>();
+        menu.add(" ");
+        menu.add(" ");
+        menu.add(" ");
+        menu.add(" ");
+
+        adapter = new ArrayAdapter<>(this,
+                R.layout.centered_row_item, R.id.text1,menu);
         listView.setAdapter(adapter);
 
-        showMenu();
+        syncMenu();
 
         View food = findViewById(R.id.addMoney);
         food.setOnClickListener(new View.OnClickListener() {
@@ -71,34 +80,52 @@ public class FoodActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), MonthlyMenuActivity.class));
             }
         });
-    }
 
-    private void setMenuText(String str){
-        String menuStr = prettyMenu(str);
-        String[] menu = menuStr.split("(\n)");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                R.layout.centered_row_item, R.id.text1,menu);
-        listView.setAdapter(adapter);
+        View shareButton = findViewById(R.id.share);
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.contact));
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(getString(R.string.food));
+                stringBuilder.append(" ");
+                stringBuilder.append(getString(R.string.menuTitle));
+                stringBuilder.append("\n\n");
+                for(int i=0; i < adapter.getCount(); i++){
+                    stringBuilder.append(adapter.getItem(i));
+                    stringBuilder.append("\n");
+                }
+                String shareMessage = stringBuilder.toString();
+                shareMessage += "\n" + getString(R.string.download_iytem) + ": bit.ly/2lTdDpn";
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                startActivity(Intent.createChooser(shareIntent, getString(R.string.share_menu)));
+            }
+        });
     }
 
     private String prettyMenu(String menuStr){
-        String[] menuList = menuStr.split("\n");
-        StringBuilder menuOut = new StringBuilder();
-        for (String m : menuList) {
-            if (m.contains("(")) {
-                menuOut.append(m.substring(0, m.indexOf("("))).append("\n");
-            }else {
-                menuOut.append(m);
+        if(menuStr != null){
+            String[] menuList = menuStr.split("\n");
+            StringBuilder menuOut = new StringBuilder();
+            for (String m : menuList) {
+                if (m.contains("(")) {
+                    menuOut.append(m.substring(0, m.indexOf("("))).append("\n");
+                }else {
+                    menuOut.append(m);
+                }
             }
+            String menu = menuOut.toString();
+            if(menu.equals("No Menu")){
+                menu = " " + "\n" + getString(R.string.no_menu) + "\n" + " " + "\n" + " ";
+            }
+            return menu;
         }
-        String menu = menuOut.toString();
-        if(menu.equals("No Menu")){
-            menu = " " + "\n" + getString(R.string.no_menu) + "\n" + " " + "\n" + " ";
-        }
-        return menu;
+        return "";
     }
 
-    private void showMenu() {
+    private void syncMenu() {
         Calendar c = Calendar.getInstance();
         final String dayOfMonth = Integer.toString(c.get(Calendar.DAY_OF_MONTH));
         System.out.println(dayOfMonth);
@@ -109,7 +136,10 @@ public class FoodActivity extends AppCompatActivity {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot ds) {
-                setMenuText(ds.getValue(String.class));
+                String menuStr = prettyMenu(ds.getValue(String.class));
+                menu.clear();
+                menu.addAll(Arrays.asList(menuStr.split("(\n)")));
+                adapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

@@ -6,7 +6,14 @@ import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
+
+import java.util.ArrayList;
 
 public class ShortcutActivity extends AppCompatActivity {
 
@@ -30,49 +37,33 @@ public class ShortcutActivity extends AppCompatActivity {
             }
         });
 
-        View obs = findViewById(R.id.obs);
-        obs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chromeTab("https://obs.iyte.edu.tr");
-            }
-        });
+        final ArrayList<Shortcut> shortcuts = new ArrayList<>();
+        shortcuts.add(new Shortcut(getString(R.string.obs),"https://obs.iyte.edu.tr",R.drawable.ic_school));
+        shortcuts.add(new Shortcut(getString(R.string.iztech),"https://iyte.edu.tr",R.drawable.ic_home));
+        shortcuts.add(new Shortcut(getString(R.string.library),"http://library.iyte.edu.tr",R.drawable.ic_library));
+        shortcuts.add(new Shortcut(getString(R.string.cms),"https://cms.iyte.edu.tr",R.drawable.ic_cms));
+        shortcuts.add(new Shortcut(getString(R.string.ydyo),"http://ydyo.iyte.edu.tr",R.drawable.ic_language));
+        shortcuts.add(new Shortcut(getString(R.string.webmail),"https://webmail.iyte.edu.tr",R.drawable.ic_email));
+        shortcuts.add(new Shortcut(getString(R.string.academic_calendar),"https://iyte.edu.tr/akademik/akademik-takvim",R.drawable.ic_calendar_today));
+        shortcuts.add(new Shortcut(getString(R.string.gk_dep),"https://gk.iyte.edu.tr",R.drawable.ic_language));
 
-        View iyte = findViewById(R.id.mainpage);
-        iyte.setOnClickListener(new View.OnClickListener() {
+        RecyclerView recyclerView = findViewById(R.id.shortcuts);
+        ShortcutsCustomAdapter adapter = new ShortcutsCustomAdapter(shortcuts);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(),
+                recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
-            public void onClick(View v) {
-                chromeTab("http://iyte.edu.tr/");
+            public void onClick(View view, int position) {
+                chromeTab(shortcuts.get(position).getUrl());
             }
-        });
-        View library = findViewById(R.id.library);
-        library.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                chromeTab("http://library.iyte.edu.tr/");
+            public void onLongClick(View view, int position) {
+
             }
-        });
-        View cms = findViewById(R.id.cms);
-        cms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chromeTab("https://cms.iyte.edu.tr/login/index.php");
-            }
-        });
-        View ydyo = findViewById(R.id.ydyo);
-        ydyo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chromeTab("http://ydyo.iyte.edu.tr/");
-            }
-        });
-        View mail = findViewById(R.id.webmail);
-        mail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chromeTab("https://std.iyte.edu.tr/");
-            }
-        });
+        }));
     }
 
     private void chromeTab(String url){

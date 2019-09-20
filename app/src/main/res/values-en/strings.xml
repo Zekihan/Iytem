@@ -5,11 +5,11 @@
     <string name="food">Refectory</string>
     <string name="shortcuts">Easy Access</string>
     <string name="contacts">Contacts</string>
-    <string name="obs">OBS</string>
-    <string name="cms">CMS</string>
+    <string name="obs">Student Information System</string>
+    <string name="cms">Course Management System (CMS)</string>
     <string name="library">Library</string>
     <string name="iztech">Iztech Main Page</string>
-    <string name="ydyo">YDYO</string>
+    <string name="ydyo">School of Foreign Languages</string>
     <string name="webmail">Iyte Mail</string>
     <string name="menuTitle">Today\'s Menu</string>
     <string name="today">Today</string>
@@ -17,7 +17,6 @@
     <string name="saturday">Sat</string>
     <string name="sunday">Sun</string>
     <string name="search">Search contacts</string>
-    <string name="teneke">Urla Teneke</string>
     <string name="change_direction">Change Direction</string>
     <string name="monthly_menu">Monthly Menu</string>
     <string name="add_money">Add Credit</string>
@@ -34,7 +33,6 @@
     <string name="feedback">Feedback</string>
     <string name="iytem">İYTEM</string>
     <string name="connection_warn">Connect to the Internet</string>
-    <string name="theme_switch">Change Theme</string>
     <string name="light_theme">Light Theme</string>
     <string name="dark_theme">Dark Theme</string>
     <string name="share">Share</string>
@@ -52,4 +50,10 @@
     <string name="departure_hours">Departure Hours</string>
     <string name="no_service">No Service</string>
     <string name="not_available">Not Available</string>
+    <string name="academic_calendar">Academic Calendar</string>
+    <string name="gk_dep">General Culture Courses Department</string>
+    <string name="download_iytem">Provided by Iytem</string>
+    <string name="share_contact">Share Contact</string>
+    <string name="monthly_menu_tut">Long press on the menu to share it</string>
+    <string name="share_menu">Share the Menü</string>
 </resources>

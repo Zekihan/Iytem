@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 
-import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.preference.PreferenceManager;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -33,7 +33,6 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
 
     private boolean direction = false;
     private BusService busService;
-    private FragmentStatePagerAdapter mFragmentPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,7 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("transportation");
         ref.keepSynced(true);
 
-        mFragmentPagerAdapter = new MyAdapter(getSupportFragmentManager());
+        FragmentPagerAdapter mFragmentPagerAdapter = new MyAdapter(getSupportFragmentManager());
 
         ViewPager mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mFragmentPagerAdapter);
@@ -103,7 +102,7 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
     @Override
     public void onFragmentInteraction(Uri uri) { }
 
-    class MyAdapter extends FragmentStatePagerAdapter {
+    class MyAdapter extends FragmentPagerAdapter {
         MyAdapter(FragmentManager fm) {
             super(fm);
         }

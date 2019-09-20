@@ -3,7 +3,6 @@ package com.wambly.iytem;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -35,6 +34,8 @@ public class BusFragment extends Fragment {
     private boolean today = false;
     private OnFragmentInteractionListener mListener;
     private ArrayAdapter<String> adapter;
+    private final List<String> list = new ArrayList<>();
+    private SharedPreferences prefs;
 
     public BusFragment() { }
 
@@ -74,73 +75,41 @@ public class BusFragment extends Fragment {
             today = getArguments().getBoolean("today");
         }
         final ListView listView = rootView.findViewById(R.id.timeList);
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
-        final ArrayList<String> list = new ArrayList<>();
+        prefs = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
         adapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
-        if(today){
-            if(prefs.getBoolean("direction",false)){
-                list.addAll(filterByTime(content1,getTime()));
-            }else{
-                list.addAll(filterByTime(content0,getTime()));
+        fillList(rootView, today);
+
+        prefs.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                fillList(rootView, today);
             }
-            if(list.isEmpty()){
-                list.add("Sefer Yok");
-            }
-            adapter.notifyDataSetChanged();
-            prefs.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-                @Override
-                public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                    list.clear();
-                    if(prefs.getBoolean("direction",false)){
-                        list.addAll(filterByTime(content1,getTime()));
-                    }else{
-                        list.addAll(filterByTime(content0,getTime()));
-                    }
-                    if(list.isEmpty()){
-                        list.add("Sefer Yok");
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-            });
-        }else{
-            if(prefs.getBoolean("direction",false)){
-                list.addAll(content1);
-            }else{
-                list.addAll(content0);
-            }
-            if(list.isEmpty()){
-                list.add("Sefer Yok");
-            }
-            adapter.notifyDataSetChanged();
-            prefs.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-                @Override
-                public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                    list.clear();
-                    if(prefs.getBoolean("direction",false)){
-                        list.addAll(content1);
-                    }else{
-                        list.addAll(content0);
-                    }
-                    if(list.isEmpty()){
-                        list.add("Sefer Yok");
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-            });
-        }
+        });
         return rootView;
     }
 
-    private String getTime(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(calendar.getTimeInMillis()-900000);
-        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-        int minuteOfDay = calendar.get(Calendar.MINUTE);
-        return hourOfDay+":"+minuteOfDay;
+    private void fillList(final View rootView, final boolean today){
+        list.clear();
+        List<String> contentShown0 = content0;
+        List<String> contentShown1 = content1;
+        if(today){
+            contentShown0 = filterByTime(content0);
+            contentShown1 = filterByTime(content1);
+        }
+        if(prefs.getBoolean("direction",false)){
+            list.addAll(contentShown1);
+        }else{
+            list.addAll(contentShown0);
+        }
+        if(list.isEmpty()){
+            list.add(rootView.getContext().getString(R.string.no_service));
+        }
+        adapter.notifyDataSetChanged();
     }
 
-    private List<String> filterByTime(List<String> list, String time){
+    private List<String> filterByTime(List<String> list){
+        String time = getTime();
         List<String> result = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             Log.e("Blank", list.size()+"");
@@ -165,6 +134,14 @@ public class BusFragment extends Fragment {
             }
         }
         return result;
+    }
+
+    private String getTime(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(calendar.getTimeInMillis()-900000);
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        int minuteOfDay = calendar.get(Calendar.MINUTE);
+        return hourOfDay+":"+minuteOfDay;
     }
 
     @Override

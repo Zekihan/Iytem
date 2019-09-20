@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="11dp"
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="16dp"
     android:layout_marginTop="6dp"
     android:layout_marginBottom="6dp"
     android:foreground="?android:attr/selectableItemBackground"
@@ -16,35 +16,38 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:background="?android:attr/activatedBackgroundIndicator"
         android:minHeight="?android:attr/listPreferredItemHeightSmall"
         android:padding="4dp">
 
         <TextView
-            android:id="@+id/menu"
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/date"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="8dp"
-            android:fontFamily="@font/open_sans"
-            android:lineSpacingExtra="4sp"
-            android:text="@string/textview"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/open_sans_bold"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:gravity="center"
+            android:layout_toStartOf="@+id/image"
             android:text="@string/textview"
-            android:textSize="14sp"/>
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:fontFamily="@font/open_sans"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image"
+            android:tint="@color/colorPrimary"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="24dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp">
+
+        </androidx.appcompat.widget.AppCompatImageView>
+
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

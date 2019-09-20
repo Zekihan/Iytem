@@ -57,7 +57,7 @@ public class ContactsActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
 
-        List<Contact> contacts = getContacts();
+        final List<Contact> contacts = syncContacts();
         adapter = new ContactsCustomAdapter(contacts);
         adapter.setContacts(contacts);
         recyclerView.setAdapter(adapter);
@@ -88,7 +88,7 @@ public class ContactsActivity extends AppCompatActivity {
         }));
     }
 
-    private ArrayList<Contact> getContacts(){
+    private ArrayList<Contact> syncContacts(){
 
         final ArrayList<Contact> contacts = new ArrayList<>();
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -110,4 +110,6 @@ public class ContactsActivity extends AppCompatActivity {
         });
         return contacts;
     }
+
+
 }
