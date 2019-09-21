@@ -127,7 +127,7 @@ public class FoodActivity extends AppCompatActivity {
             String menu = menuOut.toString();
             if(menu.equals("No Menu")){
                 refectoryOpen = false;
-                menu = " " + "\n" + getString(R.string.no_menu) + "\n" + " " + "\n" + " ";
+                menu = " " + "\n" + getString(R.string.no_menu) + "\n" + " " ;
             }else{
                 refectoryOpen = true;
             }
