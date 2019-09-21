@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -52,6 +53,8 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
         return mDisplayedValues;
     }
 
+
+
     @Override
     public Filter getFilter() {
         return new Filter() {
@@ -64,8 +67,7 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
                     final String prefixString = charSequence.toString().toLowerCase();
                     List<Contact> filteredList = new ArrayList<>();
                     for (Contact row : contacts) {
-                        if(checkName(row, prefixString)
-                                || row.getDepartment().toLowerCase().startsWith(prefixString)){
+                        if(checkName(row, prefixString) || checkDep(row, prefixString)){
                             filteredList.add(row);
                         }
                     }
@@ -87,14 +89,28 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
         };
     }
 
+
+    private boolean checkDep(Contact contact, String chars){
+        String department = contact.getDepartment().toLowerCase();
+
+        if(chars.length() > 2){
+            return department.startsWith(chars);
+        }
+        return false;
+
+    }
+
+
     private boolean checkName(Contact contact, String chars){
-        String[] nameArr = contact.getName().split(" ");
+        String name = contact.getName().toLowerCase();
+        String[] nameArr = name.split(" ");
         if(nameArr.length == 1){
-            return nameArr[0].toLowerCase().startsWith(chars);
+            return name.startsWith(chars);
         }else if(nameArr.length == 2){
-            return nameArr[0].toLowerCase().startsWith(chars) || nameArr[1].toLowerCase().startsWith(chars);
+            return name.startsWith(chars) || nameArr[1].startsWith(chars);
         }else if (nameArr.length > 2){
-            return nameArr[0].toLowerCase().startsWith(chars) || nameArr[1].toLowerCase().startsWith(chars) || nameArr[2].toLowerCase().startsWith(chars) ;
+            return name.startsWith(chars) || nameArr[1].startsWith(chars)
+                    || nameArr[2].startsWith(chars) ;
         }
         return false;
     }

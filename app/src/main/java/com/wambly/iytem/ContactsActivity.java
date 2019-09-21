@@ -1,9 +1,11 @@
 package com.wambly.iytem;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -16,7 +18,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -81,10 +85,34 @@ public class ContactsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 adapter.getFilter().filter(adapterView.getItemAtPosition(i).toString());
+                recyclerView.scrollToPosition(0);
+                hideKeyboard();
             }
         });
 
+        etSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    etSearch.setHint("");
+                else{
+                    etSearch.setHint(getString(R.string.search));
+                }
 
+            }
+        });
+
+       etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    adapter.getFilter().filter(v.getText().toString());
+                    recyclerView.scrollToPosition(0);
+                    hideKeyboard();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         final View clearButton = findViewById(R.id.clear_text);
 
@@ -92,9 +120,9 @@ public class ContactsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 etSearch.setText("");
-                adapter.getFilter().filter("");
+                showKeyboard(etSearch);
                 clearButton.setVisibility(View.INVISIBLE);
-                recyclerView.scrollToPosition(0);
+
             }
         });
 
@@ -114,8 +142,6 @@ public class ContactsActivity extends AppCompatActivity {
                     clearButton.setVisibility(View.INVISIBLE);
                     adapter.getFilter().filter("");
                     recyclerView.scrollToPosition(0);
-                }else {
-                    adapter.getFilter().filter(editable.toString());
                 }
             }
         });
@@ -155,6 +181,23 @@ public class ContactsActivity extends AppCompatActivity {
             }
         });
         return contacts;
+    }
+
+    private void showKeyboard(View view){
+        if (view.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+        }
+
+    }
+
+    private void hideKeyboard(){
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
 

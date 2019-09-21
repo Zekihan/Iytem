@@ -30,6 +30,7 @@
                 android:imeOptions="actionSearch"
                 android:focusable="auto"
                 android:hint="@string/search"
+                android:textColorHint="@color/grayText"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
                 android:textAlignment="center" />

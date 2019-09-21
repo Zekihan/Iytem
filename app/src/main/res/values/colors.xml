@@ -9,5 +9,6 @@
     <color name="textColor">#DE000000</color>
     <color name="cardBg">#F7F7FF</color>
     <color name="splashScreen">#202020</color>
+    <color name="grayText">#969696</color>
 
 </resources>
