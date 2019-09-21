@@ -49,9 +49,6 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
 
     @Override
     public int getItemCount() {
-        if(mDisplayedValues == null){
-            return 0;
-        }
         return mDisplayedValues.size();
     }
 
@@ -65,20 +62,20 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String charString = charSequence.toString();
+                List<Contact> filteredList = new ArrayList<>();
                 if (charString.isEmpty()) {
-                    mDisplayedValues = contacts;
+                    filteredList = contacts;
                 }else {
                     final String prefixString = charSequence.toString().toLowerCase();
-                    List<Contact> filteredList = new ArrayList<>();
+
                     for (Contact row : contacts) {
                         if(checkName(row, prefixString) || checkDep(row, prefixString)){
                             filteredList.add(row);
                         }
                     }
-                    mDisplayedValues = filteredList;
                 }
                 FilterResults filterResults = new FilterResults();
-                filterResults.values = mDisplayedValues;
+                filterResults.values = filteredList;
                 return filterResults;
             }
 

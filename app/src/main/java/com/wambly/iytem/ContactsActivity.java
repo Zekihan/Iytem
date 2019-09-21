@@ -68,6 +68,7 @@ public class ContactsActivity extends AppCompatActivity {
         });
 
         contacts = new ArrayList<>();
+        syncContacts();
 
         adapter = new ContactsCustomAdapter(contacts);
 
@@ -77,7 +78,7 @@ public class ContactsActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
         recyclerView.setAdapter(adapter);
 
-        syncContacts();
+
 
         final AutoCompleteTextView etSearch = findViewById(R.id.editText);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.departments_array));
@@ -170,21 +171,12 @@ public class ContactsActivity extends AppCompatActivity {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int previousSize = contacts.size();
-                contacts.clear();
-
-                GenericTypeIndicator<ArrayList<Contact>> g = new GenericTypeIndicator<ArrayList<Contact>>() {
-                    @Override
-                    public int hashCode() {
-                        return super.hashCode();
-                    }
-                };
-                List<Contact> fetchedContacts = snapshot.getValue(g);
-                if (fetchedContacts != null) {
-                    contacts.addAll(fetchedContacts);
+                int i = 0;
+                for (DataSnapshot child : snapshot.getChildren()){
+                    contacts.add(child.getValue(Contact.class));
+                    adapter.notifyItemInserted(i);
+                    i++;
                 }
-                adapter.notifyItemRangeRemoved(0, previousSize);
-                adapter.notifyItemRangeInserted(0, fetchedContacts.size());
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
