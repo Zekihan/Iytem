@@ -39,15 +39,17 @@ public class ContactsDetailsActivity extends AppCompatActivity {
         contact = getIntent().getParcelableExtra("contact");
 
         TextView name = findViewById(R.id.name);
-        TextView email = findViewById(R.id.email);
-        TextView phone = findViewById(R.id.phone);
-        TextView department = findViewById(R.id.department);
-        TextView title = findViewById(R.id.title);
+        TextView email = findViewById(R.id.emailTxt);
+        TextView phone = findViewById(R.id.phoneTxt);
+        TextView department = findViewById(R.id.departmentTxt);
+        TextView title = findViewById(R.id.titleTxt);
         name.setText(contact.getName());
-        email.setText(showStr(getString(R.string.email), contact.getEmail()));
-        phone.setText(showStr(getString(R.string.phone), contact.getPhone()));
-        department.setText(showStr(getString(R.string.department), contact.getDepartment()));
-        title.setText(showStr(getString(R.string.title), contact.getTitle()));
+        email.setText(contact.getEmail());
+        phone.setText(prettyPhone(contact.getPhone()));
+        department.setText(contact.getDepartment());
+        title.setText(contact.getTitle());
+
+
 
 
         View emailView = findViewById(R.id.send_email);
@@ -105,6 +107,14 @@ public class ContactsDetailsActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(shareIntent, getString(R.string.share_contact)));
     }
 
+    private String prettyPhone(String phone){
+        if(phone.contains(":")){
+            String[] arr = phone.split(":");
+            return arr[1] + "  (" + arr[0] + ")";
+        }
+        return phone;
+    }
+
 
 
     private String validateDial(String phoneStr){
@@ -137,9 +147,6 @@ public class ContactsDetailsActivity extends AppCompatActivity {
         intent.setData(Uri.parse(uri));
         startActivity(intent);
 
-    }
-    private String showStr(String att, String val){
-        return att + "\n" + val;
     }
 
 }

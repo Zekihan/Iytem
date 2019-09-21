@@ -17,40 +17,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <AutoCompleteTextView
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="4dp"
-                android:layout_gravity="end"
-                android:imeOptions="actionSearch"
+                android:layout_height="50dp"
                 android:hint="@string/search"
-                android:nextFocusUp="@id/editText"
-                android:nextFocusLeft="@id/editText"
-                android:textColorHint="@color/grayText"
+                android:imeOptions="actionSearch"
                 android:importantForAutofill="no"
                 android:inputType="text"
+                android:nextFocusLeft="@id/editText"
+                android:nextFocusUp="@id/editText"
+                android:textColorHint="@color/grayText"
                 android:textAlignment="center"
-                android:theme="@style/AppTheme" />
+                android:layout_toStartOf="@id/clear_text"
+                android:theme="@style/AppTheme"/>
+
 
             <ImageButton
                 android:id="@+id/clear_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginTop="-3dp"
-                android:layout_marginEnd="-4dp"
                 android:tint="@color/colorPrimary"
-                android:backgroundTint="#00000000"
+                android:backgroundTint="@color/bgColor"
                 app:srcCompat="@drawable/ic_clear"
-                android:contentDescription="@string/textview" />
+                android:contentDescription="@string/textview"
+                android:layout_alignParentEnd="true"/>
 
-        </FrameLayout>
+
+        </RelativeLayout>
+
+
 
 
     </androidx.appcompat.widget.Toolbar>

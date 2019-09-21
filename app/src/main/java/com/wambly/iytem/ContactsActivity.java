@@ -32,6 +32,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -91,10 +92,14 @@ public class ContactsActivity extends AppCompatActivity {
             }
         });
 
+        final View clearButton = findViewById(R.id.clear_text);
+
         etSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus)
+                if (hasFocus){
                     etSearch.setHint("");
+                    etSearch.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+                }
                 else{
                     etSearch.setHint(getString(R.string.search));
                 }
@@ -115,19 +120,17 @@ public class ContactsActivity extends AppCompatActivity {
             }
         });
 
-       final View clearButton = findViewById(R.id.clear_text);
+
+        clearButton.setVisibility(View.INVISIBLE);
 
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 etSearch.setText("");
                 showKeyboard(etSearch);
-                clearButton.setVisibility(View.INVISIBLE);
-
             }
         });
 
-        clearButton.setVisibility(View.INVISIBLE);
 
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -138,11 +141,12 @@ public class ContactsActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                clearButton.setVisibility(View.VISIBLE);
                 if(editable.toString().equals("")){
                     clearButton.setVisibility(View.INVISIBLE);
                     adapter.getFilter().filter("");
                     recyclerView.scrollToPosition(0);
+                }else{
+                    clearButton.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -166,12 +170,21 @@ public class ContactsActivity extends AppCompatActivity {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int previousSize = contacts.size();
                 contacts.clear();
-                adapter.notifyItemRangeRemoved(0, contacts.size());
-                for (DataSnapshot childS : snapshot.getChildren()) {
-                    contacts.add(childS.getValue(Contact.class));
+
+                GenericTypeIndicator<ArrayList<Contact>> g = new GenericTypeIndicator<ArrayList<Contact>>() {
+                    @Override
+                    public int hashCode() {
+                        return super.hashCode();
+                    }
+                };
+                List<Contact> fetchedContacts = snapshot.getValue(g);
+                if (fetchedContacts != null) {
+                    contacts.addAll(fetchedContacts);
                 }
-                adapter.notifyItemRangeInserted(0, contacts.size());
+                adapter.notifyItemRangeRemoved(0, previousSize);
+                adapter.notifyItemRangeInserted(0, fetchedContacts.size());
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
