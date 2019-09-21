@@ -22,6 +22,7 @@ android {
 dependencies {
 
     // Java
+
     implementation "androidx.preference:preference:1.1.0"
     implementation "androidx.navigation:navigation-ui:2.2.0-alpha02"
     implementation fileTree(include: ['*.jar'], dir: 'libs')

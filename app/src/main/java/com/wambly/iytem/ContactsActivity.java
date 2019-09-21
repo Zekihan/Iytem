@@ -11,10 +11,18 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.EditText;
+import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,11 +31,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 public class ContactsActivity extends AppCompatActivity {
 
     private ContactsCustomAdapter adapter;
+
+    List<String> completesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,30 +61,65 @@ public class ContactsActivity extends AppCompatActivity {
             }
         });
 
-        EditText etSearch = findViewById(R.id.editText);
+        final List<Contact> contacts = syncContacts();
+        adapter = new ContactsCustomAdapter(contacts);
+        adapter.setContacts(contacts);
 
         final RecyclerView recyclerView = findViewById(R.id.RC);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
-
-        final List<Contact> contacts = syncContacts();
-        adapter = new ContactsCustomAdapter(contacts);
-        adapter.setContacts(contacts);
         recyclerView.setAdapter(adapter);
-        etSearch.addTextChangedListener(new TextWatcher() {
 
+        final AutoCompleteTextView etSearch = findViewById(R.id.editText);
+
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.departments_array));
+        etSearch.setAdapter(arrayAdapter);
+
+        etSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s.toString());
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                adapter.getFilter().filter(adapterView.getItemAtPosition(i).toString());
             }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,int after) { }
-
-            @Override
-            public void afterTextChanged(Editable s) { }
         });
+
+
+
+        final View clearButton = findViewById(R.id.clear_text);
+
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                etSearch.setText("");
+                adapter.getFilter().filter("");
+                clearButton.setVisibility(View.INVISIBLE);
+                recyclerView.scrollToPosition(0);
+            }
+        });
+
+        clearButton.setVisibility(View.INVISIBLE);
+
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                clearButton.setVisibility(View.VISIBLE);
+                if(editable.toString().equals("")){
+                    clearButton.setVisibility(View.INVISIBLE);
+                    adapter.getFilter().filter("");
+                    recyclerView.scrollToPosition(0);
+                }else {
+                    adapter.getFilter().filter(editable.toString());
+                }
+            }
+        });
+
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(),
                 recyclerView, new RecyclerTouchListener.ClickListener() {

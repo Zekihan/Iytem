@@ -61,10 +61,11 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
                 if (charString.isEmpty()) {
                     mDisplayedValues = contacts;
                 }else {
+                    final String prefixString = charSequence.toString().toLowerCase();
                     List<Contact> filteredList = new ArrayList<>();
                     for (Contact row : contacts) {
-                        if (row.getName().toLowerCase().contains(charString.toLowerCase()) ||
-                                row.getDepartment().toLowerCase().contains(charString.toLowerCase())) {
+                        if(checkName(row, prefixString)
+                                || row.getDepartment().toLowerCase().startsWith(prefixString)){
                             filteredList.add(row);
                         }
                     }
@@ -84,6 +85,18 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
                 notifyDataSetChanged();
             }
         };
+    }
+
+    private boolean checkName(Contact contact, String chars){
+        String[] nameArr = contact.getName().split(" ");
+        if(nameArr.length == 1){
+            return nameArr[0].toLowerCase().startsWith(chars);
+        }else if(nameArr.length == 2){
+            return nameArr[0].toLowerCase().startsWith(chars) || nameArr[1].toLowerCase().startsWith(chars);
+        }else if (nameArr.length > 2){
+            return nameArr[0].toLowerCase().startsWith(chars) || nameArr[1].toLowerCase().startsWith(chars) || nameArr[2].toLowerCase().startsWith(chars) ;
+        }
+        return false;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="departments_array">
+        <item>Destek Hizmetleri Şube Müdürlüğü</item>
+        <item>Yapı İşleri Ve Teknik Daire Başkanlığı</item>
+        <item>Makine Mühendisliği</item>
+        <item>Elektrik-elektronik Mühendisliği</item>
+        <item>Fizik</item>
+        <item>Sağlık Kültür Ve Spor Dai.bşk.</item>
+        <item>Malzeme Araştırma Merkezi</item>
+        <item>Şehir Ve Bölge Planlama</item>
+        <item>Bilgisayar Mühendisliği</item>
+        <item>Öğrenci İşleri Dai.bşk.</item>
+        <item>Fotonik</item>
+        <item>Bilgi İşlem Daire Başkanlığı</item>
+        <item>Yabancı Diller</item>
+        <item>Matematik</item>
+        <item>Kimya</item>
+        <item>Mühendislik Ve Fen Bilimleri</item>
+        <item>Endüstriyel Tasarım</item>
+        <item>Gıda Mühendisliği</item>
+        <item>Biyomühendislik</item>
+        <item>İdari Ve Mali İşler Dai.bşk.</item>
+        <item>Mimarlık</item>
+        <item>Yazı İşleri Şube Müdürlüğü</item>
+        <item>Moleküler Biyoloji Ve Genetik</item>
+        <item>Mimarlık Fakültesi</item>
+        <item>Çevre Mühendisliği</item>
+        <item>Merkezi Mekanik Atölye</item>
+        <item>Rektörlük</item>
+        <item>Mühendislik Fakültesi</item>
+        <item>Uluslararası İlişkiler Ofisi</item>
+        <item>Strateji Geliştirme Daire Başkanlığı</item>
+        <item>Personel Daire Başkanlığı</item>
+        <item>Kütüphane Ve Dokümantasyon Dai.bşk.</item>
+        <item>Mimari Restorasyon</item>
+        <item>Genel Kültür Dersleri Bölümü</item>
+        <item>İşyeri Sağlık Ve Güvenlik Birimi</item>
+        <item>Fen Fakültesi</item>
+        <item>Genel Sekreterlik</item>
+        <item>İnşaat Mühendisliği</item>
+        <item>Elektrik-elektronik Müh. Böl.</item>
+        <item>Hukuk Müşavirliği</item>
+        <item>Malzeme Bilimi Ve Mühendisliği</item>
+        <item>Kimya Mühendisliği</item>
+        <item>Döner Sermaye İşletme Müdürlüğü</item>
+        <item>Çevre Geliştirme Uygulama Ve Araştırma</item>
+        <item>Biyoteknoloji Ve Biyomühendislik</item>
+        <item>Enerji Sistemleri Mühendisliği</item>
+        <item>İnşaat Mühendisliği Bölümü</item>
+        <item>Basın Ve Halkla İlişkiler</item>
+        <item>Genel Kültür Dersleri</item>
+        <item>Sürekli Eğitim Merkezi</item>
+        <item>İç Denetim Birimi</item>
+        <item>Sosyal Yardımlaşma Ve Dayanışma</item>
+        <item>Araştırmalar Direktörlüğü</item>
+        <item>Endüstriyel İlişkiler</item>
+    </string-array>
+</resources>

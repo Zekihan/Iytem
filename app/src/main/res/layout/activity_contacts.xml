@@ -15,21 +15,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/editText"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_gravity="end"
-            android:ems="10"
-            android:focusable="auto"
-            android:hint="@string/search"
-            android:textColorHint="@color/textColor"
-            android:importantForAutofill="no"
-            android:inputType="textPersonName"
-            android:textAlignment="center"
-            android:theme="@style/Widget.AppCompat.SearchView" />
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="4dp"
+                android:layout_gravity="end"
+                android:ems="10"
+                android:imeOptions="actionSearch"
+                android:focusable="auto"
+                android:hint="@string/search"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textAlignment="center" />
+
+            <ImageButton
+                android:id="@+id/clear_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginTop="-3dp"
+                android:layout_marginEnd="-4dp"
+                android:tint="@color/colorPrimary"
+                android:backgroundTint="#00000000"
+                app:srcCompat="@drawable/ic_clear"
+                android:contentDescription="@string/textview" />
+
+        </FrameLayout>
+
 
     </androidx.appcompat.widget.Toolbar>
 
