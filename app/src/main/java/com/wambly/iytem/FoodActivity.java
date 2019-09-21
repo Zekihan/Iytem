@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +30,7 @@ public class FoodActivity extends AppCompatActivity {
 
     private ArrayAdapter<String> adapter;
     private ArrayList<String> menu;
+    private boolean refectoryOpen = false;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -85,22 +87,28 @@ public class FoodActivity extends AppCompatActivity {
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.contact));
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append(getString(R.string.food));
-                stringBuilder.append(" ");
-                stringBuilder.append(getString(R.string.menuTitle));
-                stringBuilder.append("\n\n");
-                for(int i=0; i < adapter.getCount(); i++){
-                    stringBuilder.append(adapter.getItem(i));
-                    stringBuilder.append("\n");
+                if(refectoryOpen){
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.contact));
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.append(getString(R.string.food));
+                    stringBuilder.append(" ");
+                    stringBuilder.append(getString(R.string.menuTitle));
+                    stringBuilder.append("\n\n");
+                    for(int i=0; i < adapter.getCount(); i++){
+                        stringBuilder.append(adapter.getItem(i));
+                        stringBuilder.append("\n");
+                    }
+                    String shareMessage = stringBuilder.toString();
+                    shareMessage += "\n" + getString(R.string.download_iytem) + ": bit.ly/2lTdDpn";
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                    startActivity(Intent.createChooser(shareIntent, getString(R.string.share_menu)));
+                }else{
+                    Toast.makeText(getApplicationContext(), getString(R.string.not_available),
+                            Toast.LENGTH_SHORT).show();
                 }
-                String shareMessage = stringBuilder.toString();
-                shareMessage += "\n" + getString(R.string.download_iytem) + ": bit.ly/2lTdDpn";
-                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-                startActivity(Intent.createChooser(shareIntent, getString(R.string.share_menu)));
+
             }
         });
     }
@@ -118,7 +126,10 @@ public class FoodActivity extends AppCompatActivity {
             }
             String menu = menuOut.toString();
             if(menu.equals("No Menu")){
+                refectoryOpen = false;
                 menu = " " + "\n" + getString(R.string.no_menu) + "\n" + " " + "\n" + " ";
+            }else{
+                refectoryOpen = true;
             }
             return menu;
         }
