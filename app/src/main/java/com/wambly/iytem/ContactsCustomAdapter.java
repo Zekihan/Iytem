@@ -38,22 +38,26 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
 
     @Override
     public void onBindViewHolder(@NonNull ContactsCustomAdapter.MyViewHolder myViewHolder, int i) {
+
         Contact contact = mDisplayedValues.get(i);
         myViewHolder.name.setText(contact.getName());
         myViewHolder.department.setText(contact.getDepartment());
         myViewHolder.title.setText(contact.getTitle());
+
     }
+
 
     @Override
     public int getItemCount() {
+        if(mDisplayedValues == null){
+            return 0;
+        }
         return mDisplayedValues.size();
     }
 
     List<Contact> getmDisplayedValues() {
         return mDisplayedValues;
     }
-
-
 
     @Override
     public Filter getFilter() {
@@ -89,7 +93,6 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
         };
     }
 
-
     private boolean checkDep(Contact contact, String chars){
         String department = contact.getDepartment().toLowerCase();
 
@@ -97,9 +100,7 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
             return department.startsWith(chars);
         }
         return false;
-
     }
-
 
     private boolean checkName(Contact contact, String chars){
         String name = contact.getName().toLowerCase();

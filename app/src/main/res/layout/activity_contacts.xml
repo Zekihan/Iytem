@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context=".ContactsActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -26,14 +28,15 @@
                 android:layout_marginTop="3dp"
                 android:layout_marginEnd="4dp"
                 android:layout_gravity="end"
-                android:ems="10"
                 android:imeOptions="actionSearch"
-                android:focusable="auto"
                 android:hint="@string/search"
+                android:nextFocusUp="@id/editText"
+                android:nextFocusLeft="@id/editText"
                 android:textColorHint="@color/grayText"
                 android:importantForAutofill="no"
-                android:inputType="textPersonName"
-                android:textAlignment="center" />
+                android:inputType="text"
+                android:textAlignment="center"
+                android:theme="@style/AppTheme" />
 
             <ImageButton
                 android:id="@+id/clear_text"

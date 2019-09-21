@@ -36,13 +36,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class ContactsActivity extends AppCompatActivity {
 
     private ContactsCustomAdapter adapter;
-
-    List<String> completesList;
+    private RecyclerView recyclerView;
+    List<Contact> contacts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,19 +66,19 @@ public class ContactsActivity extends AppCompatActivity {
             }
         });
 
-        final List<Contact> contacts = syncContacts();
-        adapter = new ContactsCustomAdapter(contacts);
-        adapter.setContacts(contacts);
+        contacts = new ArrayList<>();
 
-        final RecyclerView recyclerView = findViewById(R.id.RC);
+        adapter = new ContactsCustomAdapter(contacts);
+
+        recyclerView = findViewById(R.id.RC);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
         recyclerView.setAdapter(adapter);
 
+        syncContacts();
+
         final AutoCompleteTextView etSearch = findViewById(R.id.editText);
-
-
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.departments_array));
         etSearch.setAdapter(arrayAdapter);
 
@@ -114,7 +115,7 @@ public class ContactsActivity extends AppCompatActivity {
             }
         });
 
-        final View clearButton = findViewById(R.id.clear_text);
+       final View clearButton = findViewById(R.id.clear_text);
 
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,7 +147,6 @@ public class ContactsActivity extends AppCompatActivity {
             }
         });
 
-
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(),
                 recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
@@ -160,27 +160,24 @@ public class ContactsActivity extends AppCompatActivity {
         }));
     }
 
-    private ArrayList<Contact> syncContacts(){
-
-        final ArrayList<Contact> contacts = new ArrayList<>();
+    private void syncContacts(){
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference ref = database.getReference().child("contacts").child("contactsList");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int i = 0;
+                contacts.clear();
+                adapter.notifyItemRangeRemoved(0, contacts.size());
                 for (DataSnapshot childS : snapshot.getChildren()) {
                     contacts.add(childS.getValue(Contact.class));
-                    adapter.notifyItemInserted(i);
-                    i++;
                 }
+                adapter.notifyItemRangeInserted(0, contacts.size());
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-        return contacts;
     }
 
     private void showKeyboard(View view){
@@ -189,7 +186,6 @@ public class ContactsActivity extends AppCompatActivity {
                     getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         }
-
     }
 
     private void hideKeyboard(){
