@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -37,14 +38,20 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
 
     @Override
     public void onBindViewHolder(@NonNull ContactsCustomAdapter.MyViewHolder myViewHolder, int i) {
+
         Contact contact = mDisplayedValues.get(i);
         myViewHolder.name.setText(contact.getName());
         myViewHolder.department.setText(contact.getDepartment());
         myViewHolder.title.setText(contact.getTitle());
+
     }
+
 
     @Override
     public int getItemCount() {
+        if(mDisplayedValues == null){
+            return 0;
+        }
         return mDisplayedValues.size();
     }
 
@@ -61,10 +68,10 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
                 if (charString.isEmpty()) {
                     mDisplayedValues = contacts;
                 }else {
+                    final String prefixString = charSequence.toString().toLowerCase();
                     List<Contact> filteredList = new ArrayList<>();
                     for (Contact row : contacts) {
-                        if (row.getName().toLowerCase().contains(charString.toLowerCase()) ||
-                                row.getDepartment().toLowerCase().contains(charString.toLowerCase())) {
+                        if(checkName(row, prefixString) || checkDep(row, prefixString)){
                             filteredList.add(row);
                         }
                     }
@@ -84,6 +91,29 @@ public class ContactsCustomAdapter extends RecyclerView.Adapter<ContactsCustomAd
                 notifyDataSetChanged();
             }
         };
+    }
+
+    private boolean checkDep(Contact contact, String chars){
+        String department = contact.getDepartment().toLowerCase();
+
+        if(chars.length() > 2){
+            return department.startsWith(chars);
+        }
+        return false;
+    }
+
+    private boolean checkName(Contact contact, String chars){
+        String name = contact.getName().toLowerCase();
+        String[] nameArr = name.split(" ");
+        if(nameArr.length == 1){
+            return name.startsWith(chars);
+        }else if(nameArr.length == 2){
+            return name.startsWith(chars) || nameArr[1].startsWith(chars);
+        }else if (nameArr.length > 2){
+            return name.startsWith(chars) || nameArr[1].startsWith(chars)
+                    || nameArr[2].startsWith(chars) ;
+        }
+        return false;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

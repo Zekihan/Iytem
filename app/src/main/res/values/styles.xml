@@ -6,6 +6,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorControlNormal">@color/colorPrimary</item>
         <item name="android:colorBackground">@color/bgColor</item>
+        <item name="android:background">@color/transparent</item>
         <item name="android:textColor">@color/textColor</item>
     </style>
 
@@ -35,7 +36,7 @@
     </style>
 
     <!-- SplashScreen theme. -->
-    <style name="SplashTheme" parent="AppTheme">
+    <style name="SplashTheme" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
         <item name="android:statusBarColor">@color/splashScreen</item>
         <item name="android:navigationBarColor">@color/splashScreen</item>
