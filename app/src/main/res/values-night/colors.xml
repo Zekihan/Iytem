@@ -7,5 +7,9 @@
     <color name="lightgray">#33CDCDCD</color>
     <color name="black">#000000</color>
     <color name="textColor">#CCFFFFFF</color>
-    <color name="cardBg">#202020</color>
+    <color name="cardBg">#242424</color>
+    <color name="listCardBg">#1C1C1C</color>
+    <color name="toolbarBg">#242424</color>
+    <color name="nav_header">#1C1C1C</color>
+    <color name="statusBar">#1E1E1E</color>
 </resources>

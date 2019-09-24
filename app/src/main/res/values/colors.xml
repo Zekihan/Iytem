@@ -2,14 +2,18 @@
 <resources>
     <color name="colorPrimary">#3949AB</color>
     <color name="colorPrimaryDark">#283593</color>
-    <color name="colorAccent">#E8EAF6</color>
+    <color name="colorAccent">#673AB7</color>
     <color name="bgColor">#FFFFFF</color>
     <color name="lightgray">#DCDCDC</color>
     <color name="black">#000000</color>
     <color name="textColor">#DE000000</color>
-    <color name="cardBg">#F7F7FF</color>
+    <color name="cardBg">#FFFFFF</color>
+    <color name="listCardBg">#FFFFFF</color>
+    <color name="toolbarBg">#FFFFFF</color>
+    <color name="nav_header">#F5F5FD</color>
     <color name="splashScreen">#202020</color>
     <color name="grayText">#969696</color>
     <color name="transparent">#00000000</color>
+    <color name="statusBar">#FFFFFF</color>
 
 </resources>

@@ -37,6 +37,7 @@ public class MonthlyMenuActivity extends AppCompatActivity {
     private final List<String> menuList = new ArrayList<>();
     private MonthlyMenuCustomAdapter adapter;
 
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +54,7 @@ public class MonthlyMenuActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
 
@@ -69,7 +70,7 @@ public class MonthlyMenuActivity extends AppCompatActivity {
         int itemPosition = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         recyclerView.smoothScrollToPosition(itemPosition);
 
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(),
+        RecyclerTouchListener listener = new RecyclerTouchListener(getApplicationContext(),
                 recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) { }
@@ -80,12 +81,13 @@ public class MonthlyMenuActivity extends AppCompatActivity {
                 shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.contact));
                 String shareMessage = getDate(position) + "\n" + getString(R.string.food) + "\n\n";
                 shareMessage += menuList.get(position);
-
                 shareMessage += "\n\n" + getString(R.string.download_iytem) + ": bit.ly/2lTdDpn";
                 shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                 startActivity(Intent.createChooser(shareIntent, getString(R.string.share)));
             }
-        }));
+        });
+
+        recyclerView.addOnItemTouchListener(listener);
 
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);

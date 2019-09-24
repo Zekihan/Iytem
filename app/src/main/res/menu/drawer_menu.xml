@@ -10,9 +10,10 @@
 
 
     <item
-        android:id="@+id/theme"
-        android:icon="@drawable/ic_theme"
-        android:title="@string/change_theme" />
+        android:id="@+id/nav_contact"
+        android:icon="@drawable/ic_message"
+        android:title="Bize Ulaş" />
+
 
 
     <item android:title="@string/location">

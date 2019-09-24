@@ -10,9 +10,9 @@ import android.os.Bundle;
 import androidx.preference.PreferenceManager;
 
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.play.core.install.InstallState;
@@ -56,63 +55,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        getWindow().setStatusBarColor(getResources().getColor(R.color.bgColor));
+
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-
-        boolean darkTheme = prefs.getBoolean("darkTheme",true);
-        if(darkTheme){
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }else{
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-
-        drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        Menu menu = navigationView.getMenu();
-        MenuItem nav_theme = menu.findItem(R.id.theme);
-
-        View hView =  navigationView.getHeaderView(0);
-        final TextView nav_user = hView.findViewById(R.id.message);
-
-        if(darkTheme){
-            nav_theme.setTitle(getString(R.string.light_theme));
-        }else{
-            nav_theme.setTitle(getString(R.string.dark_theme));
-        }
-
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref.keepSynced(true);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot ds) {
-                nav_user.setText(ds.child("headerMessage").getValue(String.class));
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
-
-        boolean checkUpdate = prefs.getBoolean("checkUpdate", false);
-        if(checkUpdate){
-            appUpdate();
-        }
-
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("checkUpdate", true);
-        editor.apply();
-
-        navigationView.setNavigationItemSelectedListener(this);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
 
         View transportation = findViewById(R.id.transportation);
         transportation.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +91,65 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(getApplicationContext(),ContactsActivity.class));
             }
         });
+
+
+        //THEME TOGGLE
+        ImageView themeToggle = findViewById(R.id.themeToggle);
+        themeToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean darkTheme = prefs.getBoolean("darkTheme",true);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("darkTheme", !darkTheme);
+                editor.putBoolean("checkUpdate", false);
+                editor.apply();
+                recreate();
+            }
+        });
+
+        //SET THEME
+        boolean darkTheme = prefs.getBoolean("darkTheme",true);
+        if(darkTheme){
+            themeToggle.setImageResource(R.drawable.ic_light_toggle);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+        //SET HEADER FROM REALTIME DATABASE
+        drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View hView =  navigationView.getHeaderView(0);
+        final TextView nav_user = hView.findViewById(R.id.message);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        ref.keepSynced(true);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot ds) {
+                nav_user.setText(ds.child("headerMessage").getValue(String.class));
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
+        //IN APP UPDATE
+        boolean checkUpdate = prefs.getBoolean("checkUpdate", false);
+        if(checkUpdate){
+            appUpdate();
+        }
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("checkUpdate", true);
+        editor.apply();
+
+
+        //NAVIGATION DRAWER TOGGLE
+        navigationView.setNavigationItemSelectedListener(this);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
     }
 
     @Override
@@ -150,22 +158,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("checkUpdate", false);
         editor.apply();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.feedback) {
-            sendFeedback();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -191,10 +183,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(intent);
     }
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        boolean closeDrawer = true;
+
         switch (item.getItemId()) {
             case R.id.nav_share:
                 try {
@@ -202,22 +193,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     shareIntent.setType("text/plain");
                     shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.iytem));
                     String shareMessage= "İYTE'de hayat artık daha kolay!\n\n";
-                    shareMessage = shareMessage + "play.google.com/store/apps/details?id=com.wambly.iytem";
+                    shareMessage += "play.google.com/store/apps/details?id=com.wambly.iytem";
                     shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                     startActivity(Intent.createChooser(shareIntent, getString(R.string.share)));
                 } catch(Exception e) {
                     e.printStackTrace();
                 }
                 break;
-            case R.id.theme:
-                boolean darkTheme = prefs.getBoolean("darkTheme",true);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean("darkTheme", !darkTheme);
-                editor.putBoolean("checkUpdate", false);
-                editor.apply();
-                recreate();
-                closeDrawer = false;
+
+            case R.id.nav_contact:
+                sendFeedback();
                 break;
+
             case R.id.nav_location:
                 Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW,
                         Uri.parse("https://www.google.com/maps/search/?api=1&query=" +
@@ -236,9 +223,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             default:
                 break;
         }
-        if(closeDrawer){
-            drawer.closeDrawer(GravityCompat.START);
-        }
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 

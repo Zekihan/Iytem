@@ -10,14 +10,14 @@
         <item name="android:textColor">@color/textColor</item>
     </style>
 
-    <style name="AppThemeFade" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorControlNormal">@color/colorPrimary</item>
-        <item name="android:colorBackground">@color/bgColor</item>
-        <item name="android:textColor">@color/textColor</item>
+    <style name="AppThemeFade" parent="AppTheme">
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="AppTheme">
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:background">@color/toolbarBg</item>
+        <item name="colorControlNormal">@color/colorPrimary</item>
     </style>
 
     <style name="WindowAnimationTransition">
@@ -25,23 +25,14 @@
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>
     </style>
 
-    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:textColorPrimary">@color/black</item>
-        <item name="android:background">@color/bgColor</item>
-        <item name="colorControlNormal">@color/colorPrimary</item>
-    </style>
-
     <style name="CustomTabText" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">13sp</item>
     </style>
 
-    <!-- SplashScreen theme. -->
     <style name="SplashTheme" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
         <item name="android:statusBarColor">@color/splashScreen</item>
         <item name="android:navigationBarColor">@color/splashScreen</item>
     </style>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
 
 </resources>

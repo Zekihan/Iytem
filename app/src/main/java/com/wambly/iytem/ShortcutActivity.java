@@ -4,7 +4,6 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
+import android.view.WindowManager;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,8 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
 
 public class ShortcutActivity extends AppCompatActivity {
 
@@ -47,11 +46,12 @@ public class ShortcutActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
 
         shortcuts = new ArrayList<>();
+
         shortcuts.add(new Shortcut(getString(R.string.obs),"https://obs.iyte.edu.tr",R.drawable.ic_school));
         shortcuts.add(new Shortcut(getString(R.string.iztech),"https://iyte.edu.tr",R.drawable.ic_home));
         shortcuts.add(new Shortcut(getString(R.string.library),"http://library.iyte.edu.tr",R.drawable.ic_library));
@@ -60,7 +60,7 @@ public class ShortcutActivity extends AppCompatActivity {
         shortcuts.add(new Shortcut(getString(R.string.webmail),"https://webmail.iyte.edu.tr",R.drawable.ic_email));
         shortcuts.add(new Shortcut(getString(R.string.academic_calendar),"https://iyte.edu.tr/akademik/akademik-takvim",R.drawable.ic_calendar_today));
         shortcuts.add(new Shortcut(getString(R.string.gk_dep),"https://gk.iyte.edu.tr",R.drawable.ic_language));
-
+        addExtraShorcuts();
 
         RecyclerView recyclerView = findViewById(R.id.shortcuts);
         adapter = new ShortcutsCustomAdapter(shortcuts);
@@ -68,7 +68,8 @@ public class ShortcutActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(),
+
+        RecyclerTouchListener listener = new RecyclerTouchListener(getApplicationContext(),
                 recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
@@ -78,9 +79,16 @@ public class ShortcutActivity extends AppCompatActivity {
             public void onLongClick(View view, int position) {
 
             }
-        }));
+        });
+        recyclerView.addOnItemTouchListener(listener);
 
-        addExtraShorcuts();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     private void addExtraShorcuts(){
@@ -110,6 +118,7 @@ public class ShortcutActivity extends AppCompatActivity {
         intentBuilder.setStartAnimations(this,R.anim.slide_in_right , R.anim.slide_out_left);
         intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         intentBuilder.setToolbarColor(getResources().getColor(R.color.bgColor));
+        intentBuilder.addDefaultShareMenuItem();
         CustomTabsIntent customTabsIntent = intentBuilder.build();
         customTabsIntent.launchUrl(this, Uri.parse(url));
     }

@@ -27,9 +27,11 @@ public class TransportationCustomAdapter extends RecyclerView.Adapter<Transporta
     @Override
     public void onBindViewHolder(@NonNull TransportationCustomAdapter.MyViewHolder myViewHolder, int i) {
         String service = busServices.get(i).getNameStr();
-        String dir = busServices.get(i).getDirectionTileStr();
+        String way0 = busServices.get(i).getWay0();
+        String way1 = busServices.get(i).getWay1();
         myViewHolder.service.setText(service);
-        myViewHolder.direction.setText(dir);
+        myViewHolder.way0.setText(way0);
+        myViewHolder.way1.setText(way1);
     }
 
     @Override
@@ -39,11 +41,13 @@ public class TransportationCustomAdapter extends RecyclerView.Adapter<Transporta
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         final TextView service;
-        final TextView direction;
+        final TextView way0;
+        final TextView way1;
         MyViewHolder(@NonNull View view) {
             super(view);
             service = view.findViewById(R.id.service);
-            direction = view.findViewById(R.id.direction);
+            way0 = view.findViewById(R.id.way0);
+            way1 = view.findViewById(R.id.way1);
         }
     }
 

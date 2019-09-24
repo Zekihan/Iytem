@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -25,19 +24,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
-import android.widget.ImageButton;
+
 import android.widget.TextView;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import java.util.HashMap;
+
 import java.util.List;
 
 public class ContactsActivity extends AppCompatActivity {
@@ -63,9 +62,11 @@ public class ContactsActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
+
+        final AppBarLayout appBarLayout = findViewById(R.id.appBarLay);
 
         contacts = new ArrayList<>();
         syncContacts();
@@ -78,8 +79,6 @@ public class ContactsActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(this, 0));
         recyclerView.setAdapter(adapter);
 
-
-
         final AutoCompleteTextView etSearch = findViewById(R.id.editText);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.departments_array));
         etSearch.setAdapter(arrayAdapter);
@@ -89,32 +88,21 @@ public class ContactsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 adapter.getFilter().filter(adapterView.getItemAtPosition(i).toString());
                 recyclerView.scrollToPosition(0);
+                appBarLayout.setExpanded(false);
                 hideKeyboard();
             }
         });
 
         final View clearButton = findViewById(R.id.clear_text);
 
-        etSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-                    etSearch.setHint("");
-                    etSearch.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-                }
-                else{
-                    etSearch.setHint(getString(R.string.search));
-                }
-
-            }
-        });
-
-       etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     adapter.getFilter().filter(v.getText().toString());
                     recyclerView.scrollToPosition(0);
                     hideKeyboard();
+                    appBarLayout.setExpanded(false);
                     return true;
                 }
                 return false;
@@ -152,7 +140,7 @@ public class ContactsActivity extends AppCompatActivity {
             }
         });
 
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(),
+        RecyclerTouchListener listener = new RecyclerTouchListener(getApplicationContext(),
                 recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
@@ -162,7 +150,16 @@ public class ContactsActivity extends AppCompatActivity {
             }
             @Override
             public void onLongClick(View view, int position) { }
-        }));
+        });
+
+        recyclerView.addOnItemTouchListener(listener);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     private void syncContacts(){
@@ -200,6 +197,5 @@ public class ContactsActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
-
 
 }

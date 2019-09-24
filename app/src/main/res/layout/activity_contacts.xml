@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,23 +8,35 @@
     android:focusableInTouchMode="true"
     tools:context=".ContactsActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLay"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:theme="@style/ToolbarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content"
+        android:elevation="12dp"
+        android:theme="@style/ToolbarTheme">
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:elevation="4dp">
+
+        </androidx.appcompat.widget.Toolbar>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/statusBar">
 
             <AutoCompleteTextView
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="54dp"
                 android:hint="@string/search"
                 android:imeOptions="actionSearch"
                 android:importantForAutofill="no"
@@ -32,44 +44,45 @@
                 android:nextFocusLeft="@id/editText"
                 android:nextFocusUp="@id/editText"
                 android:textColorHint="@color/grayText"
-                android:textAlignment="center"
                 android:layout_toStartOf="@id/clear_text"
+                android:layout_marginStart="16dp"
                 android:theme="@style/AppTheme"/>
 
-
-            <ImageButton
+            <ImageView
                 android:id="@+id/clear_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:padding="8dp"
                 android:tint="@color/colorPrimary"
-                android:backgroundTint="@color/bgColor"
+                android:backgroundTint="@color/toolbarBg"
                 app:srcCompat="@drawable/ic_clear"
                 android:contentDescription="@string/textview"
-                android:layout_alignParentEnd="true"/>
-
+                android:layout_alignParentEnd="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"/>
 
         </RelativeLayout>
 
 
+    </com.google.android.material.appbar.AppBarLayout>
 
-
-    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RC"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingTop="@dimen/listCardSpace"
+            android:paddingBottom="@dimen/listCardSpace"
+            android:clipToPadding="false"
             android:scrollbars="vertical"
             android:layout_marginEnd="-1dp"/>
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

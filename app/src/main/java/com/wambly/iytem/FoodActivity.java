@@ -11,6 +11,7 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -49,7 +50,7 @@ public class FoodActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
 
@@ -71,7 +72,7 @@ public class FoodActivity extends AppCompatActivity {
         food.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chromeTab("https://yks.iyte.edu.tr/Login.aspx");
+                chromeTab("https://yks.iyte.edu.tr/YemekRezervasyon.aspx");
             }
         });
 
@@ -113,6 +114,13 @@ public class FoodActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
     private String prettyMenu(String menuStr){
         if(menuStr != null){
             String[] menuList = menuStr.split("\n");
@@ -127,7 +135,7 @@ public class FoodActivity extends AppCompatActivity {
             String menu = menuOut.toString();
             if(menu.equals("No Menu")){
                 refectoryOpen = false;
-                menu = " " + "\n" + getString(R.string.no_menu) + "\n" + " " ;
+                menu = getString(R.string.no_menu) + "\n" + " " + "\n" + " "+ "\n" + " " ;
             }else{
                 refectoryOpen = true;
             }
@@ -165,6 +173,7 @@ public class FoodActivity extends AppCompatActivity {
         intentBuilder.setStartAnimations(this,R.anim.slide_in_right , R.anim.slide_out_left);
         intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         intentBuilder.setToolbarColor(getResources().getColor(R.color.bgColor));
+        intentBuilder.addDefaultShareMenuItem();
         CustomTabsIntent customTabsIntent = intentBuilder.build();
         customTabsIntent.launchUrl(this, Uri.parse(url));
     }

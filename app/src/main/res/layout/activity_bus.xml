@@ -8,22 +8,23 @@
     tools:context=".BusActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/Widget.AppCompat.Light.ActionBar">
+        android:elevation="@dimen/toolbarElevation">
 
         <androidx.appcompat.widget.Toolbar
             android:theme="@style/ToolbarTheme"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="@string/app_name"/>
+            app:title="@string/app_name"
+            app:layout_scrollFlags="scroll|enterAlways"/>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             app:tabTextAppearance="@style/CustomTabText"
-            app:layout_scrollFlags="scroll|enterAlways"
+            android:background="@color/toolbarBg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -49,14 +50,12 @@
 
         </com.google.android.material.tabs.TabLayout>
 
-
         <RelativeLayout
             android:id="@+id/direction"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:theme="@style/ToolbarTheme"
-            android:background="@color/cardBg"
-            android:elevation="8dp">
+            android:theme="@style/AppTheme"
+            android:background="@color/nav_header">
 
             <TextView
                 android:id="@+id/directionTxt"
@@ -65,7 +64,6 @@
                 android:gravity="center"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="20dp"
-                android:background="@color/cardBg"
                 android:textSize="16sp"
                 android:textStyle="bold"/>
 
@@ -78,12 +76,10 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="30dp"
                 android:tint="?attr/colorControlNormal"
-                android:background="@color/cardBg"
-                app:srcCompat="@drawable/ic_swap_horiz"
+                app:srcCompat="@drawable/ic_swap_horiz_black_32dp"
                 android:contentDescription="@string/change_direction" />
 
         </RelativeLayout>
-
 
     </com.google.android.material.appbar.AppBarLayout>
 

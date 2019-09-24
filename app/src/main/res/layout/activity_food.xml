@@ -11,37 +11,42 @@
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:theme="@style/ToolbarTheme"
+        android:elevation="@dimen/toolbarElevation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/share"
-            android:layout_width="100dp"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:layout_marginEnd="10dp"
             app:srcCompat="@drawable/ic_share_black"
             android:layout_gravity="end"
             android:contentDescription="@string/share"
             android:tint="@color/colorPrimary"
-            android:backgroundTint="#00000000" />
+            android:backgroundTint="#00000000"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"/>
 
     </androidx.appcompat.widget.Toolbar>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/menuLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/gridLayout2">
+        app:layout_constraintBottom_toTopOf="@id/gridLayout2"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/menuTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
             android:textAlignment="center"
             android:text="@string/menuTitle"
             android:textSize="28sp"
@@ -51,19 +56,16 @@
             android:id="@+id/menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/menuTitle"
             android:layout_margin="18dp"
-
             android:listSelector="@android:color/transparent">
-
-
         </ListView>
-    </RelativeLayout>
+
+    </LinearLayout>
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/gridLayout2"
         android:layout_width="match_parent"
-        android:layout_height="165dp"
+        android:layout_height="160dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="24dp"
@@ -76,7 +78,6 @@
         app:columnCount="2"
         app:columnOrderPreserved="false"
         app:rowCount="1">
-
 
         <androidx.cardview.widget.CardView
             android:id="@+id/monthlyMenu"
@@ -99,15 +100,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
                 android:orientation="vertical"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="-4dp"
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
-                    android:padding="4dp"
+                    android:padding="8dp"
                     android:src="@drawable/ic_calendar_today"
                     android:tint="?attr/colorControlNormal"
                     android:contentDescription="@string/dummy" />
@@ -118,7 +121,9 @@
                     android:textStyle="bold"
                     android:text="@string/monthly_menu"
                     android:textAlignment="center"
-                    android:textSize="14sp" />
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:layout_marginTop="-12dp"/>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -144,8 +149,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
                 android:orientation="vertical"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="-4dp"
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
@@ -160,19 +167,17 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:text="@string/add_money"
+                    android:text="@string/reserve_food"
                     android:textAlignment="center"
+                    android:gravity="center"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    tools:text="Para Yükle" />
+                    tools:text="Para Yükle"
+                    android:layout_marginTop="-12dp"/>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
     </androidx.gridlayout.widget.GridLayout>
-
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
