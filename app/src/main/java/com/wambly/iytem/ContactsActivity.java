@@ -43,7 +43,7 @@ public class ContactsActivity extends AppCompatActivity {
 
     private ContactsCustomAdapter adapter;
     private RecyclerView recyclerView;
-    List<Contact> contacts;
+    private List<Contact> contacts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class ContactsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contacts);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        final Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.contacts);
         setSupportActionBar(toolbar);
         if(getSupportActionBar()!= null){
@@ -66,11 +66,21 @@ public class ContactsActivity extends AppCompatActivity {
             }
         });
 
+
         final AppBarLayout appBarLayout = findViewById(R.id.appBarLay);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
+                    toolbar.setElevation(0);
+                }else{
+                    toolbar.setElevation(getResources().getDimension(R.dimen.toolbarElevation));
+                }
+            }
+        });
 
         contacts = new ArrayList<>();
         syncContacts();
-
         adapter = new ContactsCustomAdapter(contacts);
 
         recyclerView = findViewById(R.id.RC);
@@ -93,8 +103,15 @@ public class ContactsActivity extends AppCompatActivity {
             }
         });
 
-        final View clearButton = findViewById(R.id.clear_text);
+        etSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b){
+                    appBarLayout.setExpanded(false);
 
+                }
+            }
+        });
         etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -109,9 +126,9 @@ public class ContactsActivity extends AppCompatActivity {
             }
         });
 
-
+        // CLEAR BUTTON
+        final View clearButton = findViewById(R.id.clear_text);
         clearButton.setVisibility(View.INVISIBLE);
-
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,7 +136,6 @@ public class ContactsActivity extends AppCompatActivity {
                 showKeyboard(etSearch);
             }
         });
-
 
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -186,7 +202,9 @@ public class ContactsActivity extends AppCompatActivity {
         if (view.requestFocus()) {
             InputMethodManager imm = (InputMethodManager)
                     getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+            if (imm != null) {
+                imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+            }
         }
     }
 
@@ -194,7 +212,9 @@ public class ContactsActivity extends AppCompatActivity {
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            if (imm != null) {
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
         }
     }
 

@@ -12,7 +12,7 @@
     <item
         android:id="@+id/nav_contact"
         android:icon="@drawable/ic_message"
-        android:title="Bize Ulaş" />
+        android:title="@string/reach_us" />
 
 
 

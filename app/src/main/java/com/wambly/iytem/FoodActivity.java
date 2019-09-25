@@ -172,7 +172,7 @@ public class FoodActivity extends AppCompatActivity {
         CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
         intentBuilder.setStartAnimations(this,R.anim.slide_in_right , R.anim.slide_out_left);
         intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-        intentBuilder.setToolbarColor(getResources().getColor(R.color.bgColor));
+        intentBuilder.setToolbarColor(getResources().getColor(R.color.toolbarBg));
         intentBuilder.addDefaultShareMenuItem();
         CustomTabsIntent customTabsIntent = intentBuilder.build();
         customTabsIntent.launchUrl(this, Uri.parse(url));

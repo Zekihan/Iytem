@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -19,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
@@ -92,8 +92,8 @@ public class MonthlyMenuActivity extends AppCompatActivity {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (prefs.getBoolean("monthlyMenuTut", true)){
-            ConstraintLayout constraintLayout = findViewById(R.id.root_layout);
-            Snackbar snackbar = Snackbar.make(constraintLayout, getString(R.string.monthly_menu_tut), 4000);
+            LinearLayout rootLayout = findViewById(R.id.root_layout);
+            Snackbar snackbar = Snackbar.make(rootLayout, getString(R.string.monthly_menu_tut), 3500);
             snackbar.show();
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("monthlyMenuTut", false);

@@ -50,26 +50,25 @@
                 android:textSize="14sp"
                 android:gravity="center"
                 android:textColor="@color/colorPrimaryDark"
-                android:layout_marginEnd="4dp"
-                android:fontFamily="@font/open_sans"/>
+                android:layout_marginEnd="4dp"/>
 
             <ImageView
                 android:id="@+id/swapImg"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:tint="@color/colorPrimaryDark"
-                android:src="@drawable/ic_swap_horiz_black_32dp"/>
+                android:src="@drawable/ic_swap_horiz_black_32dp"
+                android:contentDescription="@string/change_direction" />
 
             <TextView
                 android:id="@+id/way1"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:text="@string/textview"
-                android:textSize="13sp"
+                android:textSize="14sp"
                 android:gravity="center"
                 android:textColor="@color/colorPrimaryDark"
-                android:layout_marginStart="4dp"
-                android:fontFamily="@font/open_sans"/>
+                android:layout_marginStart="4dp"/>
 
         </LinearLayout>
 
