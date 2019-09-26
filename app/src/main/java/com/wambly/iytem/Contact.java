@@ -3,6 +3,9 @@ package com.wambly.iytem;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class Contact implements Parcelable{
     private String name;
     private String email;
