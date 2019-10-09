@@ -8,25 +8,10 @@
         android:icon="@drawable/ic_share_black"
         android:title="@string/share" />
 
-
     <item
-        android:id="@+id/nav_contact"
-        android:icon="@drawable/ic_message"
-        android:title="@string/reach_us" />
-
-
-
-    <item android:title="@string/location">
-        <menu>
-            <group>
-                <item
-                    android:id="@+id/nav_location"
-                    android:icon="@drawable/ic_map"
-                    android:title="@string/map" />
-            </group>
-        </menu>
-    </item>
-
+        android:id="@+id/nav_library_hours"
+        android:icon="@drawable/ic_library"
+        android:title="@string/library_hours" />
 
     <item android:title="@string/communication">
         <menu>
@@ -43,6 +28,18 @@
                     android:id="@+id/nav_student_affairs"
                     android:icon="@drawable/ic_phone"
                     android:title="@string/student_affairs" />
+
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/reach_us">
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/nav_contact"
+                    android:icon="@drawable/ic_feedback_black_24dp"
+                    android:title="@string/feedback" />
             </group>
         </menu>
     </item>

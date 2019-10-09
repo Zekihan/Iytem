@@ -54,9 +54,6 @@ public class BusActivity extends AppCompatActivity implements BusFragment.OnFrag
             }
         });
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("transportation");
-        ref.keepSynced(true);
-
         FragmentPagerAdapter mFragmentPagerAdapter = new MyAdapter(getSupportFragmentManager());
 
         ViewPager mViewPager = findViewById(R.id.container);

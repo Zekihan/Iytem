@@ -55,9 +55,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        getWindow().setStatusBarColor(getResources().getColor(R.color.bgColor));
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M && !prefs.getBoolean("darkTheme", true)){
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+        }else{
+            getWindow().setStatusBarColor(getResources().getColor(R.color.bgColor));
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -91,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(getApplicationContext(),ContactsActivity.class));
             }
         });
-
 
         //THEME TOGGLE
         ImageView themeToggle = findViewById(R.id.themeToggle);
@@ -155,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        //to make sure don't check in app update when recreate
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("checkUpdate", false);
         editor.apply();
@@ -166,6 +171,55 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.nav_share:
+                shareApp();
+                break;
+
+            case R.id.nav_library_hours:
+                startActivity(new Intent(getApplicationContext(), LibraryHoursActivity.class));
+                break;
+
+            case R.id.nav_contact:
+                sendFeedback();
+                break;
+
+            case R.id.nav_emergency:
+                dialNum("02327506222");
+                break;
+
+            case R.id.nav_rectorate:
+                dialNum("02327506000");
+                break;
+
+            case R.id.nav_student_affairs:
+                dialNum("02327506300");
+                break;
+
+            default:
+                break;
+        }
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void shareApp() {
+        try {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.iytem));
+            String shareMessage= "İYTE'de hayat artık daha kolay!\n\n";
+            shareMessage += "play.google.com/store/apps/details?id=com.wambly.iytem";
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+            startActivity(Intent.createChooser(shareIntent, getString(R.string.share)));
+        } catch(Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -181,50 +235,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         );
         intent.setData(data);
         startActivity(intent);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.nav_share:
-                try {
-                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.iytem));
-                    String shareMessage= "İYTE'de hayat artık daha kolay!\n\n";
-                    shareMessage += "play.google.com/store/apps/details?id=com.wambly.iytem";
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-                    startActivity(Intent.createChooser(shareIntent, getString(R.string.share)));
-                } catch(Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-
-            case R.id.nav_contact:
-                sendFeedback();
-                break;
-
-            case R.id.nav_location:
-                Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW,
-                        Uri.parse("https://www.google.com/maps/search/?api=1&query=" +
-                                "İzmir Yüksek Teknoloji Enstitüsü İYTE"));
-                startActivity(mapIntent);
-                break;
-            case R.id.nav_emergency:
-                dialNum("02327506222");
-                break;
-            case R.id.nav_rectorate:
-                dialNum("02327506000");
-                break;
-            case R.id.nav_student_affairs:
-                dialNum("02327506300");
-                break;
-            default:
-                break;
-        }
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     private void dialNum(String num){

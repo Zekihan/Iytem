@@ -7,11 +7,12 @@
         android:name=".FirebaseApp"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/launcher_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".LibraryHoursActivity"></activity>
         <activity
             android:name=".SplashScreenActivity"
             android:theme="@style/SplashTheme">
@@ -30,8 +31,7 @@
         <activity android:name=".ShortcutActivity" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppThemeFade">
-        </activity>
+            android:theme="@style/AppThemeFade"></activity>
 
         <meta-data
             android:name="preloaded_fonts"

@@ -31,21 +31,15 @@
     <string name="transportation_des">İYTE\'ye ulaşım saatleri</string>
     <string name="no_menu">Yemekhane Kapalı</string>
     <string name="contact">Kişi</string>
-    <string name="feedback">Öneri/Hata Bildir</string>
+    <string name="feedback">Geri Bildirim</string>
     <string name="iytem">İYTEM</string>
-    <string name="connection_warn">İnternetinizin açık olduğundan emin olun</string>
-    <string name="light_theme">Açık Tema</string>
-    <string name="dark_theme">Koyu Tema</string>
     <string name="share">Paylaş</string>
     <string name="welcome">Hoşgeldiniz</string>
     <string name="change_theme">Tema Değiştir</string>
-    <string name="settings">Ayarlar</string>
     <string name="communication">İletişim</string>
     <string name="emergency">Kampüs Acil Durum</string>
     <string name="rectorate">Rektörlük</string>
     <string name="student_affairs">Öğrenci İşleri</string>
-    <string name="location">Konum</string>
-    <string name="map">Harita</string>
     <string name="launcher_name">İytem</string>
     <string name="bus">Otobüs</string>
     <string name="departure_hours">Kalkış Saatleri</string>
@@ -58,6 +52,8 @@
     <string name="monthly_menu_tut">Menüye basılı tutarak onu paylaşabilirsin</string>
     <string name="share_menu">Menüyü Paylaş</string>
     <string name="reach_us">Bize Ulaş</string>
+    <string name="library_hours">Kütüphane Saatleri</string>
+    <string name="week_end">Hafta sonu</string>
 
 
 </resources>

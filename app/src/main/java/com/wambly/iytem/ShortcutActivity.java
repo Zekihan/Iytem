@@ -1,10 +1,8 @@
 package com.wambly.iytem;
 
 import android.content.pm.ActivityInfo;
-import android.net.Uri;
 
 import androidx.annotation.NonNull;
-import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -73,7 +71,7 @@ public class ShortcutActivity extends AppCompatActivity {
                 recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                chromeTab(shortcuts.get(position).getUrl());
+                CustomTabsHelper.chromeTab(ShortcutActivity.this, shortcuts.get(position).getUrl());
             }
             @Override
             public void onLongClick(View view, int position) {
@@ -111,16 +109,6 @@ public class ShortcutActivity extends AppCompatActivity {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-    }
-
-    private void chromeTab(String url){
-        CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
-        intentBuilder.setStartAnimations(this,R.anim.slide_in_right , R.anim.slide_out_left);
-        intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-        intentBuilder.setToolbarColor(getResources().getColor(R.color.toolbarBg));
-        intentBuilder.addDefaultShareMenuItem();
-        CustomTabsIntent customTabsIntent = intentBuilder.build();
-        customTabsIntent.launchUrl(this, Uri.parse(url));
     }
 
 }

@@ -2,10 +2,8 @@ package com.wambly.iytem;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.net.Uri;
 
 import androidx.annotation.NonNull;
-import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -72,7 +70,7 @@ public class FoodActivity extends AppCompatActivity {
         food.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chromeTab("https://yks.iyte.edu.tr/YemekRezervasyon.aspx");
+                CustomTabsHelper.chromeTab(FoodActivity.this,"https://yks.iyte.edu.tr/YemekRezervasyon.aspx");
             }
         });
 
@@ -92,14 +90,13 @@ public class FoodActivity extends AppCompatActivity {
                     Intent shareIntent = new Intent(Intent.ACTION_SEND);
                     shareIntent.setType("text/plain");
                     shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.contact));
+
                     StringBuilder stringBuilder = new StringBuilder();
-                    stringBuilder.append(getString(R.string.food));
-                    stringBuilder.append(" ");
-                    stringBuilder.append(getString(R.string.menuTitle));
-                    stringBuilder.append("\n\n");
+                    stringBuilder.append(getString(R.string.food)).append(" ")
+                            .append(getString(R.string.menuTitle)).append("\n\n");
+
                     for(int i=0; i < adapter.getCount(); i++){
-                        stringBuilder.append(adapter.getItem(i));
-                        stringBuilder.append("\n");
+                        stringBuilder.append(adapter.getItem(i)).append("\n");
                     }
                     String shareMessage = stringBuilder.toString();
                     shareMessage += "\n" + getString(R.string.download_iytem) + ": bit.ly/2lTdDpn";
@@ -109,7 +106,6 @@ public class FoodActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), getString(R.string.not_available),
                             Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }
@@ -135,7 +131,7 @@ public class FoodActivity extends AppCompatActivity {
             String menu = menuOut.toString();
             if(menu.equals("No Menu")){
                 refectoryOpen = false;
-                menu = getString(R.string.no_menu) + "\n" + " " + "\n" + " "+ "\n" + " " ;
+                menu = " " + "\n" + getString(R.string.no_menu) + "\n" + " "+ "\n" + " " ;
             }else{
                 refectoryOpen = true;
             }
@@ -167,15 +163,5 @@ public class FoodActivity extends AppCompatActivity {
         });
     }
 
-    @SuppressWarnings("SameParameterValue")
-    private void chromeTab(String url){
-        CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
-        intentBuilder.setStartAnimations(this,R.anim.slide_in_right , R.anim.slide_out_left);
-        intentBuilder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-        intentBuilder.setToolbarColor(getResources().getColor(R.color.toolbarBg));
-        intentBuilder.addDefaultShareMenuItem();
-        CustomTabsIntent customTabsIntent = intentBuilder.build();
-        customTabsIntent.launchUrl(this, Uri.parse(url));
-    }
 
 }

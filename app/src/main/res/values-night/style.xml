@@ -9,7 +9,7 @@
         <item name="android:background">@color/transparent</item>
         <item name="android:textColor">@color/textColor</item>
         <item name="android:statusBarColor">@color/statusBar</item>
-        <item name="android:navigationBarColor">@color/transparent</item>
+        <item name="android:navigationBarColor">@color/bgColor</item>
     </style>
 
     <style name="ToolbarTheme" parent="AppTheme">
