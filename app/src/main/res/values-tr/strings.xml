@@ -26,7 +26,7 @@
     <string name="title">Ünvan</string>
     <string name="department">Bölüm</string>
     <string name="contacts_des">Okul personeli iletişim bilgileri</string>
-    <string name="food_des">Menüler ve Rezervasyon</string>
+    <string name="food_des">Menüler Yemekhane Sistemi</string>
     <string name="shortcut_des">En gerekli web sayfaları</string>
     <string name="transportation_des">İYTE\'ye ulaşım saatleri</string>
     <string name="no_menu">Yemekhane Kapalı</string>
@@ -54,6 +54,8 @@
     <string name="reach_us">Bize Ulaş</string>
     <string name="library_hours">Kütüphane Saatleri</string>
     <string name="week_end">Hafta sonu</string>
+    <string name="add_credit">Bakiye Yükle</string>
+    <string name="refectory_sys">Yemekhane Sistemi</string>
 
 
 </resources>

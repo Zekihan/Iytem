@@ -25,7 +25,7 @@
     <string name="title">Title</string>
     <string name="department">Department</string>
     <string name="contacts_des">School personale contact info</string>
-    <string name="food_des">Menus and Reservation</string>
+    <string name="food_des">Menus, Refectory System</string>
     <string name="shortcut_des">Most used websites</string>
     <string name="transportation_des">Transportation schedules for Iztech</string>
     <string name="no_menu">Refectory is Closed</string>
@@ -53,4 +53,6 @@
     <string name="reach_us">Contact Us</string>
     <string name="library_hours">Library Hours</string>
     <string name="week_end">Weekend</string>
+    <string name="add_credit">Add Credit</string>
+    <string name="refectory_sys">Refectory System</string>
 </resources>

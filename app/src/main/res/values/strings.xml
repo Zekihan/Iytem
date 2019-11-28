@@ -4,7 +4,7 @@
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
     <string name="transportation">Ulaşım</string>
     <string name="transportation_des">İYTE\'ye ulaşım saatleri</string>
-    <string name="food_des">Yemekhane menüsü ve Rezervasyon</string>
+    <string name="food_des">Menüler Yemekhane Sistemi</string>
     <string name="shortcut_des">En gerekli siteler</string>
     <string name="contacts_des">Okul personeli iletişim bilgileri</string>
     <string name="food">Yemekhane</string>
@@ -58,6 +58,8 @@
     <string name="reach_us">Bize Ulaş</string>
     <string name="library_hours">Kütüphane Saatleri</string>
     <string name="week_end">Hafta sonu</string>
+    <string name="add_credit">Bakiye Yükle</string>
+    <string name="refectory_sys">Yemekhane Sistemi</string>
 
 
 </resources>
