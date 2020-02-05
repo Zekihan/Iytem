@@ -7,8 +7,8 @@ android {
         applicationId "com.wambly.iytem"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 37
-        versionName "1.66"
+        versionCode 39
+        versionName "1.68"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -26,22 +26,22 @@ dependencies {
     // Java
 
     implementation "androidx.preference:preference:1.1.0"
-    implementation "androidx.navigation:navigation-ui:2.2.0-alpha03"
+    implementation "androidx.navigation:navigation-ui:2.2.0"
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.1.0-alpha10'
+    implementation 'com.google.android.material:material:1.2.0-alpha04'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.firebase:firebase-database:19.1.0'
+    implementation 'com.google.firebase:firebase-database:19.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     //testİmplementation 'junit:junit:4.11'
     //androidTestİmplementation 'com.android.support.test:runner:1.0.2'
     //androidTestİmplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.firebase:firebase-core:17.2.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'com.google.firebase:firebase-core:17.2.2'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.browser:browser:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
-    implementation 'com.google.android.play:core:1.6.3'
-    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    implementation 'com.google.android.play:core:1.6.4'
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
 }
