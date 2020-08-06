@@ -114,13 +114,35 @@ public class ContactsActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    adapter.getFilter().filter(v.getText().toString());
                     recyclerView.scrollToPosition(0);
                     hideKeyboard();
                     appBarLayout.setExpanded(false);
                     return true;
                 }
                 return false;
+            }
+        });
+
+
+        etSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                //add call to method here
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int
+                    after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                adapter.getFilter().filter(s.toString());
+                recyclerView.scrollToPosition(0);
+                appBarLayout.setExpanded(false);
             }
         });
 
@@ -132,6 +154,7 @@ public class ContactsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 etSearch.setText("");
                 showKeyboard(etSearch);
+                appBarLayout.setExpanded(true);
             }
         });
 

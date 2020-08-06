@@ -53,7 +53,7 @@ public class LibraryHoursActivity extends AppCompatActivity {
                         + dayds.child("end").getValue(String.class);
                 DataSnapshot endds = ds.child("weekend");
                 endOut = endds.child("start").getValue(String.class) + " - "
-                        + dayds.child("end").getValue(String.class);
+                        + endds.child("end").getValue(String.class);
 
                 TextView weekday = findViewById(R.id.weekday_hours);
                 TextView weekend = findViewById(R.id.weekend_hours);
